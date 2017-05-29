@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Xam.Plugin.HtmlLabel</id>
+    <title>HTML Label</title>
+    <version>1.0.2</version>
+    <authors>Matteo Bortolazzo</authors>
+    <owners>Matteo Bortolazzo</owners>
+    <licenseUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</projectUrl>
+    <iconUrl>http://xamarin.com/content/images/nuget/xamarin.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Use this label on Xamarin.Forms for display HTML content.
+      It works on Android and iOS, on UWP it converters HTML to plain text.</description>
+    <releaseNotes>First release.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>HTML, Label, Xamarin.Forms, Android, iOS, UWP</tags>
+    <dependencies>
+      <group>
+        <dependency id="Xamarin.Forms" version="2.3.0.49" />
+      </group>
+      <group targetFramework="uap10.0">
+        <dependency id="HtmlAgilityPack" version="1.4.9.5" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- Cross-platform reference assemblies -->
+    <file src="src\Plugin.HtmlLabel\bin\Release\Plugin.HtmlLabel.dll" target="lib\netstandard1.4\Plugin.HtmlLabel.dll" />
+    <!-- iOS reference assemblies -->
+    <file src="src\Plugin.HtmlLabel.iOS\bin\Release\Plugin.HtmlLabel.dll" target="lib\Xamarin.iOS10\Plugin.HtmlLabel.dll" />
+    <!-- Android reference assemblies -->
+    <file src="src\Plugin.HtmlLabel.Android\bin\Release\Plugin.HtmlLabel.dll" target="lib\MonoAndroid10\Plugin.HtmlLabel.dll" />
+    <!-- UWP reference assemblies -->
+    <file src="src\Plugin.HtmlLabel.UWP\bin\Release\Plugin.HtmlLabel.dll" target="lib\UAP10\Plugin.HtmlLabel.dll" />
+</files>
+</package>
