@@ -1,6 +1,7 @@
-{
+﻿{
   "supports": {},
   "dependencies": {
+    "HtmlAgilityPack": "1.4.9.5",
     "Xamarin.Forms": "2.3.4.247"
   },
   "frameworks": {

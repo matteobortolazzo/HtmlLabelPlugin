@@ -6,6 +6,7 @@ It works on Android and iOS, on UWP it converters HTML to plain text.
 ### Setup
 * Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel
 * Install into your PCL project and Client projects.
+* Call HtmlLabelRenderer.Initialize() before Xamarin.Forms.Forms.Init() in AppDelegate.cs and MainActivity.cs.
 
 **Platform Support**
 
@@ -19,6 +20,10 @@ It works on Android and iOS, on UWP it converters HTML to plain text.
 |Windows 10 UWP|Yes|10+|
 |Xamarin.Mac|No||
 
+### Custom Properties
+* int MaxLines
+* bool IsHtml
+* bool RemoveHtmlTags
 
 ### Usage XAML
 
@@ -35,6 +40,11 @@ xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
 ```xaml
 xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
 <htmlLabel:HtmlLabel Text="{Binding PlainTextString}" htmlLabel:HtmlLabel.IsHtml="False"/>
+```
+
+```xaml
+xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
+<htmlLabel:HtmlLabel Text="{Binding HtmlString}" htmlLabel:HtmlLabel.RemoveHtmlTags="True"/>
 ```
 
 ### Usage C#

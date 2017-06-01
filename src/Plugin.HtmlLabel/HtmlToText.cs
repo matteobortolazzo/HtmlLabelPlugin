@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using HtmlAgilityPack;
 
-namespace Plugin.HtmlLabel.UWP
+namespace Plugin.HtmlLabel
 {
     public static class HtmlToText
     {

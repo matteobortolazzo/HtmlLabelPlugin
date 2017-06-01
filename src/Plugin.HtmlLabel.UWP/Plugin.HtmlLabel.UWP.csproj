@@ -107,14 +107,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="HtmlLabelRenderer.cs" />
-    <Compile Include="HtmlToText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Plugin.HtmlLabel.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack">
-      <Version>1.4.9.5</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
     </PackageReference>

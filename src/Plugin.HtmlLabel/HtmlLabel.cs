@@ -39,5 +39,21 @@ namespace Plugin.HtmlLabel
         {
             view.SetValue(IsHtmlProperty, value);
         }
+
+        /// <summary>
+        /// Backing store for the RemoveHtmlTags bindable property
+        /// </summary>
+        public static readonly BindableProperty RemoveHtmlTagsProperty =
+            BindableProperty.CreateAttached("RemoveHtmlTags", typeof(bool), typeof(HtmlLabel), default(bool));
+
+        public static bool GetRemoveHtmlTags(BindableObject view)
+        {
+            return (bool)view.GetValue(RemoveHtmlTagsProperty);
+        }
+
+        public static void SetRemoveHtmlTags(BindableObject view, bool value)
+        {
+            view.SetValue(IsHtmlProperty, RemoveHtmlTagsProperty);
+        }
     }
 }
