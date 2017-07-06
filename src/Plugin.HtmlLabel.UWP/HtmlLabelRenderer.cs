@@ -8,7 +8,7 @@ using Xamarin.Forms.Platform.UWP;
 
 namespace Plugin.HtmlLabel.UWP
 {
-    class HtmlLabelRenderer : LabelRenderer
+    public class HtmlLabelRenderer : LabelRenderer
     {
         protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
         {
