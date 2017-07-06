@@ -7,6 +7,7 @@ It works on Android and iOS, on UWP it converters HTML to plain text.
 * Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel
 * Install into your PCL project and Client projects.
 * Call HtmlLabelRenderer.Initialize() before Xamarin.Forms.Forms.Init() in AppDelegate.cs and MainActivity.cs.
+* On UWP install manually the HtmlAgilityPack.
 
 **Platform Support**
 
