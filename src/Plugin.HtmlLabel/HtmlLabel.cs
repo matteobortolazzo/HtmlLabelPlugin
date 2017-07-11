@@ -16,11 +16,13 @@ namespace Plugin.HtmlLabel
 
         public static int GetMaxLines(BindableObject view)
         {
+            if (view == null) return default(int);
             return (int)view.GetValue(MaxLinesProperty);
         }
 
         public static void SetMaxLines(BindableObject view, int value)
         {
+            if (view == null) return;
             view.SetValue(MaxLinesProperty, value);
         }
 
@@ -32,11 +34,13 @@ namespace Plugin.HtmlLabel
 
         public static bool GetIsHtml(BindableObject view)
         {
+            if (view == null) return default(bool);
             return (bool)view.GetValue(IsHtmlProperty);
         }
 
         public static void SetIsHtml(BindableObject view, bool value)
         {
+            if (view == null) return;
             view.SetValue(IsHtmlProperty, value);
         }
 
@@ -48,11 +52,13 @@ namespace Plugin.HtmlLabel
 
         public static bool GetRemoveHtmlTags(BindableObject view)
         {
+            if (view == null) return default(bool);
             return (bool)view.GetValue(RemoveHtmlTagsProperty);
         }
 
         public static void SetRemoveHtmlTags(BindableObject view, bool value)
         {
+            if (view == null) return;
             view.SetValue(IsHtmlProperty, RemoveHtmlTagsProperty);
         }
     }
