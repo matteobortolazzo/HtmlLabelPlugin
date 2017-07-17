@@ -17,19 +17,19 @@ namespace Plugin.HtmlLabel.iOS
             base.OnElementChanged(e);
 
             if (Control == null) return;
-            UpdateMaxLines();
             UpdateText();
+            UpdateMaxLines();
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == Label.TextProperty.PropertyName ||
+            if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
+                UpdateMaxLines();
+            else if (e.PropertyName == Label.TextProperty.PropertyName ||
                 e.PropertyName == HtmlLabel.IsHtmlProperty.PropertyName ||
                 e.PropertyName == HtmlLabel.RemoveHtmlTagsProperty.PropertyName)
-                UpdateText();
-            else if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
-                UpdateMaxLines();
+                UpdateText();            
         }
 
         private void UpdateMaxLines()
