@@ -22,8 +22,7 @@ namespace Plugin.HtmlLabel
 
         public static void SetMaxLines(BindableObject view, int value)
         {
-            if (view == null) return;
-            view.SetValue(MaxLinesProperty, value);
+            view?.SetValue(MaxLinesProperty, value);
         }
 
         /// <summary>
@@ -40,8 +39,7 @@ namespace Plugin.HtmlLabel
 
         public static void SetIsHtml(BindableObject view, bool value)
         {
-            if (view == null) return;
-            view.SetValue(IsHtmlProperty, value);
+            view?.SetValue(IsHtmlProperty, value);
         }
 
         /// <summary>
@@ -58,8 +56,7 @@ namespace Plugin.HtmlLabel
 
         public static void SetRemoveHtmlTags(BindableObject view, bool value)
         {
-            if (view == null) return;
-            view.SetValue(IsHtmlProperty, RemoveHtmlTagsProperty);
+            view?.SetValue(IsHtmlProperty, RemoveHtmlTagsProperty);
         }
     }
 }

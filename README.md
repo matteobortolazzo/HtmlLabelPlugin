@@ -1,32 +1,63 @@
-## Html Label Plugin for Xamarin.Forms
+# Html Label Plugin for Xamarin.Forms
+Use this Xamarin.Forms plugin to display HTML content into a label.
 
-Use this label on Xamarin.Forms for display HTML content.
-It works on Android and iOS, on UWP it converters HTML to plain text.
+** **NEW YEAR UPDATE** **
 
-### Setup
+* Xamarin.Forms 2.5.0;
+* .NET Standard 2.0;
+* UWP partial support;
+* Added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment.
+
+
+## Setup
 * Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel
-* Install into your PCL project and Client projects.
-* Call HtmlLabelRenderer.Initialize() before Xamarin.Forms.Forms.Init() in AppDelegate.cs and MainActivity.cs.
-* On UWP install manually the HtmlAgilityPack.
+* Install it in every Xamarin.Forms project.
+* **iOS**: AppDelegate.cs
+    ```cs
+    HtmlLabelRenderer.Initialize();
+    global::Xamarin.Forms.Forms.Init();
+    ```
+* **Android**: MainActivity.cs
+    ```cs
+    HtmlLabelRenderer.Initialize();
+    global::Xamarin.Forms.Forms.Init(this, bundle);
+    ```
+* **UWP**: App.xaml.cs
+    ```cs
+    var rendererAssemblies = new[] { typeof(HtmlLabelRenderer).GetTypeInfo().Assembly };
+    Xamarin.Forms.Forms.Init(e, rendererAssemblies);
+    HtmlLabelRenderer.Initialize();
+    ```      
 
-**Platform Support**
+## How it work
+On iOS and Android it uses the native HTML rendering capabilities of iOS's UILabel and Android's TextView. 
 
-|Platform|Supported|Version|
-| ------------------- | :-----------: | :------------------: |
-|Xamarin.iOS|Yes|iOS 7+|
-|Xamarin.Android|Yes|API 10+|
-|Windows Phone Silverlight|No||
-|Windows Phone RT|No||
-|Windows Store RT|No||
-|Windows 10 UWP|Yes|10+|
-|Xamarin.Mac|No||
+UWP's TextBlock cannot renders HTML so the library parses the HTML and uses Inlines to display: `<a>, <b>, <br>, <em>, <i>, <p>, <strong>, <u>, <ul> <li>, <div>`.
 
-### Custom Properties
-* int MaxLines
-* bool IsHtml
-* bool RemoveHtmlTags
+FontAttributes, FontFamily, FontSize, TextColor, HorizontalTextAlignment are converted into inline CSS in a wrapping `<div>` for iOS and Android. UWP supports them natively.
 
-### Usage XAML
+## Custom styling
+If you need to customize something in Android or iOS you can use inline CSS, for example: 
+
+`<table style="border: 1px solid gray">...</table>`
+
+
+## Supported Properties
+* Text
+* FontAttributes
+* FontFamily
+* FontSize
+* TextColor
+* HorizontalTextAlignment
+
+
+## Custom Properties
+* MaxLines (int)
+* IsHtml (bool)
+* RemoveHtmlTags (bool)
+
+
+## Usage XAML
 
 ```xaml
 xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
@@ -48,7 +79,7 @@ xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
 <htmlLabel:HtmlLabel Text="{Binding HtmlString}" htmlLabel:HtmlLabel.RemoveHtmlTags="True"/>
 ```
 
-### Usage C#
+## Usage C#
 
 ```csharp
 var label = new HtmlLabel();
@@ -56,8 +87,8 @@ label.Text = "..htmlstring.."
 HtmlLabel.SetMaxLines(label, 3);
 ```
 
-#### Contributions
+### Contributions
 Contributions are welcome!
 
-#### License
+### License
 Under MIT, see LICENSE file.

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Android.Content;
 using Android.OS;
 using Android.Text;
 using Android.Widget;
@@ -13,6 +14,10 @@ namespace Plugin.HtmlLabel.Android
 {
     public class HtmlLabelRenderer : LabelRenderer
     {
+        public HtmlLabelRenderer(Context context) : base(context)
+        {
+        }
+
         public static void Initialize() { }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
@@ -30,9 +35,14 @@ namespace Plugin.HtmlLabel.Android
             if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
                 UpdateMaxLines();
             else if (e.PropertyName == Label.TextProperty.PropertyName ||
-                e.PropertyName == HtmlLabel.IsHtmlProperty.PropertyName ||
-                e.PropertyName == HtmlLabel.RemoveHtmlTagsProperty.PropertyName)
-                UpdateText();            
+                     e.PropertyName == HtmlLabel.IsHtmlProperty.PropertyName ||
+                     e.PropertyName == HtmlLabel.RemoveHtmlTagsProperty.PropertyName ||
+                     e.PropertyName == Label.FontAttributesProperty.PropertyName ||
+                     e.PropertyName == Label.FontFamilyProperty.PropertyName ||
+                     e.PropertyName == Label.FontSizeProperty.PropertyName ||
+                     e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
+                     e.PropertyName == Label.TextColorProperty.PropertyName)
+                UpdateText();
         }
 
         private void UpdateMaxLines()
@@ -48,20 +58,17 @@ namespace Plugin.HtmlLabel.Android
 
             var isHtml = HtmlLabel.GetIsHtml(Element);
             if (!isHtml) return;
-
+            
             var removeTags = HtmlLabel.GetRemoveHtmlTags(Element);
-            if (removeTags)
-            {
-                Control.Text = HtmlToText.ConvertHtml(Control.Text);
-            }
-            else
-            {
-                var value = Element.Text ?? string.Empty;
-                var html = Build.VERSION.SdkInt >= BuildVersionCodes.N
-                    ? Html.FromHtml(value, FromHtmlOptions.ModeCompact)
-                    : Html.FromHtml(value);
-                Control.SetText(html, TextView.BufferType.Spannable);
-            }
+
+            var text = removeTags ?
+                HtmlToText.ConvertHtml(Control.Text) :
+                Element.Text;
+
+            var helper = new LabelRendererHelper(Element, text);
+            
+            var html = Html.FromHtml(helper.ToString(), FromHtmlOptions.ModeCompact);
+            Control.SetText(html, TextView.BufferType.Spannable);
         }
     }
 }

@@ -28,7 +28,12 @@ namespace Plugin.HtmlLabel.iOS
                 UpdateMaxLines();
             else if (e.PropertyName == Label.TextProperty.PropertyName ||
                 e.PropertyName == HtmlLabel.IsHtmlProperty.PropertyName ||
-                e.PropertyName == HtmlLabel.RemoveHtmlTagsProperty.PropertyName)
+                e.PropertyName == HtmlLabel.RemoveHtmlTagsProperty.PropertyName ||
+                e.PropertyName == Label.FontAttributesProperty.PropertyName ||
+                e.PropertyName == Label.FontFamilyProperty.PropertyName ||
+                e.PropertyName == Label.FontSizeProperty.PropertyName ||
+                e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
+                e.PropertyName == Label.TextColorProperty.PropertyName)
                 UpdateText();            
         }
 
@@ -48,21 +53,22 @@ namespace Plugin.HtmlLabel.iOS
             var isHtml = HtmlLabel.GetIsHtml(Element);
             if (!isHtml) return;
 
-            var removeTags = HtmlLabel.GetRemoveHtmlTags(Element);
-            if (removeTags)
-            {
-                Control.Text = HtmlToText.ConvertHtml(Control.Text);
-            }
-            else
-            {
-                var value = Element.Text ?? string.Empty;
-                var attr = new NSAttributedStringDocumentAttributes();
-                var nsError = new NSError();
-                attr.DocumentType = NSDocumentType.HTML;
 
-                var myHtmlData = NSData.FromString(value, NSStringEncoding.Unicode);
-                Control.AttributedText = new NSAttributedString(myHtmlData, attr, ref nsError);
-            }
+            var attr = new NSAttributedStringDocumentAttributes();
+            var nsError = new NSError();
+            attr.DocumentType = NSDocumentType.HTML;
+
+            var removeTags = HtmlLabel.GetRemoveHtmlTags(Element);
+
+            var text = removeTags ? 
+                HtmlToText.ConvertHtml(Control.Text) : 
+                Element.Text;
+
+            var helper = new LabelRendererHelper(Element, text);
+
+            var htmlData = NSData.FromString(helper.ToString(), NSStringEncoding.Unicode);
+            Control.AttributedText = new NSAttributedString(htmlData, attr, ref nsError);
+            
             SetNeedsDisplay();
         }
     }

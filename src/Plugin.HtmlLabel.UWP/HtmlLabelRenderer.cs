@@ -1,4 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xaml.Interactivity;
 using Plugin.HtmlLabel;
 using Plugin.HtmlLabel.UWP;
 using Xamarin.Forms;
@@ -14,7 +20,9 @@ namespace Plugin.HtmlLabel.UWP
         protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
         {
             base.OnElementChanged(e);
+
             if (Control == null) return;
+
             UpdateText();
             UpdateMaxLines();
         }
@@ -22,12 +30,17 @@ namespace Plugin.HtmlLabel.UWP
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == Label.TextProperty.PropertyName)
-                UpdateText();            
-            else if (e.PropertyName == HtmlLabel.IsHtmlProperty.PropertyName)
-                UpdateText();
-            else if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
+            if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
                 UpdateMaxLines();
+            else if (e.PropertyName == Label.TextProperty.PropertyName ||
+                     e.PropertyName == HtmlLabel.IsHtmlProperty.PropertyName ||
+                     e.PropertyName == HtmlLabel.RemoveHtmlTagsProperty.PropertyName ||
+                     e.PropertyName == Label.FontAttributesProperty.PropertyName ||
+                     e.PropertyName == Label.FontFamilyProperty.PropertyName ||
+                     e.PropertyName == Label.FontSizeProperty.PropertyName ||
+                     e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
+                     e.PropertyName == Label.TextColorProperty.PropertyName)
+                UpdateText();
         }
 
         private void UpdateMaxLines()
@@ -44,8 +57,17 @@ namespace Plugin.HtmlLabel.UWP
             var isHtml = HtmlLabel.GetIsHtml(Element);
             if (!isHtml) return;
 
-            var plainText = HtmlToText.ConvertHtml(Element.Text);
-            Control.Text = plainText;
+            var removeTags = HtmlLabel.GetRemoveHtmlTags(Element);
+
+            var text = removeTags ?
+                HtmlToText.ConvertHtml(Control.Text) :
+                Element.Text;
+
+            var helper = new LabelRendererHelper(Element, text);
+            Control.Text = helper.ToString();
+
+            var behavior = new HtmlTextBehavior();
+            Interaction.GetBehaviors(Control).Add(behavior);
         }
     }
 }

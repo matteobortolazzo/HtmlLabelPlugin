@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using HtmlAgilityPack;
 
 namespace Plugin.HtmlLabel
@@ -10,26 +11,25 @@ namespace Plugin.HtmlLabel
             if (html == null)
                 return string.Empty;
 
-            HtmlDocument doc = new HtmlDocument();
+            var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
-            StringWriter sw = new StringWriter();
-            ConvertTo(doc.DocumentNode, sw);
-            sw.Flush();
-            return sw.ToString();
+            using (var sw = new StringWriter())
+            {
+                ConvertTo(doc.DocumentNode, sw);
+                sw.Flush();
+                return sw.ToString();
+            }
         }
 
         private static void ConvertContentTo(HtmlNode node, TextWriter outText)
         {
-            foreach (HtmlNode subnode in node.ChildNodes)
-            {
+            foreach (var subnode in node.ChildNodes)
                 ConvertTo(subnode, outText);
-            }
         }
 
         public static void ConvertTo(HtmlNode node, TextWriter outText)
         {
-            string html;
             switch (node.NodeType)
             {
                 case HtmlNodeType.Comment:
@@ -42,12 +42,12 @@ namespace Plugin.HtmlLabel
 
                 case HtmlNodeType.Text:
                     // script and style must not be output
-                    string parentName = node.ParentNode.Name;
+                    var parentName = node.ParentNode.Name;
                     if ((parentName == "script") || (parentName == "style"))
                         break;
 
                     // get text
-                    html = ((HtmlTextNode)node).Text;
+                    var html = ((HtmlTextNode)node).Text;
 
                     // is it in fact a special closing node output as text?
                     if (HtmlNode.IsOverlappedClosingElement(html))
@@ -61,13 +61,8 @@ namespace Plugin.HtmlLabel
                     break;
 
                 case HtmlNodeType.Element:
-                    switch (node.Name)
-                    {
-                        case "p":
-                            // treat paragraphs as crlf
-                            outText.Write("\r\n");
-                            break;
-                    }
+                    if (node.Name == "p")
+                        outText.Write("\r\n");
 
                     if (node.HasChildNodes)
                     {
