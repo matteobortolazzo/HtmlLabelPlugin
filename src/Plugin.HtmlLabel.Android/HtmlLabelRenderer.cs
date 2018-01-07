@@ -67,7 +67,10 @@ namespace Plugin.HtmlLabel.Android
 
             var helper = new LabelRendererHelper(Element, text);
             
-            var html = Html.FromHtml(helper.ToString(), FromHtmlOptions.ModeCompact);
+            var value = helper.ToString();
+            var html = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
+                Html.FromHtml(value, FromHtmlOptions.ModeCompact) :
+                Html.FromHtml(value);
             Control.SetText(html, TextView.BufferType.Spannable);
         }
     }
