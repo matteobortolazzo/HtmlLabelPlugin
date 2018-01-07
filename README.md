@@ -29,7 +29,7 @@ Use this Xamarin.Forms plugin to display HTML content into a label.
     HtmlLabelRenderer.Initialize();
     ```      
 
-## How it work
+## How it works
 On iOS and Android it uses the native HTML rendering capabilities of iOS's UILabel and Android's TextView. 
 
 UWP's TextBlock cannot renders HTML so the library parses the HTML and uses Inlines to display: `<a>, <b>, <br>, <em>, <i>, <p>, <strong>, <u>, <ul> <li>, <div>`.
