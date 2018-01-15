@@ -68,7 +68,7 @@ namespace Plugin.HtmlLabel.iOS
 
             var htmlData = NSData.FromString(helper.ToString(), NSStringEncoding.Unicode);
             Control.AttributedText = new NSAttributedString(htmlData, attr, ref nsError);
-            
+            Control.UserInteractionEnabled = true;
             SetNeedsDisplay();
         }
     }

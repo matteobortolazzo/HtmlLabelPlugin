@@ -12,7 +12,7 @@ namespace HtmlLabelExample
 		public MainPage()
 		{
 			InitializeComponent();
-		    HtmlLabel2.Text = "<div> My First Heading</div><p> My first paragraph.</p>";
+		    HtmlLabel2.Text = "<div> My First Heading</div><p> My first paragraph. <a href=\"http://www.google.com\">Go to Google</a></p>";
 		}
 	}
 }

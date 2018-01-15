@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Android.Content;
 using Android.OS;
 using Android.Text;
+using Android.Text.Method;
+using Android.Views;
 using Android.Widget;
 using Java.Util;
 using Plugin.HtmlLabel;
@@ -72,6 +75,7 @@ namespace Plugin.HtmlLabel.Android
                 Html.FromHtml(value, FromHtmlOptions.ModeCompact) :
                 Html.FromHtml(value);
             Control.SetText(html, TextView.BufferType.Spannable);
+            Control.MovementMethod = LinkMovementMethod.Instance;
         }
     }
 }

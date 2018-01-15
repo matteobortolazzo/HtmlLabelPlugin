@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Xam.Plugin.HtmlLabel</id>
-        <version>2.0.1</version>
+        <version>2.1.0</version>
         <title>HTML Label</title>
         <authors>Matteo Bortolazzo</authors>
         <owners>Matteo Bortolazzo</owners>
@@ -12,10 +12,13 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Use this Xamarin.Forms plugin to display HTML content into a label.</description>
         <summary>Use this Xamarin.Forms plugin to display HTML content into a label.</summary>
-        <releaseNotes>Xamarin.Forms 2.5.0
-.NET Standard 2.0 
-UWP partial support
-added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment</releaseNotes>
+        <releaseNotes>
+            Xamarin.Forms 2.5.0
+            .NET Standard 2.0 
+            UWP partial support
+            added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment,
+            HyperLinks support
+        </releaseNotes>
         <copyright>Copyright 2018</copyright>
         <tags>xamarin, html, label, htmllabel, plugin for xamarin, plugins, xamarin.android, xamarin.ios, xamarin.uwp, xamarin.forms, android, ios, uwp</tags>
         <dependencies>
