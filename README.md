@@ -41,6 +41,8 @@ If you need to customize something in Android or iOS you can use inline CSS, for
 
 `<table style="border: 1px solid gray">...</table>`
 
+For underlined text use the <u> tag:
+`<u>Some underlined text</u>`
 
 ## Supported Properties
 * Text

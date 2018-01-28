@@ -5,8 +5,10 @@
              xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
              x:Class="HtmlLabelExample.MainPage">
     <StackLayout Orientation="Vertical">
-        <Grid HeightRequest="20" BackgroundColor="Red" />
-        <htmlLabel:HtmlLabel Text="asdsadsad!" x:Name="HtmlLabel2" />
-        <Grid HeightRequest="20" BackgroundColor="Red" />
+        <htmlLabel:HtmlLabel x:Name="HtmlLabel2" 
+            FontAttributes="Italic" 
+            TextColor="DarkBlue" 
+            HorizontalTextAlignment="End"
+            FontSize="22"/>
     </StackLayout>
 </ContentPage>
