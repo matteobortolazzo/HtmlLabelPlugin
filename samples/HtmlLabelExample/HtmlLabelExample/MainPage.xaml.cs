@@ -12,7 +12,7 @@ namespace HtmlLabelExample
 		public MainPage()
 		{
 			InitializeComponent();
-		    HtmlLabel2.Text = "<p><u>Test</u> <span style=\"color: #3366ff;\">deneme</span></p>";
+		    HtmlLabeTest.Text = "<div><a href=\"http://www.google.it\">Click</a> to <strong>search</strong></div>";
 		}
 	}
 }

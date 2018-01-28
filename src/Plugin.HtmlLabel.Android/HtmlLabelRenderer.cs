@@ -1,14 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Text;
 using Android.Text.Method;
-using Android.Views;
 using Android.Widget;
-using Java.Lang;
-using Java.Util;
 using Plugin.HtmlLabel;
 using Plugin.HtmlLabel.Android;
 using Xamarin.Forms;
@@ -30,6 +25,7 @@ namespace Plugin.HtmlLabel.Android
             base.OnElementChanged(e);
 
             if (Control == null) return;
+
             UpdateText();
             UpdateMaxLines();
         }
@@ -71,8 +67,8 @@ namespace Plugin.HtmlLabel.Android
                 Element.Text;
 
             Control.MovementMethod = LinkMovementMethod.Instance;
+
             var helper = new LabelRendererHelper(Element, text);
-            
             var value = helper.ToString();
 
             var html = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
