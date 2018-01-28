@@ -44,6 +44,8 @@ If you need to customize something in Android or iOS you can use inline CSS, for
 For underlined text use the <u> tag:
 `<u>Some underlined text</u>`
 
+For links: remember to add http:// or https://
+
 ## Supported Properties
 * Text
 * FontAttributes
