@@ -2,10 +2,12 @@
 using System.ComponentModel;
 using Android.Content;
 using Android.OS;
+using Android.Runtime;
 using Android.Text;
 using Android.Text.Method;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 using Java.Util;
 using Plugin.HtmlLabel;
 using Plugin.HtmlLabel.Android;
@@ -68,14 +70,27 @@ namespace Plugin.HtmlLabel.Android
                 HtmlToText.ConvertHtml(Control.Text) :
                 Element.Text;
 
+            Control.MovementMethod = LinkMovementMethod.Instance;
             var helper = new LabelRendererHelper(Element, text);
             
             var value = helper.ToString();
+
             var html = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
                 Html.FromHtml(value, FromHtmlOptions.ModeCompact) :
+#pragma warning disable CS0618 // Il tipo o il membro è obsoleto
                 Html.FromHtml(value);
+#pragma warning restore CS0618 // Il tipo o il membro è obsoleto
+
+            Control.SetIncludeFontPadding(false);
+
+            html = RemoveLastChar(html);
             Control.SetText(html, TextView.BufferType.Spannable);
-            Control.MovementMethod = LinkMovementMethod.Instance;
+        }
+        public ISpanned RemoveLastChar(ISpanned text)
+        {
+            var builder = new SpannableStringBuilder(text);
+            builder.Delete(text.Length() - 1, text.Length());
+            return builder;
         }
     }
 }

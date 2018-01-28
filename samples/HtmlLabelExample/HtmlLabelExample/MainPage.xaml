@@ -4,9 +4,9 @@
              xmlns:local="clr-namespace:HtmlLabelExample"
              xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
              x:Class="HtmlLabelExample.MainPage">
-
-    <htmlLabel:HtmlLabel Text="asdsadsad!" x:Name="HtmlLabel2" FontAttributes="Bold" HorizontalTextAlignment="End" FontSize="24"
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
-
+    <StackLayout Orientation="Vertical">
+        <Grid HeightRequest="20" BackgroundColor="Red" />
+        <htmlLabel:HtmlLabel Text="asdsadsad!" x:Name="HtmlLabel2" />
+        <Grid HeightRequest="20" BackgroundColor="Red" />
+    </StackLayout>
 </ContentPage>

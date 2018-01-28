@@ -51,7 +51,7 @@ namespace Plugin.HtmlLabel
             var green = (int)(color.G * 255);
             var blue = (int)(color.B * 255);
             var alpha = (int)(color.A * 255);
-            var hex = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", red, green, blue, alpha);
+            var hex = $"#{red:X2}{green:X2}{blue:X2}{alpha:X2}";
             _builder.Append($"color: {hex}; ");
         }
 
@@ -81,7 +81,8 @@ namespace Plugin.HtmlLabel
             SetTextColor();
             SetHorizontalTextAlign();
             _builder.Append($"\">{_text}</div>");
-            return _builder.ToString();
+            var text = _builder.ToString();
+            return text;
         }
     }
 }

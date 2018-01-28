@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.UI.Xaml;
@@ -58,7 +59,7 @@ namespace Plugin.HtmlLabel.UWP
 
             // Just incase we are not given text with elements.
             string modifiedText = string.Format("<div>{0}</div>", text);
-
+            modifiedText = Regex.Replace(modifiedText, "<br>", "<br></br>", RegexOptions.IgnoreCase);
             // reset the text because we will add to it.
             AssociatedObject.Inlines.Clear();
             try
