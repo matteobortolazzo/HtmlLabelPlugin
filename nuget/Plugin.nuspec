@@ -13,12 +13,12 @@
         <description>Use this Xamarin.Forms plugin to display HTML content into a label.</description>
         <summary>Use this Xamarin.Forms plugin to display HTML content into a label.</summary>
         <releaseNotes>
-            Xamarin.Forms 2.5.0\n
-            .NET Standard 2.0\n
-            UWP partial support\n
-            added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment,\n
-            HyperLinks support\n
-            2.1.1: .NET Standard 1.3, HYperlink fixed on iOS, bottom line fixed on Android
+            Xamarin.Forms 2.5.
+            .NET Standard 2.0
+            UWP partial support
+            added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment
+            HyperLinks support
+            2.1.1 => .NET Standard 1.3, HYperlink fixed on iOS, bottom line fixed on Android
         </releaseNotes>
         <copyright>Copyright 2018</copyright>
         <tags>xamarin, html, label, htmllabel, plugin for xamarin, plugins, xamarin.android, xamarin.ios, xamarin.uwp, xamarin.forms, android, ios, uwp</tags>
