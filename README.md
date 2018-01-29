@@ -39,7 +39,7 @@ FontAttributes, FontFamily, FontSize, TextColor, HorizontalTextAlignment are con
 ## Custom styling
 If you need to customize something in Android or iOS you can use inline CSS, for example: 
 
-`<table style="border: 1px solid gray">...</table>`
+`<span style="color: green">...</span>`
 
 For underlined text use the <u> tag:
 `<u>Some underlined text</u>`
