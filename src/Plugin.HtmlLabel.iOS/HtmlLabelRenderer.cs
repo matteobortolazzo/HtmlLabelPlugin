@@ -82,7 +82,15 @@ namespace Plugin.HtmlLabel.iOS
             var attr = new NSAttributedStringDocumentAttributes();
             var nsError = new NSError();
             attr.DocumentType = NSDocumentType.HTML;
-            
+            // --------------
+            // 02-01-2018 : Workaround to fix issue with default font family
+            // References:
+            // - https://stackoverflow.com/questions/36323751/how-to-default-uilabel-font-and-size-using-swift
+            // - https://stackoverflow.com/questions/13126363/setting-default-font-size-while-loading-html-into-nstextview
+            var fontDescriptor = control.Font.FontDescriptor.VisibleName;
+            var fontFamily = fontDescriptor.ToLower().Contains("system") ? "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI" : control.Font.FamilyName;
+            html += "<style> body{ font-family: " + fontFamily + ";}</style>"; 
+            // --------------
             var myHtmlData = NSData.FromString(html, NSStringEncoding.Unicode);
             // control.Lines = 0;
             var mutable = new NSMutableAttributedString(new NSAttributedString(myHtmlData, attr, ref nsError));
