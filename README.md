@@ -4,7 +4,7 @@ Use this Xamarin.Forms plugin to display HTML content into a label.
 ** **NEW YEAR UPDATE** **
 
 * Xamarin.Forms 2.5.0;
-* .NET Standard 2.0;
+* .NET Standard;
 * UWP partial support;
 * Added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment;
 * HyperLinks support.
