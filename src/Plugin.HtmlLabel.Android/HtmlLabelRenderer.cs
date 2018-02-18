@@ -57,6 +57,8 @@ namespace Plugin.HtmlLabel.Android
         {
             if (Control == null || Element == null) return;
 
+            if (string.IsNullOrEmpty(Control.Text)) return;
+
             var isHtml = HtmlLabel.GetIsHtml(Element);
             if (!isHtml) return;
             

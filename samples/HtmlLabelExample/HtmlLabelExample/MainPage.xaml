@@ -5,11 +5,12 @@
              xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
              x:Class="HtmlLabelExample.MainPage">
     <StackLayout Orientation="Vertical">
-        <htmlLabel:HtmlLabel x:Name="HtmlLabeTest" 
+        <!--<htmlLabel:HtmlLabel x:Name="HtmlLabeTest" 
             FontAttributes="Italic" 
             TextColor="DarkBlue" 
             HorizontalTextAlignment="Center"
             FontSize="40"
-            Margin="10"/>
+            Margin="10"/>-->
+        <htmlLabel:HtmlLabel></htmlLabel:HtmlLabel>
     </StackLayout>
 </ContentPage>
