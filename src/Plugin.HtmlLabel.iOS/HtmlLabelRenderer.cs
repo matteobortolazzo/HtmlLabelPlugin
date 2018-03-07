@@ -75,8 +75,15 @@ namespace Plugin.HtmlLabel.iOS
 
             var helper = new LabelRendererHelper(Element, text);
 
-            CreateAttributedString(Control, helper.ToString());
-            SetNeedsDisplay();
+            try
+            {
+                CreateAttributedString(Control, helper.ToString());
+                SetNeedsDisplay();
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         private void CreateAttributedString(UILabel control, string html)
