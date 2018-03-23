@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Android.Content;
 using Android.OS;
 using Android.Text;
@@ -74,9 +74,9 @@ namespace Plugin.HtmlLabel.Android
             var value = helper.ToString();
 
             var html = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
-                Html.FromHtml(value, FromHtmlOptions.ModeCompact) :
+                Html.FromHtml(value, FromHtmlOptions.ModeCompact, null, new ListTagHandler()) :
 #pragma warning disable CS0618 // Il tipo o il membro è obsoleto
-                Html.FromHtml(value);
+                Html.FromHtml(value, null, new ListTagHandler());
 #pragma warning restore CS0618 // Il tipo o il membro è obsoleto
 
             Control.SetIncludeFontPadding(false);
