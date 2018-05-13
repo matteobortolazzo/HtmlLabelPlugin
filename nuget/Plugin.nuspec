@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Xam.Plugin.HtmlLabel</id>
-        <version>2.2.0</version>
+        <version>3.0.0-beta1</version>
         <title>HTML Label</title>
         <authors>Matteo Bortolazzo</authors>
         <owners>Matteo Bortolazzo</owners>
@@ -13,19 +13,14 @@
         <description>Use this Xamarin.Forms plugin to display HTML content into a label.</description>
         <summary>Use this Xamarin.Forms plugin to display HTML content into a label.</summary>
         <releaseNotes>
-            Xamarin.Forms 2.5.0
-            .NET Standard 1.3
-            UWP partial support
-            added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment
-            HyperLinks support
-            2.2.0 => List tags Android support
+            Xamarin.Forms 3.0, IsHtml and RemoveHtmlTags properties removed, HtmlAgilityPack dependency removed,
+            Navigating and Navitated events added when users tap on links.
         </releaseNotes>
         <copyright>Copyright 2018</copyright>
         <tags>xamarin, html, label, htmllabel, plugin for xamarin, plugins, xamarin.android, xamarin.ios, xamarin.uwp, xamarin.forms, android, ios, uwp</tags>
         <dependencies>
             <group>
-                <dependency id="Xamarin.Forms" version="2.5.0.121934" />
-                <dependency id="HtmlAgilityPack" version="1.6.10" />
+                <dependency id="Xamarin.Forms" version="3.0.0.446417" />
             </group>
             <group targetFramework="uap10.0">
                 <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="2.0.0" />                

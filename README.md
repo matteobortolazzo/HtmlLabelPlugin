@@ -1,16 +1,15 @@
-# Html Label Plugin for Xamarin.Forms
+# HTML Label Plugin for Xamarin.Forms
 Use this Xamarin.Forms plugin to display HTML content into a label.
 
-** **NEW YEAR UPDATE** **
+** **V3 RELEASED** **
 
-* Xamarin.Forms 2.5.0;
-* .NET Standard;
-* UWP partial support;
-* Added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment;
-* HyperLinks support.
+* Xamarin.Forms 3.0
+* IsHtml and RemoveHtmlTags properties removed
+* HtmlAgilityPack dependency removed
+* Navigating and Navitated events added when users tap on links
 
 ## Setup
-* Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel
+* Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel ![](https://img.shields.io/badge/nuget-v3.0.0-blue.svg)
 * Install it in every Xamarin.Forms project.
 * **iOS**: AppDelegate.cs
     ```cs
@@ -54,11 +53,12 @@ For underlined text use the <u> tag:
 * TextColor
 * HorizontalTextAlignment
 
+## Events
+Navigating
+Navigated
 
 ## Custom Properties
 * MaxLines (int)
-* IsHtml (bool)
-* RemoveHtmlTags (bool)
 
 
 ## Usage XAML
@@ -73,16 +73,6 @@ xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
 <htmlLabel:HtmlLabel Text="{Binding HtmlString}" htmlLabel:HtmlLabel.MaxLines="2"/>
 ```
 
-```xaml
-xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
-<htmlLabel:HtmlLabel Text="{Binding PlainTextString}" htmlLabel:HtmlLabel.IsHtml="False"/>
-```
-
-```xaml
-xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
-<htmlLabel:HtmlLabel Text="{Binding HtmlString}" htmlLabel:HtmlLabel.RemoveHtmlTags="True"/>
-```
-
 ## Usage C#
 
 ```csharp
@@ -94,7 +84,8 @@ HtmlLabel.SetMaxLines(label, 3);
 ## Limitations
 
 * SetMaxLines and LineBreakMode.TailTruncation do not work properly;
-* Links and custom fonts could not work properly on iOS.
+* Using Links and custom fonts together could not work properly on iOS.
+* Images won't be displayed on Android (TextView limitation).
 
 
 ### Contributions
