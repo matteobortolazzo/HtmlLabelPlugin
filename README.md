@@ -54,8 +54,8 @@ For underlined text use the <u> tag:
 * HorizontalTextAlignment
 
 ## Events
-Navigating
-Navigated
+* Navigating
+* Navigated
 
 ## Custom Properties
 * MaxLines (int)
