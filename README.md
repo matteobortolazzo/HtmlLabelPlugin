@@ -91,6 +91,12 @@ label.Text = "..htmlstring.."
 HtmlLabel.SetMaxLines(label, 3);
 ```
 
+## Limitations
+
+* SetMaxLines and LineBreakMode.TailTruncation do not work properly;
+* Links and custom fonts could not work properly on iOS.
+
+
 ### Contributions
 Contributions are welcome!
 

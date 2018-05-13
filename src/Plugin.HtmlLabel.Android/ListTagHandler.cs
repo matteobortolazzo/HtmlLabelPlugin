@@ -6,53 +6,58 @@ using Org.Xml.Sax;
 
 namespace Plugin.HtmlLabel.Android
 {
-    public class ListTagHandler : Object, Html.ITagHandler 
+    public class ListTagHandler : Object, Html.ITagHandler
     {
-        bool first = true;
-        string parent = null;
-        int index = 1;
+        private bool _first = true;
+        private string _parent;
+        private int _index = 1;
 
         public void HandleTag(bool opening, string tag, IEditable output, IXMLReader xmlReader)
         {
-            if (tag.Equals("ul")) parent = "ul";
-            else if (tag.Equals("ol")) parent = "ol";
-            
-            if (tag.Equals("li"))
+            if (tag.Equals("ulc"))
             {
-                char lastChar = '0';
-                if (output.Length() > 0)
-                    lastChar = output.CharAt(output.Length() - 1);
-                if (parent.Equals("ul"))
+                _parent = "ulc";
+                _index = 1;
+            }
+            else if (tag.Equals("olc"))
+            {
+                _parent = "olc";
+                _index = 1;
+            }
+
+            if (!tag.Equals("lic")) return;
+
+            var lastChar = (char) 0;
+            if (output.Length() > 0)
+            {
+                lastChar = output.CharAt(output.Length() - 1);
+            }
+            if (_parent.Equals("ulc"))
+            {
+                if (_first)
                 {
-                    if (first)
-                    {
-                        if (lastChar == '\n')
-                            output.Append("\t•  ");
-                        else
-                            output.Append("\n\t•  ");
-                        first = false;
-                    }
+                    if (lastChar == '\n')
+                        output.Append("\t•  ");
                     else
-                    {
-                        first = true;
-                    }
+                        output.Append("\n\t•  ");
+                    _first = false;
                 }
                 else
+                    _first = true;
+            }
+            else
+            {
+                if (_first)
                 {
-                    if (first)
-                    {
-                        if (lastChar == '\n')
-                            output.Append("\t" + index + ". ");
-                        else
-                            output.Append("\n\t"+ index + ". ");
-                        first = false;
-                        index++;
-                    }
+                    if (lastChar == '\n')
+                        output.Append("\t" + _index + ". ");
                     else
-                    {
-                        first = true;
-                    }
+                        output.Append("\n\t" + _index + ". ");
+                    _first = false;
+                    _index++;
                 }
+                else
+                    _first = true;
             }
         }
     }

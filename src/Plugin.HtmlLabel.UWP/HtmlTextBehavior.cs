@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,6 +20,13 @@ namespace Plugin.HtmlLabel.UWP
         private const string ElementUl = "UL";
         private const string ElementLi = "LI";
         private const string ElementDiv = "DIV";
+
+        private HtmlLabel _label;
+        public HtmlTextBehavior(HtmlLabel label)
+        {
+            _label = label;
+        }
+
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -65,7 +68,7 @@ namespace Plugin.HtmlLabel.UWP
             try
             {
                 var element = XElement.Parse(modifiedText);
-                ParseText(element, AssociatedObject.Inlines);
+                ParseText(element, AssociatedObject.Inlines, _label);
             }
             catch (Exception)
             {
@@ -75,7 +78,8 @@ namespace Plugin.HtmlLabel.UWP
             AssociatedObject.LayoutUpdated -= OnAssociatedObjectLayoutUpdated;
             AssociatedObject.Loaded -= OnAssociatedObjectLoaded;
         }
-        private static void ParseText(XElement element, InlineCollection inlines)
+
+        private static void ParseText(XElement element, InlineCollection inlines, HtmlLabel label)
         {
             if (element == null) return;
 
@@ -92,8 +96,22 @@ namespace Plugin.HtmlLabel.UWP
                         {
                             link.NavigateUri = new Uri(href.Value);
                         }
-                        catch (System.FormatException) { /* href is not valid */ }
+                        catch (FormatException) { /* href is not valid */ }
                     }
+                    link.Click += (Hyperlink sender, HyperlinkClickEventArgs e) =>
+                    {
+                        sender.NavigateUri = null;
+                        if (href == null) return;
+
+                        var args = new Xamarin.Forms.WebNavigatingEventArgs(Xamarin.Forms.WebNavigationEvent.NewPage, new Xamarin.Forms.UrlWebViewSource { Url = href.Value }, href.Value);
+                        label.SendNavigating(args);
+
+                        if (args.Cancel)
+                            return;
+
+                        Xamarin.Forms.Device.OpenUri(new Uri(href.Value));
+                        label.SendNavigated(args);
+                    };
                     inlines.Add(link);
                     currentInlines = link.Inlines;
                     break;
@@ -149,7 +167,7 @@ namespace Plugin.HtmlLabel.UWP
                 }
                 else
                 {
-                    ParseText(node as XElement, currentInlines);
+                    ParseText(node as XElement, currentInlines, label);
                 }
             }
             // Add newlines for paragraph tags

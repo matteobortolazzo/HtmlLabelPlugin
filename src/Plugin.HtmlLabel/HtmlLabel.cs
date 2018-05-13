@@ -24,39 +24,19 @@ namespace Plugin.HtmlLabel
         {
             view?.SetValue(MaxLinesProperty, value);
         }
-
-        /// <summary>
-        /// Backing store for the IsHtml bindable property
-        /// </summary>
-        public static readonly BindableProperty IsHtmlProperty =
-            BindableProperty.CreateAttached("IsHtml", typeof(bool), typeof(HtmlLabel), true);
-
-        public static bool GetIsHtml(BindableObject view)
+         
+        // Events
+        public void SendNavigating(WebNavigatingEventArgs args)
         {
-            if (view == null) return default(bool);
-            return (bool)view.GetValue(IsHtmlProperty);
+            Navigating?.Invoke(this, args);
         }
 
-        public static void SetIsHtml(BindableObject view, bool value)
+        public void SendNavigated(WebNavigatingEventArgs args)
         {
-            view?.SetValue(IsHtmlProperty, value);
+            Navigated?.Invoke(this, args);
         }
 
-        /// <summary>
-        /// Backing store for the RemoveHtmlTags bindable property
-        /// </summary>
-        public static readonly BindableProperty RemoveHtmlTagsProperty =
-            BindableProperty.CreateAttached("RemoveHtmlTags", typeof(bool), typeof(HtmlLabel), default(bool));
-
-        public static bool GetRemoveHtmlTags(BindableObject view)
-        {
-            if (view == null) return default(bool);
-            return (bool)view.GetValue(RemoveHtmlTagsProperty);
-        }
-
-        public static void SetRemoveHtmlTags(BindableObject view, bool value)
-        {
-            view?.SetValue(IsHtmlProperty, RemoveHtmlTagsProperty);
-        }
+        public event EventHandler<WebNavigatingEventArgs> Navigated;
+        public event EventHandler<WebNavigatingEventArgs> Navigating;
     }
 }

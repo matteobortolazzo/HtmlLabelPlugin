@@ -39,8 +39,6 @@ namespace Plugin.HtmlLabel.iOS
             if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
                 UpdateMaxLines();
             else if (e.PropertyName == Label.TextProperty.PropertyName ||
-                e.PropertyName == HtmlLabel.IsHtmlProperty.PropertyName ||
-                e.PropertyName == HtmlLabel.RemoveHtmlTagsProperty.PropertyName ||
                 e.PropertyName == Label.FontAttributesProperty.PropertyName ||
                 e.PropertyName == Label.FontFamilyProperty.PropertyName ||
                 e.PropertyName == Label.FontSizeProperty.PropertyName ||
@@ -63,17 +61,8 @@ namespace Plugin.HtmlLabel.iOS
             if (Control == null || Element == null) return;
 
             if (string.IsNullOrEmpty(Control.Text)) return;
-
-            var isHtml = HtmlLabel.GetIsHtml(Element);
-            if (!isHtml) return;
-
-            var removeTags = HtmlLabel.GetRemoveHtmlTags(Element);
-
-            var text = removeTags ? 
-                HtmlToText.ConvertHtml(Control.Text) : 
-                Element.Text;
-
-            var helper = new LabelRendererHelper(Element, text);
+            
+            var helper = new LabelRendererHelper(Element, Control.Text);
 
             try
             {
@@ -122,8 +111,15 @@ namespace Plugin.HtmlLabel.iOS
                 var url = DetectTappedUrl(tap, (UILabel)tap.View, links);
                 if (url != null)
                 {
-                    // open the link:
+                    var label = (HtmlLabel)Element;
+                    var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = url }, url);
+                    label.SendNavigating(args);
+
+                    if (args.Cancel)
+                        return;
+                    
                     Device.OpenUri(new Uri(url));
+                    label.SendNavigated(args);
                 }
             });
             control.AddGestureRecognizer(tapGesture);
@@ -172,10 +168,44 @@ namespace Plugin.HtmlLabel.iOS
             nfloat partialFraction = 0;
             var indexOfCharacter = (nint)layoutManager.CharacterIndexForPoint(locationOfTouchInTextContainer, textContainer, ref partialFraction);
 
+            nint scaledIndexOfCharacter = 0;
+            // Problem is that method CharacterIndexForPoint always returns index based on UILabel font
+            // ".SFUIText" which is the default Helvetica iOS font
+            // HACK is to scale indexOfCharacter for 13% because NeoSans-Light is narrower font than ".SFUIText"
+            if (label.Font.Name == "NeoSans-Light")
+            {
+                scaledIndexOfCharacter = (nint)((double)indexOfCharacter * 1.13);
+            }
+
+            // HelveticaNeue font family works perfect until character position in the string is more than 2000 chars
+            // some uncosnsistent behaviour
+            // if string has <b> tag than label.Font.Name from HelveticaNeue-Thin goes to HelveticaNeue-Bold
+            if (label.Font.Name.StartsWith("HelveticaNeue", StringComparison.InvariantCulture))
+            {
+                scaledIndexOfCharacter = (nint)((double)indexOfCharacter * 1.02);
+            }
+
             foreach (var link in linkList)
             {
+                var rangeLength = link.Range.Length;
+                var tolerance = 0;
+                if (label.Font.Name == "NeoSans-Light")
+                {
+                    rangeLength = (nint)((double)rangeLength * 1.13);
+                    tolerance = 25;
+                    indexOfCharacter = scaledIndexOfCharacter;
+                }
+
+                if (label.Font.Name.StartsWith("HelveticaNeue", StringComparison.InvariantCulture))
+                {
+                    if (link.Range.Location > 2000)
+                    {
+                        indexOfCharacter = scaledIndexOfCharacter;
+                    }
+                }
+
                 // Xamarin version of NSLocationInRange?
-                if ((indexOfCharacter >= link.Range.Location) && (indexOfCharacter < link.Range.Location + link.Range.Length))
+                if ((indexOfCharacter >= (link.Range.Location - tolerance)) && (indexOfCharacter < (link.Range.Location + rangeLength + tolerance)))
                 {
                     return link.Url;
                 }

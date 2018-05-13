@@ -33,8 +33,6 @@ namespace Plugin.HtmlLabel.UWP
             if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
                 UpdateMaxLines();
             else if (e.PropertyName == Label.TextProperty.PropertyName ||
-                     e.PropertyName == HtmlLabel.IsHtmlProperty.PropertyName ||
-                     e.PropertyName == HtmlLabel.RemoveHtmlTagsProperty.PropertyName ||
                      e.PropertyName == Label.FontAttributesProperty.PropertyName ||
                      e.PropertyName == Label.FontFamilyProperty.PropertyName ||
                      e.PropertyName == Label.FontSizeProperty.PropertyName ||
@@ -56,20 +54,13 @@ namespace Plugin.HtmlLabel.UWP
 
             if (string.IsNullOrEmpty(Control.Text)) return;
 
-            var isHtml = HtmlLabel.GetIsHtml(Element);
-            if (!isHtml) return;
-
-            var removeTags = HtmlLabel.GetRemoveHtmlTags(Element);
-
-            var text = removeTags ?
-                HtmlToText.ConvertHtml(Control.Text) :
-                Element.Text;
-
-            var helper = new LabelRendererHelper(Element, text);
+            var helper = new LabelRendererHelper(Element, Element.Text);
             Control.Text = helper.ToString();
 
-            var behavior = new HtmlTextBehavior();
-            Interaction.GetBehaviors(Control).Add(behavior);
+            var behavior = new HtmlTextBehavior((HtmlLabel)Element);
+            var behaviors = Interaction.GetBehaviors(Control);
+            behaviors.Clear();
+            behaviors.Add(behavior);
         }
     }
 }

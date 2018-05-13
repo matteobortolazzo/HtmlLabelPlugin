@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Xam.Plugin.HtmlLabel</id>
-        <version>2.1.5</version>
+        <version>2.2.0</version>
         <title>HTML Label</title>
         <authors>Matteo Bortolazzo</authors>
         <owners>Matteo Bortolazzo</owners>
@@ -18,7 +18,7 @@
             UWP partial support
             added support for: FontAttributes, FontFamily, FontSize, TextColor and HorizontalTextAlignment
             HyperLinks support
-            2.1.5 => Bug fix
+            2.2.0 => List tags Android support
         </releaseNotes>
         <copyright>Copyright 2018</copyright>
         <tags>xamarin, html, label, htmllabel, plugin for xamarin, plugins, xamarin.android, xamarin.ios, xamarin.uwp, xamarin.forms, android, ios, uwp</tags>
