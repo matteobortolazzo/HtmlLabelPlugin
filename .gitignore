@@ -9,7 +9,7 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-
+src/.vs/
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -234,4 +234,3 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
-src/.droidres/.connectivity.droidres.db
