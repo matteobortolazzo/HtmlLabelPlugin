@@ -1,7 +1,7 @@
 # HTML Label Plugin for Xamarin.Forms
 Use this Xamarin.Forms plugin to display HTML content into a label.
 
-** **V3 RELEASED** **
+** **V3 COMING** **
 
 * Xamarin.Forms 3.0
 * IsHtml and RemoveHtmlTags properties removed
