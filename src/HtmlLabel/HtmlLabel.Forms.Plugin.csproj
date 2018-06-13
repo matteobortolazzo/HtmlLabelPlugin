@@ -9,7 +9,7 @@
     <AssemblyFileVersion>3.0.0.0</AssemblyFileVersion>
     <Version>3.0.1.0</Version>
     <Authors>Matteo Bortolazzo</Authors>
-    <PackageId>Xam.Plugin.Forms.HtmlLabel</PackageId>
+    <PackageId>Xam.Plugin.HtmlLabel</PackageId>
     <PackOnBuild>true</PackOnBuild>    
     <PackageLicenseUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin/blob/master/LICENSE</PackageLicenseUrl>
     <Owners>MatteoBortolazzo</Owners>
