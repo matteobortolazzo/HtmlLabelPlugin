@@ -5,17 +5,17 @@ using System.Xml.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
-using HtmlLabel.Forms.Plugin.Abstractions;
+using LabelHtml.Forms.Plugin.Abstractions;
 using Xamarin.Forms.Platform.UWP;
-using HtmlLabel.Forms.Plugin.UWP;
+using LabelHtml.Forms.Plugin.UWP;
 using Microsoft.Xaml.Interactivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Span = Windows.UI.Xaml.Documents.Span;
 
-[assembly: ExportRenderer(typeof(LabelHtml), typeof(HtmlLabelRenderer))]
+[assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 // ReSharper disable once CheckNamespace
-namespace HtmlLabel.Forms.Plugin.UWP
+namespace LabelHtml.Forms.Plugin.UWP
 {
 	/// <summary>
 	/// HtmlLable Implementation
@@ -23,8 +23,15 @@ namespace HtmlLabel.Forms.Plugin.UWP
 	[Preserve(AllMembers = true)]
 	public class HtmlLabelRenderer : LabelRenderer
 	{
+		/// <summary>
+		/// Used for registration with dependency service
+		/// </summary>
 		public static void Initialize() { }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
 			base.OnElementChanged(e);
@@ -35,10 +42,15 @@ namespace HtmlLabel.Forms.Plugin.UWP
 			UpdateMaxLines();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == LabelHtml.MaxLinesProperty.PropertyName)
+			if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
 				UpdateMaxLines();
 			else if (e.PropertyName == Label.TextProperty.PropertyName ||
 			         e.PropertyName == Label.FontAttributesProperty.PropertyName ||
@@ -51,7 +63,7 @@ namespace HtmlLabel.Forms.Plugin.UWP
 
 		private void UpdateMaxLines()
 		{
-			var maxLines = LabelHtml.GetMaxLines(Element);
+			var maxLines = HtmlLabel.GetMaxLines(Element);
 			if (maxLines == default(int)) return;
 			Control.MaxLines = maxLines;
 		}
@@ -62,10 +74,13 @@ namespace HtmlLabel.Forms.Plugin.UWP
 
 			if (string.IsNullOrEmpty(Control.Text)) return;
 
+			// Gets the complete HTML string
 			var helper = new LabelRendererHelper(Element, Element.Text);
 			Control.Text = helper.ToString();
 
-			var behavior = new HtmlTextBehavior((LabelHtml)Element);
+			// Adds the HtmlTextBehavior because UWP's TextBlock
+			// does not natively support HTML content
+			var behavior = new HtmlTextBehavior((HtmlLabel)Element);
 			var behaviors = Interaction.GetBehaviors(Control);
 			behaviors.Clear();
 			behaviors.Add(behavior);
@@ -74,20 +89,21 @@ namespace HtmlLabel.Forms.Plugin.UWP
 
 	internal class HtmlTextBehavior : Behavior<TextBlock>
 	{
-		private const string ElementA = "A";
-		private const string ElementB = "B";
-		private const string ElementBr = "BR";
-		private const string ElementEm = "EM";
-		private const string ElementI = "I";
-		private const string ElementP = "P";
-		private const string ElementStrong = "STRONG";
-		private const string ElementU = "U";
-		private const string ElementUl = "UL";
-		private const string ElementLi = "LI";
-		private const string ElementDiv = "DIV";
+		// All the supported tags
+		internal const string ElementA = "A";
+		internal const string ElementB = "B";
+		internal const string ElementBr = "BR";
+		internal const string ElementEm = "EM";
+		internal const string ElementI = "I";
+		internal const string ElementP = "P";
+		internal const string ElementStrong = "STRONG";
+		internal const string ElementU = "U";
+		internal const string ElementUl = "UL";
+		internal const string ElementLi = "LI";
+		internal const string ElementDiv = "DIV";
 
-		private readonly LabelHtml _label;
-		public HtmlTextBehavior(LabelHtml label)
+		private readonly HtmlLabel _label;
+		public HtmlTextBehavior(HtmlLabel label)
 		{
 			_label = label;
 		}
@@ -107,10 +123,7 @@ namespace HtmlLabel.Forms.Plugin.UWP
 			AssociatedObject.LayoutUpdated -= OnAssociatedObjectLayoutUpdated;
 		}
 
-		private void OnAssociatedObjectLayoutUpdated(object sender, object o)
-		{
-			UpdateText();
-		}
+		private void OnAssociatedObjectLayoutUpdated(object sender, object o) => UpdateText();
 
 		private void OnAssociatedObjectLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
@@ -144,7 +157,7 @@ namespace HtmlLabel.Forms.Plugin.UWP
 			AssociatedObject.Loaded -= OnAssociatedObjectLoaded;
 		}
 
-		private static void ParseText(XElement element, InlineCollection inlines, LabelHtml label)
+		private static void ParseText(XElement element, InlineCollection inlines, HtmlLabel label)
 		{
 			if (element == null) return;
 
@@ -163,7 +176,7 @@ namespace HtmlLabel.Forms.Plugin.UWP
 						}
 						catch (FormatException) { /* href is not valid */ }
 					}
-					link.Click += (Hyperlink sender, HyperlinkClickEventArgs e) =>
+					link.Click += (sender, e) =>
 					{
 						sender.NavigateUri = null;
 						if (href == null) return;
@@ -280,10 +293,7 @@ namespace HtmlLabel.Forms.Plugin.UWP
 			OnAttached();
 		}
 
-		public void Detach()
-		{
-			OnDetaching();
-		}
+		public void Detach() => OnDetaching();
 
 		protected virtual void OnAttached() { }
 
@@ -291,6 +301,6 @@ namespace HtmlLabel.Forms.Plugin.UWP
 
 		protected DependencyObject AssociatedObject { get; set; }
 
-		DependencyObject IBehavior.AssociatedObject => this.AssociatedObject;
+		DependencyObject IBehavior.AssociatedObject => AssociatedObject;
 	}
 }

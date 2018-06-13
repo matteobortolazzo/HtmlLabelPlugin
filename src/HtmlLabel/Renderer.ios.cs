@@ -5,13 +5,13 @@ using Xamarin.Forms.Platform.iOS;
 using System.ComponentModel;
 using Foundation;
 using CoreGraphics;
-using HtmlLabel.Forms.Plugin.Abstractions;
-using HtmlLabel.Forms.Plugin.iOS;
+using LabelHtml.Forms.Plugin.Abstractions;
+using LabelHtml.Forms.Plugin.iOS;
 using UIKit;
 
-[assembly: ExportRenderer(typeof(LabelHtml), typeof(HtmlLabelRenderer))]
+[assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 // ReSharper disable once CheckNamespace
-namespace HtmlLabel.Forms.Plugin.iOS
+namespace LabelHtml.Forms.Plugin.iOS
 {
 	/// <summary>
 	/// HtmlLable Implementation
@@ -26,8 +26,15 @@ namespace HtmlLabel.Forms.Plugin.iOS
 			public readonly string Url;
 		}
 
+		/// <summary>
+		/// Used for registration with dependency service
+		/// </summary>
 		public static void Initialize() { }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
 			base.OnElementChanged(e);
@@ -38,10 +45,15 @@ namespace HtmlLabel.Forms.Plugin.iOS
 			UpdateMaxLines();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == HtmlLabel.Forms.Plugin.Abstractions.LabelHtml.MaxLinesProperty.PropertyName)
+			if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
 				UpdateMaxLines();
 			else if (e.PropertyName == Label.TextProperty.PropertyName ||
 				e.PropertyName == Label.FontAttributesProperty.PropertyName ||
@@ -54,7 +66,7 @@ namespace HtmlLabel.Forms.Plugin.iOS
 
 		private void UpdateMaxLines()
 		{
-			var maxLines = HtmlLabel.Forms.Plugin.Abstractions.LabelHtml.GetMaxLines(Element);
+			var maxLines = HtmlLabel.GetMaxLines(Element);
 			if (maxLines == default(int)) return;
 			Control.Lines = maxLines;
 
@@ -67,6 +79,7 @@ namespace HtmlLabel.Forms.Plugin.iOS
 
 			if (string.IsNullOrEmpty(Control.Text)) return;
 
+			// Gets the complete HTML string
 			var helper = new LabelRendererHelper(Element, Control.Text);
 
 			try
@@ -97,7 +110,7 @@ namespace HtmlLabel.Forms.Plugin.iOS
 			var links = new List<LinkData>();
 			control.AttributedText = mutable;
 
-			// make a list of all links:
+			// Makes a list of all links:
 			mutable.EnumerateAttributes(new NSRange(0, mutable.Length), NSAttributedStringEnumeration.LongestEffectiveRangeNotRequired, (NSDictionary attrs, NSRange range, ref bool stop) =>
 			{
 				foreach (var a in attrs) // should use attrs.ContainsKey(something) instead
@@ -108,7 +121,7 @@ namespace HtmlLabel.Forms.Plugin.iOS
 				}
 			});
 
-			// Set up a Gesture recognizer:
+			// Sets up a Gesture recognizer:
 			if (links.Count <= 0) return;
 			control.UserInteractionEnabled = true;
 			var tapGesture = new UITapGestureRecognizer((tap) =>
@@ -116,7 +129,7 @@ namespace HtmlLabel.Forms.Plugin.iOS
 				var url = DetectTappedUrl(tap, (UILabel)tap.View, links);
 				if (url == null) return;
 
-				var label = (LabelHtml)Element;
+				var label = (HtmlLabel)Element;
 				var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = url }, url);
 				label.SendNavigating(args);
 
@@ -131,24 +144,24 @@ namespace HtmlLabel.Forms.Plugin.iOS
 
 		private string DetectTappedUrl(UIGestureRecognizer tap, UILabel label, IEnumerable<LinkData> linkList)
 		{
-			// Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
+			// Creates instances of NSLayoutManager, NSTextContainer and NSTextStorage
 			var layoutManager = new NSLayoutManager();
 			var textContainer = new NSTextContainer();
 			var textStorage = new NSTextStorage();
 			textStorage.SetString(label.AttributedText);
 
-			// Configure layoutManager and textStorage
+			// Configures layoutManager and textStorage
 			layoutManager.AddTextContainer(textContainer);
 			textStorage.AddLayoutManager(layoutManager);
 
-			// Configure textContainer
+			// Configures textContainer
 			textContainer.LineFragmentPadding = 0;
 			textContainer.LineBreakMode = label.LineBreakMode;
 			textContainer.MaximumNumberOfLines = (nuint)label.Lines;
 			var labelSize = label.Bounds.Size;
 			textContainer.Size = labelSize;
 
-			// Find the tapped character location and compare it to the specified range
+			// Finds the tapped character location and compare it to the specified range
 			var locationOfTouchInLabel = tap.LocationInView(label);
 			var textBoundingBox = layoutManager.GetUsedRectForTextContainer(textContainer);
 			var textContainerOffset = new CGPoint((labelSize.Width - textBoundingBox.Size.Width) * 0.0 - textBoundingBox.Location.X,
@@ -178,7 +191,7 @@ namespace HtmlLabel.Forms.Plugin.iOS
 			// HACK is to scale indexOfCharacter for 13% because NeoSans-Light is narrower font than ".SFUIText"
 			if (label.Font.Name == "NeoSans-Light")
 			{
-				scaledIndexOfCharacter = (nint)((double)indexOfCharacter * 1.13);
+				scaledIndexOfCharacter = (nint)(indexOfCharacter * 1.13);
 			}
 
 			// HelveticaNeue font family works perfect until character position in the string is more than 2000 chars
@@ -186,7 +199,7 @@ namespace HtmlLabel.Forms.Plugin.iOS
 			// if string has <b> tag than label.Font.Name from HelveticaNeue-Thin goes to HelveticaNeue-Bold
 			if (label.Font.Name.StartsWith("HelveticaNeue", StringComparison.InvariantCulture))
 			{
-				scaledIndexOfCharacter = (nint)((double)indexOfCharacter * 1.02);
+				scaledIndexOfCharacter = (nint)(indexOfCharacter * 1.02);
 			}
 
 			foreach (var link in linkList)
@@ -195,7 +208,7 @@ namespace HtmlLabel.Forms.Plugin.iOS
 				var tolerance = 0;
 				if (label.Font.Name == "NeoSans-Light")
 				{
-					rangeLength = (nint)((double)rangeLength * 1.13);
+					rangeLength = (nint)(rangeLength * 1.13);
 					tolerance = 25;
 					indexOfCharacter = scaledIndexOfCharacter;
 				}
