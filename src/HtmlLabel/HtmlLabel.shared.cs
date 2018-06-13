@@ -3,22 +3,36 @@ using System.Text;
 using Xamarin.Forms;
 
 // ReSharper disable once CheckNamespace
-namespace HtmlLabel.Forms.Plugin.Abstractions
+namespace LabelHtml.Forms.Plugin.Abstractions
 {
-	public class LabelHtml : Label
+	/// <inheritdoc />
+	/// <summary>
+	/// A label that is able to display HTML content
+	/// </summary>
+	public class HtmlLabel : Label
 	{
 		/// <summary>
 	    /// MaxLines property for the label
 	    /// </summary>
 	    public static readonly BindableProperty MaxLinesProperty =
-		    BindableProperty.CreateAttached("MaxLines", typeof(int), typeof(LabelHtml), default(int));
+		    BindableProperty.CreateAttached("MaxLines", typeof(int), typeof(HtmlLabel), default(int));
 
+		/// <summary>
+		/// Get the value of the MaxLines property
+		/// </summary>
+		/// <param name="view"></param>
+		/// <returns></returns>
 	    public static int GetMaxLines(BindableObject view)
 	    {
 		    if (view == null) return default(int);
 		    return (int)view.GetValue(MaxLinesProperty);
 	    }
 
+		/// <summary>
+		/// Set the value of the MaxLines property
+		/// </summary>
+		/// <param name="view"></param>
+		/// <param name="value"></param>
 		public static void SetMaxLines(BindableObject view, int value)
 		{
 			view?.SetValue(MaxLinesProperty, value);
@@ -52,7 +66,8 @@ namespace HtmlLabel.Forms.Plugin.Abstractions
 		/// </summary>
 		public event EventHandler<WebNavigatingEventArgs> Navigated;
 	}
-
+	
+	// Used by the renderes to generate the complete HTML string
 	internal class LabelRendererHelper
 	{
 		private readonly Label _label;
@@ -79,6 +94,7 @@ namespace HtmlLabel.Forms.Plugin.Abstractions
 					break;
 			}
 		}
+
 		private void SetFontFamily()
 		{
 			if (_label.FontFamily == null) return;

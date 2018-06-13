@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TestHtmlLabel"
-             xmlns:abstractions="clr-namespace:HtmlLabel.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"
+             xmlns:html="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"
+
              x:Class="TestHtmlLabel.MainPage">
 
     <StackLayout>
-    	<abstractions:LabelHtml x:Name="HomeLabel" />
-    </StackLayout>
+		<html:HtmlLabel x:Name="HomeLabel" />
+	</StackLayout>
 
 </ContentPage>

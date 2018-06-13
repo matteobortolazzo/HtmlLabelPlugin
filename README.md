@@ -1,15 +1,17 @@
 # HTML Label Plugin for Xamarin.Forms
 Use this Xamarin.Forms plugin to display HTML content into a label.
 
-** **V3 COMING** **
+** **MID YEAR UPDATE** **
 
 * Xamarin.Forms 3.0
 * IsHtml and RemoveHtmlTags properties removed
 * HtmlAgilityPack dependency removed
 * Navigating and Navitated events added when users tap on links
 
+![build status](https://matteobortolazzo.visualstudio.com/_apis/public/build/definitions/35196e9f-8b5a-4efb-af02-71d7a588c1fc/4/badge)
+
 ## Setup
-* Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel ![](https://img.shields.io/badge/nuget-v3.0.0-blue.svg)
+* Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel ![](https://img.shields.io/badge/nuget-v3.0.1-blue.svg) ![](https://matteobortolazzo.visualstudio.com/_apis/public/build/definitions/35196e9f-8b5a-4efb-af02-71d7a588c1fc/4/badge)
 * Install it in every Xamarin.Forms project.
 * **iOS**: AppDelegate.cs
     ```cs
@@ -54,8 +56,8 @@ For underlined text use the <u> tag:
 * HorizontalTextAlignment
 
 ## Events
-* Navigating
-* Navigated
+Navigating
+Navigated
 
 ## Custom Properties
 * MaxLines (int)

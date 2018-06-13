@@ -1,20 +1,21 @@
+using System;
 using System.ComponentModel;
 using Android.OS;
 using Android.Text;
 using Android.Text.Method;
 using Android.Text.Style;
 using Android.Widget;
-using HtmlLabel.Forms.Plugin.Abstractions;
-using HtmlLabel.Forms.Plugin.Droid;
+using Java.Lang;
+using LabelHtml.Forms.Plugin.Abstractions;
+using LabelHtml.Forms.Plugin.Droid;
 using Org.Xml.Sax;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
-using Context = Android.Content.Context;
 
-[assembly: ExportRenderer(typeof(LabelHtml), typeof(HtmlLabelRenderer))]
+[assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 // ReSharper disable once CheckNamespace
-namespace HtmlLabel.Forms.Plugin.Droid
+namespace LabelHtml.Forms.Plugin.Droid
 {
     /// <summary>
     /// HtmlLable Implementation
@@ -22,10 +23,21 @@ namespace HtmlLabel.Forms.Plugin.Droid
     [Preserve(AllMembers = true)]
     public class HtmlLabelRenderer : LabelRenderer
     {
-	    public HtmlLabelRenderer(Context context) : base(context) { }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		public HtmlLabelRenderer(Android.Content.Context context) : base(context) { }
+		
+	    /// <summary>
+	    /// Used for registration with dependency service
+	    /// </summary>
+	    public static void Initialize() { }
 
-		public static void Initialize() { }
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
 			base.OnElementChanged(e);
@@ -36,10 +48,15 @@ namespace HtmlLabel.Forms.Plugin.Droid
 			UpdateMaxLines();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == LabelHtml.MaxLinesProperty.PropertyName)
+			if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
 				UpdateMaxLines();
 			else if (e.PropertyName == Label.TextProperty.PropertyName ||
 					 e.PropertyName == Label.FontAttributesProperty.PropertyName ||
@@ -52,7 +69,7 @@ namespace HtmlLabel.Forms.Plugin.Droid
 
 		private void UpdateMaxLines()
 		{
-			var maxLines = LabelHtml.GetMaxLines(Element);
+			var maxLines = HtmlLabel.GetMaxLines(Element);
 			if (maxLines == default(int)) return;
 			Control.SetMaxLines(maxLines);
 		}
@@ -62,7 +79,11 @@ namespace HtmlLabel.Forms.Plugin.Droid
 			if (Control == null || Element == null) return;
 			if (string.IsNullOrEmpty(Control.Text)) return;
 
+			// Gets the complete HTML string
 			var customHtml = new LabelRendererHelper(Element, Control.Text).ToString();
+			// Android's TextView doesn't handle <ul>s, <ol>s and <li>s 
+			// so it replaces them with <ulc>, <olc> and <lic> respectively.
+			// Those tags will be handles by a custom TagHandler
 			customHtml = customHtml.Replace("ul>", "ulc>").Replace("ol>", "olc>").Replace("li>", "lic>");
 
 			Control.SetIncludeFontPadding(false);
@@ -70,8 +91,9 @@ namespace HtmlLabel.Forms.Plugin.Droid
 			SetTextViewHtml(Control, customHtml);
 		}
 
-		protected void SetTextViewHtml(TextView text, string html)
+		private void SetTextViewHtml(TextView text, string html)
 		{
+			// Tells the TextView that the content is HTML and adds a custom TagHandler
 			var sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
 				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, new ListTagHandler()) :
 #pragma warning disable 618
@@ -79,39 +101,35 @@ namespace HtmlLabel.Forms.Plugin.Droid
 #pragma warning restore 618
 
 			// Makes clickable links
-			SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
-			var urls = strBuilder.GetSpans(0, sequence.Length(), Java.Lang.Class.FromType(typeof(URLSpan)));
+			text.MovementMethod = LinkMovementMethod.Instance;
+			var strBuilder = new SpannableStringBuilder(sequence);
+			var urls = strBuilder.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)));
 			foreach (var span in urls)
 				MakeLinkClickable(strBuilder, (URLSpan)span);
 
+			// Android adds an unnecessary "\n" that must be removed
 			var value = RemoveLastChar(strBuilder);
+
+			// Finally sets the value of the TextView 
 			text.SetText(value, TextView.BufferType.Spannable);
-			text.MovementMethod = LinkMovementMethod.Instance;
 		}
 
-		protected void MakeLinkClickable(SpannableStringBuilder strBuilder, URLSpan span)
+	    private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
 		{
 			var start = strBuilder.GetSpanStart(span);
 			var end = strBuilder.GetSpanEnd(span);
 			var flags = strBuilder.GetSpanFlags(span);
-			var clickable = new MyClickableSpan((LabelHtml)Element, span);
+			var clickable = new MyClickableSpan((HtmlLabel)Element, span);
 			strBuilder.SetSpan(clickable, start, end, flags);
 			strBuilder.RemoveSpan(span);
 		}
 
-		protected ISpanned RemoveLastChar(ISpanned text)
-		{
-			var builder = new SpannableStringBuilder(text);
-			builder.Delete(text.Length() - 1, text.Length());
-			return builder;
-		}
-
 		private class MyClickableSpan : ClickableSpan
 		{
-			private readonly LabelHtml _label;
+			private readonly HtmlLabel _label;
 			private readonly URLSpan _span;
 
-			public MyClickableSpan(LabelHtml label, URLSpan span)
+			public MyClickableSpan(HtmlLabel label, URLSpan span)
 			{
 				_label = label;
 				_span = span;
@@ -125,12 +143,20 @@ namespace HtmlLabel.Forms.Plugin.Droid
 				if (args.Cancel)
 					return;
 
-				Device.OpenUri(new System.Uri(_span.URL));
+				Device.OpenUri(new Uri(_span.URL));
 				_label.SendNavigated(args);
 			}
 		}
+
+	    private static ISpanned RemoveLastChar(ICharSequence text)
+	    {
+		    var builder = new SpannableStringBuilder(text);
+		    builder.Delete(text.Length() - 1, text.Length());
+		    return builder;
+	    }
 	}
 
+	// TagHandler that handles lists (ul, ol)
 	internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
 	{
 		private bool _first = true;
