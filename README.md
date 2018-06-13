@@ -8,8 +8,6 @@ Use this Xamarin.Forms plugin to display HTML content into a label.
 * HtmlAgilityPack dependency removed
 * Navigating and Navitated events added when users tap on links
 
-![build status](https://matteobortolazzo.visualstudio.com/_apis/public/build/definitions/35196e9f-8b5a-4efb-af02-71d7a588c1fc/4/badge)
-
 ## Setup
 * Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel ![](https://img.shields.io/badge/nuget-v3.0.1-blue.svg) ![](https://matteobortolazzo.visualstudio.com/_apis/public/build/definitions/35196e9f-8b5a-4efb-af02-71d7a588c1fc/4/badge)
 * Install it in every Xamarin.Forms project.
