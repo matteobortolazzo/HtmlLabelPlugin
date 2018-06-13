@@ -36,6 +36,8 @@ Built against: 3.0.0.550146</Description>
     <DefineConstants>$(DefineConstants);</DefineConstants>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <PackageIconUrl>http://xamarin.com/content/images/nuget/xamarin.png</PackageIconUrl>
   </PropertyGroup>
 
 
