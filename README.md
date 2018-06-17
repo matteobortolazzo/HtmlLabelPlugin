@@ -7,6 +7,7 @@ Use this Xamarin.Forms plugin to display HTML content into a label.
 * IsHtml and RemoveHtmlTags properties removed
 * HtmlAgilityPack dependency removed
 * Navigating and Navitated events added when users tap on links
+* Namespace and assembly name changed
 
 ## Setup
 * Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel ![](https://img.shields.io/badge/nuget-v3.0.1-blue.svg) ![](https://matteobortolazzo.visualstudio.com/_apis/public/build/definitions/35196e9f-8b5a-4efb-af02-71d7a588c1fc/4/badge)
@@ -64,12 +65,12 @@ Navigated
 ## Usage XAML
 
 ```xaml
-xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
+xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"
 <htmlLabel:HtmlLabel Text="{Binding HtmlString}"/>
 ```
 
 ```xaml
-xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
+xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"
 <htmlLabel:HtmlLabel Text="{Binding HtmlString}" htmlLabel:HtmlLabel.MaxLines="2"/>
 ```
 
