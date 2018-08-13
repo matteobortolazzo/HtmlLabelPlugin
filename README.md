@@ -41,7 +41,7 @@ If you need to customize something in Android or iOS you can use inline CSS, for
 
 `<span style="color: green">...</span>`
 
-For underlined text use the <u> tag:
+For underlined text use the &lt;u&gt; tag:
 `<u>Some underlined text</u>`
 
 **For links**: remember to add the schema (http:// https:// tel:// mailto:// ext...)
