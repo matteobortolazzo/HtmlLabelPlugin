@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard2.0;MonoAndroid71;Xamarin.iOS10;uap10.0.16299</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;MonoAndroid71;Xamarin.iOS10;uap10.0.17134</TargetFrameworks>
     <AssemblyName>HtmlLabel.Forms.Plugin</AssemblyName>
     <RootNamespace>HtmlLabel.Forms.Plugin</RootNamespace>
     <Product>HtmlLabel.Forms.Plugin)</Product>
@@ -64,6 +64,12 @@ Built against: 3.0.0.550146</Description>
    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="*.ios.cs" />
   </ItemGroup>
+
+   <ItemGroup>
+     <Compile Include="Renderer.android.cs" />
+     <Compile Include="Renderer.ios.cs" />
+     <Compile Include="Renderer.uwp.cs" />
+   </ItemGroup>
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 
