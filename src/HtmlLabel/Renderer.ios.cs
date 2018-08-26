@@ -78,7 +78,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			if (Control == null || Element == null) return;
 
 			if (string.IsNullOrEmpty(Control.Text)) return;
-
+		
 			// Gets the complete HTML string
 			var helper = new LabelRendererHelper(Element, Control.Text);
 
