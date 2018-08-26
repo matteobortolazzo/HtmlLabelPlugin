@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;netstandard2.0;MonoAndroid71;Xamarin.iOS10;uap10.0.17134</TargetFrameworks>
@@ -9,7 +9,7 @@
     <AssemblyFileVersion>3.0.0.0</AssemblyFileVersion>
     <Version>3.0.1.0</Version>
     <Authors>Matteo Bortolazzo</Authors>
-    <PackageId>Xam.Plugin.Forms.HtmlLabel</PackageId>
+    <PackageId>Xam.Plugin.HtmlLabel</PackageId>
     <PackOnBuild>true</PackOnBuild>    
     <PackageLicenseUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin/blob/master/LICENSE</PackageLicenseUrl>
     <Owners>MatteoBortolazzo</Owners>
@@ -36,12 +36,13 @@ Built against: 3.0.0.550146</Description>
     <DefineConstants>$(DefineConstants);</DefineConstants>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <PackageIconUrl>http://xamarin.com/content/images/nuget/xamarin.png</PackageIconUrl>
   </PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.550146" />
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.5.4" PrivateAssets="All" />
     <Compile Include="*.shared.cs" />
   </ItemGroup>
  
@@ -62,13 +63,5 @@ Built against: 3.0.0.550146</Description>
    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="*.ios.cs" />
   </ItemGroup>
-
-   <ItemGroup>
-     <Compile Include="Renderer.android.cs" />
-     <Compile Include="Renderer.ios.cs" />
-     <Compile Include="Renderer.uwp.cs" />
-   </ItemGroup>
-
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 
 </Project>

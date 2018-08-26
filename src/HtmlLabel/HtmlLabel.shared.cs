@@ -77,7 +77,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public LabelRendererHelper(Label label, string text)
 		{
 			_label = label;
-			_text = text;
+			_text = text.Trim();
 			_builder = new StringBuilder();
 		}
 

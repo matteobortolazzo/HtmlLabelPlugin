@@ -78,7 +78,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			if (Control == null || Element == null) return;
 
 			if (string.IsNullOrEmpty(Control.Text)) return;
-
+		
 			// Gets the complete HTML string
 			var helper = new LabelRendererHelper(Element, Control.Text);
 
@@ -107,6 +107,12 @@ namespace LabelHtml.Forms.Plugin.iOS
 			var myHtmlData = NSData.FromString(html, NSStringEncoding.Unicode);
 			// control.Lines = 0;
 			var mutable = new NSMutableAttributedString(new NSAttributedString(myHtmlData, attr, ref nsError));
+
+			if (mutable.MutableString.HasSuffix(new NSString("\n")))
+			{
+				mutable.DeleteRange(new NSRange(mutable.MutableString.Length - 1, 1));
+			}
+
 			var links = new List<LinkData>();
 			control.AttributedText = mutable;
 
