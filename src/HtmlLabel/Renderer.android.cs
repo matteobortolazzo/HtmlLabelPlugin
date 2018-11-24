@@ -148,12 +148,13 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 		}
 
-	    private static ISpanned RemoveLastChar(ICharSequence text)
-	    {
-		    var builder = new SpannableStringBuilder(text);
-		    builder.Delete(text.Length() - 1, text.Length());
-		    return builder;
-	    }
+		private static ISpanned RemoveLastChar(ICharSequence text)
+		{
+			var builder = new SpannableStringBuilder(text);
+			if (text.Length() != 0)
+				builder.Delete(text.Length() - 1, text.Length());
+			return builder;
+		}
 	}
 
 	// TagHandler that handles lists (ul, ol)

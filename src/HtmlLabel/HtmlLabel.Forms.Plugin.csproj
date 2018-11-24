@@ -1,13 +1,16 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard2.0;MonoAndroid71;Xamarin.iOS10;uap10.0.17134</TargetFrameworks>
-    <AssemblyName>HtmlLabel.Forms.Plugin</AssemblyName>
+		<TargetFrameworks></TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard1.0;netstandard2.0;Xamarin.iOS10;MonoAndroid71;MonoAndroid80;MonoAndroid81;uap10.0.17134</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard1.0;netstandard2.0;Xamarin.iOS10;MonoAndroid71;MonoAndroid80;MonoAndroid81;</TargetFrameworks>
+
+		<AssemblyName>HtmlLabel.Forms.Plugin</AssemblyName>
     <RootNamespace>HtmlLabel.Forms.Plugin</RootNamespace>
     <Product>HtmlLabel.Forms.Plugin)</Product>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyFileVersion>3.0.0.0</AssemblyFileVersion>
-    <Version>3.0.1.0</Version>
+    <Version>3.0.2.0</Version>
     <Authors>Matteo Bortolazzo</Authors>
     <PackageId>Xam.Plugin.HtmlLabel</PackageId>
     <PackOnBuild>true</PackOnBuild>    
@@ -17,51 +20,41 @@
     <Summary>Use a HTML Label in your Xamarin.Forms projects! Ensure you call HtmlLabelRenderer.Init() on each platform!</Summary>
     <PackageTags>xamarin, pcl, xam.pcl, uwp, uwa, windows phone, winphone, wp8, android, xamarin.forms, ios</PackageTags>
     <Title>HTML Label Control Plugin for Xamarin.Forms</Title>
-    <Description>Custom control for your Xamarin.Forms project to display HTML content into labels.			
-Ensure you call HtmlLabelRenderer.Init() on each platform!
-Built against: 3.0.0.550146</Description>
+    <Description>
+			Custom control for your Xamarin.Forms project to display HTML content into labels.			
+			Ensure you call HtmlLabelRenderer.Init() on each platform!
+			Built against: 3.0.0.550146
+		</Description>
     <Copyright>Copyright 2018</Copyright>
     <RepositoryUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</RepositoryUrl>
     <PackageReleaseNotes>See: https://github.com/matteobortolazzo/HtmlLabelPlugin </PackageReleaseNotes>
-
     <NeutralLanguage>en</NeutralLanguage>
-    <LangVersion>default</LangVersion>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-
-
+		<LangVersion>7.2</LangVersion>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
-
     <DebugType>full</DebugType>
-
     <DefineConstants>$(DefineConstants);</DefineConstants>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
     <PackageIconUrl>http://xamarin.com/content/images/nuget/xamarin.png</PackageIconUrl>
   </PropertyGroup>
 
-
   <ItemGroup>
+		<PackageReference Include="MSBuild.Sdk.Extras" Version="1.6.61" PrivateAssets="All" />
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.550146" />
     <Compile Include="*.shared.cs" />
   </ItemGroup>
  
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5" />
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.2" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.0" />
     <Compile Include="*.uwp.cs" />
   </ItemGroup>
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <Compile Include="*.android.cs" />
-  </ItemGroup>
+	
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+		<Compile Include="*.android.cs" />
+	</ItemGroup>
 
    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="*.ios.cs" />
   </ItemGroup>
-
+	<Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
