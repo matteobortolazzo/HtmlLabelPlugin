@@ -10,7 +10,6 @@ using Xamarin.Forms.Platform.UWP;
 using LabelHtml.Forms.Plugin.UWP;
 using Microsoft.Xaml.Interactivity;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Span = Windows.UI.Xaml.Documents.Span;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
@@ -20,7 +19,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 	/// <summary>
 	/// HtmlLable Implementation
 	/// </summary>
-	[Preserve(AllMembers = true)]
+	[Xamarin.Forms.Internals.Preserve(AllMembers = true)]
 	public class HtmlLabelRenderer : LabelRenderer
 	{
 		/// <summary>
