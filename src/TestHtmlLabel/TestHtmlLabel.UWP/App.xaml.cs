@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LabelHtml.Forms.Plugin.UWP;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace TestHtmlLabel.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-			LabelHtml.Forms.Plugin.UWP.HtmlLabelRenderer.Initialize();
+			HtmlLabelRenderer.Initialize();
 
 			Frame rootFrame = Window.Current.Content as Frame;
 
