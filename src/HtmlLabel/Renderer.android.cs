@@ -160,54 +160,170 @@ namespace LabelHtml.Forms.Plugin.Droid
 	// TagHandler that handles lists (ul, ol)
 	internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
 	{
-		private bool _first = true;
-		private string _parent;
-		private int _index = 1;
+		private ListBuilder _listBuilder = new ListBuilder();
 
 		public void HandleTag(bool opening, string tag, IEditable output, IXMLReader xmlReader)
 		{
-			if (tag.Equals("ulc"))
+			tag = tag.ToLowerInvariant();
+			if (tag.Equals("lic"))
 			{
-				_parent = "ulc";
-				_index = 1;
+				_listBuilder.Li(opening, output);
+				return;
 			}
-			else if (tag.Equals("olc"))
+			if (tag.Equals("olc") || tag.Equals("ulc"))
 			{
-				_parent = "olc";
-				_index = 1;
-			}
-
-			if (!tag.Equals("lic")) return;
-
-			var lastChar = (char)0;
-			if (output.Length() > 0)
-			{
-				lastChar = output.CharAt(output.Length() - 1);
-			}
-			if (_parent.Equals("ulc"))
-			{
-				if (_first)
+				if (opening)
 				{
-					output.Append(lastChar == '\n' ? "\t•  " : "\n\t•  ");
-					_first = false;
+					_listBuilder = _listBuilder.StartList(tag[0] == 'o', output);
 				}
 				else
-					_first = true;
+				{
+					_listBuilder = _listBuilder.CloseList(output);
+				}
+				return;
+			}
+		}
+	}
+
+	internal class ListBuilder
+	{
+		public const int LIST_INTEND = 20;
+		private int _liIndex = -1;
+		private int _liStart = -1;
+		private LiGap _liGap;
+		private int _gap = 0;
+
+		private ListBuilder _parent = null;
+
+		internal ListBuilder() : this(null)
+		{
+		}
+
+		internal ListBuilder(LiGap liGap)
+		{
+			_parent = null;
+			_gap = 0;
+			if (liGap != null)
+			{
+				_liGap = liGap;
 			}
 			else
 			{
-				if (_first)
-				{
-					if (lastChar == '\n')
-						output.Append("\t" + _index + ". ");
-					else
-						output.Append("\n\t" + _index + ". ");
-					_first = false;
-					_index++;
-				}
-				else
-					_first = true;
+				_liGap = GetLiGap(null);
 			}
 		}
+
+		private ListBuilder(ListBuilder parent, bool ordered)
+		{
+			_parent = parent;
+			_liGap = parent._liGap;
+			_gap = parent._gap + LIST_INTEND + _liGap.GetGap(ordered);
+			_liIndex = ordered ? 0 : -1;
+		}
+
+		internal ListBuilder StartList(bool ordered, IEditable output)
+		{
+			if (_parent == null)
+			{
+				if (output.Length() > 0) output.Append("\n ");
+			}
+			return new ListBuilder(this, ordered);
+		}
+
+		private bool IsOrdered()
+		{
+			return _liIndex >= 0;
+		}
+
+		internal void Li(bool opening, IEditable output)
+		{
+			if (opening)
+			{
+				EnsureParagraphBoundary(output);
+				_liStart = output.Length();
+
+				if (IsOrdered())
+				{
+					output.Append(++_liIndex + ". ");
+				}
+				else
+				{
+					output.Append("â€¢  ");
+				}
+			}
+			else
+			{
+				if (_liStart >= 0)
+				{
+					EnsureParagraphBoundary(output);
+					output.SetSpan(new LeadingMarginSpanStandard(_gap - _liGap.GetGap(IsOrdered()), _gap), _liStart, output.Length(), SpanTypes.ExclusiveExclusive);
+					_liStart = -1;
+				}
+			}
+		}
+
+
+		internal ListBuilder CloseList(IEditable output)
+		{
+			EnsureParagraphBoundary(output);
+			var result = _parent;
+			if (result == null) result = this;
+			if (result._parent == null) output.Append('\n');
+			return result;
+		}
+
+		private void EnsureParagraphBoundary(IEditable output)
+		{
+			if (output.Length() == 0) return;
+			char lastChar = output.CharAt(output.Length() - 1);
+			if (lastChar != '\n') output.Append('\n');
+		}
+
+		internal class LiGap
+		{
+			private readonly int _orderedGap;
+			private readonly int _unorderedGap;
+
+			internal LiGap(int orderedGap, int unorderedGap)
+			{
+				_orderedGap = orderedGap;
+				_unorderedGap = unorderedGap;
+			}
+
+			public int GetGap(bool ordered)
+			{
+				return ordered ? _orderedGap : _unorderedGap;
+			}
+		}
+
+		internal static LiGap GetLiGap(TextView tv)
+		{
+			if (tv == null)
+			{
+				return new LiGap(40, 30);
+			}
+			return new LiGap(ComputeWidth(tv, true), ComputeWidth(tv, false));
+		}
+
+		private static int ComputeWidth(TextView tv, bool ordered)
+		{
+			Android.Graphics.Paint paint = tv.Paint;
+
+			//paint.setTypeface(tv.getPaint().getTypeface());
+			//paint.setTextSize(tv.getPaint().getTextSize());
+
+			// Now compute!
+			var bounds = new Android.Graphics.Rect();
+			string myString = ordered ? "99. " : "â€¢ ";
+			paint.GetTextBounds(myString, 0, myString.Length, bounds);
+			int width = bounds.Width();
+			float pt = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Pt, width, tv.Context.Resources.DisplayMetrics);
+			float sp = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Sp, width, tv.Context.Resources.DisplayMetrics);
+			float dip = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Dip, width, tv.Context.Resources.DisplayMetrics);
+			float px = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Px, width, tv.Context.Resources.DisplayMetrics);
+			float mm = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Mm, width, tv.Context.Resources.DisplayMetrics);
+			return (int)pt;
+		}
+
 	}
 }
