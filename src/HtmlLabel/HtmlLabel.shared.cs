@@ -49,10 +49,13 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		/// </summary>
 		public event EventHandler<WebNavigatingEventArgs> Navigated;
 	}
-	
-	// Used by the renderes to generate the complete HTML string
-	internal class LabelRendererHelper
-	{
+
+
+    // Used by the renderes to generate the complete HTML string
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
+#pragma warning disable IDE0058 // Expression value is never used
+    internal class LabelRendererHelper
+    {
 		private readonly Label _label;
 		private readonly string _text;
 		private readonly StringBuilder _builder;
@@ -66,34 +69,50 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		private void SetFontAttributes()
 		{
-			if (_label.FontAttributes == FontAttributes.None) return;
-			switch (_label.FontAttributes)
+			if (_label.FontAttributes == FontAttributes.None)
+            {
+                return;
+            }
+
+            switch (_label.FontAttributes)
 			{
 				case FontAttributes.Bold:
-					_builder.Append("font-weight: bold; ");
-					break;
+                    _builder.Append("font-weight: bold; ");
+                    break;
 				case FontAttributes.Italic:
-					_builder.Append("font-style: italic; ");
+                    _builder.Append("font-style: italic; ");
 					break;
 			}
 		}
 
 		private void SetFontFamily()
 		{
-			if (_label.FontFamily == null) return;
-			_builder.Append($"font-family: '{_label.FontFamily}'; ");
+			if (_label.FontFamily == null)
+            {
+                return;
+            }
+
+            _builder.Append($"font-family: '{_label.FontFamily}'; ");
 		}
 
 		private void SetFontSize()
 		{
-			if (Math.Abs(_label.FontSize - 14d) < 0.000000001) return;
-			_builder.Append($"font-size: {_label.FontSize}px; ");
+			if (Math.Abs(_label.FontSize - 14d) < 0.000000001)
+            {
+                return;
+            }
+
+            _builder.Append($"font-size: {_label.FontSize}px; ");
 		}
 
 		private void SetTextColor()
 		{
-			if (_label.TextColor.IsDefault) return;
-			var color = _label.TextColor;
+			if (_label.TextColor.IsDefault)
+            {
+                return;
+            }
+
+            Color color = _label.TextColor;
 			var red = (int)(color.R * 255);
 			var green = (int)(color.G * 255);
 			var blue = (int)(color.B * 255);
@@ -104,8 +123,12 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		private void SetHorizontalTextAlign()
 		{
-			if (_label.HorizontalTextAlignment == TextAlignment.Start) return;
-			switch (_label.HorizontalTextAlignment)
+			if (_label.HorizontalTextAlignment == TextAlignment.Start)
+            {
+                return;
+            }
+
+            switch (_label.HorizontalTextAlignment)
 			{
 				case TextAlignment.Center:
 					_builder.Append("text-align: center; ");
@@ -119,9 +142,11 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public override string ToString()
 		{
 			if (string.IsNullOrWhiteSpace(_label.Text))
-				return string.Empty;
+            {
+                return string.Empty;
+            }
 
-			_builder.Append("<div style=\"");
+            _builder.Append("<div style=\"");
 			SetFontAttributes();
 			SetFontFamily();
 			SetFontSize();
@@ -131,5 +156,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			var text = _builder.ToString();
 			return text;
 		}
-	}
+    }
+#pragma warning restore IDE0058 // Expression value is never used
+#pragma warning restore CA1812 // Avoid uninstantiated internal classes
 }

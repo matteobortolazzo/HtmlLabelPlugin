@@ -35,9 +35,12 @@ namespace LabelHtml.Forms.Plugin.UWP
 		{
 			base.OnElementChanged(e);
 
-			if (Control == null) return;
+			if (Control == null)
+            {
+                return;
+            }
 
-			UpdateText();
+            UpdateText();
 		}
 
 		/// <summary>
@@ -54,23 +57,31 @@ namespace LabelHtml.Forms.Plugin.UWP
 			         e.PropertyName == Label.FontSizeProperty.PropertyName ||
 			         e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
 			         e.PropertyName == Label.TextColorProperty.PropertyName)
-				UpdateText();
-		}
+            {
+                UpdateText();
+            }
+        }
 
 		private void UpdateText()
 		{
-			if (Control == null || Element == null) return;
+			if (Control == null || Element == null)
+            {
+                return;
+            }
 
-			if (string.IsNullOrEmpty(Control.Text)) return;
+            if (string.IsNullOrEmpty(Control.Text))
+            {
+                return;
+            }
 
-			// Gets the complete HTML string
-			var helper = new LabelRendererHelper(Element, Element.Text);
+            // Gets the complete HTML string
+            var helper = new LabelRendererHelper(Element, Element.Text);
 			Control.Text = helper.ToString();
 
 			// Adds the HtmlTextBehavior because UWP's TextBlock
 			// does not natively support HTML content
 			var behavior = new HtmlTextBehavior((HtmlLabel)Element);
-			var behaviors = Interaction.GetBehaviors(Control);
+            BehaviorCollection behaviors = Interaction.GetBehaviors(Control);
 			behaviors.Clear();
 			behaviors.Add(behavior);
 		}
@@ -79,17 +90,17 @@ namespace LabelHtml.Forms.Plugin.UWP
 	internal class HtmlTextBehavior : Behavior<TextBlock>
 	{
 		// All the supported tags
-		internal const string ElementA = "A";
-		internal const string ElementB = "B";
-		internal const string ElementBr = "BR";
-		internal const string ElementEm = "EM";
-		internal const string ElementI = "I";
-		internal const string ElementP = "P";
-		internal const string ElementStrong = "STRONG";
-		internal const string ElementU = "U";
-		internal const string ElementUl = "UL";
-		internal const string ElementLi = "LI";
-		internal const string ElementDiv = "DIV";
+		internal const string _elementA = "A";
+		internal const string _elementB = "B";
+		internal const string _elementBr = "BR";
+		internal const string _elementEm = "EM";
+		internal const string _elementI = "I";
+		internal const string _elementP = "P";
+		internal const string _elementStrong = "STRONG";
+		internal const string _elementU = "U";
+		internal const string _elementUl = "UL";
+		internal const string _elementLi = "LI";
+		internal const string _elementDiv = "DIV";
 
 		private readonly HtmlLabel _label;
 		public HtmlTextBehavior(HtmlLabel label)
@@ -122,41 +133,45 @@ namespace LabelHtml.Forms.Plugin.UWP
 
 		private void UpdateText()
 		{
-			if (AssociatedObject == null) return;
-			if (string.IsNullOrEmpty(AssociatedObject.Text)) return;
+			if (AssociatedObject == null)
+            {
+                return;
+            }
 
-			var text = AssociatedObject.Text;
+            if (string.IsNullOrEmpty(AssociatedObject.Text))
+            {
+                return;
+            }
 
-			// Just incase we are not given text with elements.
-			var modifiedText = string.Format("<div>{0}</div>", text);
+            var text = AssociatedObject.Text;
+
+            // Just incase we are not given text with elements.
+            var modifiedText = $"<div>{text}</div>";
 			modifiedText = Regex.Replace(modifiedText, "<br>", "<br></br>", RegexOptions.IgnoreCase);
 			// reset the text because we will add to it.
 			AssociatedObject.Inlines.Clear();
-			try
-			{
-				var element = XElement.Parse(modifiedText);
-				ParseText(element, AssociatedObject.Inlines, _label);
-			}
-			catch (Exception)
-			{
-				// if anything goes wrong just show the html
-				AssociatedObject.Text = text;
-			}
-			AssociatedObject.LayoutUpdated -= OnAssociatedObjectLayoutUpdated;
+
+            var element = XElement.Parse(modifiedText);
+            ParseText(element, AssociatedObject.Inlines, _label);
+
+            AssociatedObject.LayoutUpdated -= OnAssociatedObjectLayoutUpdated;
 			AssociatedObject.Loaded -= OnAssociatedObjectLoaded;
 		}
 
 		private static void ParseText(XElement element, InlineCollection inlines, HtmlLabel label)
 		{
-			if (element == null) return;
+			if (element == null)
+            {
+                return;
+            }
 
-			var currentInlines = inlines;
-			var elementName = element.Name.ToString().ToUpper();
+            InlineCollection currentInlines = inlines;
+			var elementName = element.Name.ToString().ToUpperInvariant();
 			switch (elementName)
 			{
-				case ElementA:
+				case _elementA:
 					var link = new Hyperlink();
-					var href = element.Attribute("href");
+                    XAttribute href = element.Attribute("href");
 					if (href != null)
 					{
 						try
@@ -168,41 +183,46 @@ namespace LabelHtml.Forms.Plugin.UWP
 					link.Click += (sender, e) =>
 					{
 						sender.NavigateUri = null;
-						if (href == null) return;
+						if (href == null)
+                        {
+                            return;
+                        }
 
-						var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = href.Value }, href.Value);
+                        var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = href.Value }, href.Value);
 						label.SendNavigating(args);
 
 						if (args.Cancel)
-							return;
+                        {
+                            return;
+                        }
 
-						Device.OpenUri(new Uri(href.Value));
+                        Device.OpenUri(new Uri(href.Value));
 						label.SendNavigated(args);
 					};
 					inlines.Add(link);
 					currentInlines = link.Inlines;
 					break;
-				case ElementB:
-				case ElementStrong:
+				case _elementB:
+				case _elementStrong:
 					var bold = new Bold();
 					inlines.Add(bold);
 					currentInlines = bold.Inlines;
 					break;
-				case ElementI:
-				case ElementEm:
+				case _elementI:
+				case _elementEm:
 					var italic = new Italic();
 					inlines.Add(italic);
 					currentInlines = italic.Inlines;
 					break;
-				case ElementU:
+				case _elementU:
 					var underline = new Underline();
 					inlines.Add(underline);
 					currentInlines = underline.Inlines;
 					break;
-				case ElementBr:
+				case _elementBr:
 					inlines.Add(new LineBreak());
 					break;
-				case ElementP:
+				case _elementP:
 					// Add two line breaks, one for the current text and the second for the gap.
 					if (AddLineBreakIfNeeded(inlines))
 					{
@@ -213,19 +233,19 @@ namespace LabelHtml.Forms.Plugin.UWP
 					inlines.Add(paragraphSpan);
 					currentInlines = paragraphSpan.Inlines;
 					break;
-				case ElementLi:
+				case _elementLi:
 					inlines.Add(new LineBreak());
 					inlines.Add(new Run { Text = " • " });
 					break;
-				case ElementUl:
-				case ElementDiv:
-					AddLineBreakIfNeeded(inlines);
+				case _elementUl:
+				case _elementDiv:
+                    _ = AddLineBreakIfNeeded(inlines);
 					var divSpan = new Span();
 					inlines.Add(divSpan);
 					currentInlines = divSpan.Inlines;
 					break;
 			}
-			foreach (var node in element.Nodes())
+			foreach (XNode node in element.Nodes())
 			{
 				if (node is XText textElement)
 				{
@@ -244,9 +264,12 @@ namespace LabelHtml.Forms.Plugin.UWP
 		}
 		private static bool AddLineBreakIfNeeded(InlineCollection inlines)
 		{
-			if (inlines.Count <= 0) return false;
+			if (inlines.Count <= 0)
+            {
+                return false;
+            }
 
-			var lastInline = inlines[inlines.Count - 1];
+            Inline lastInline = inlines[inlines.Count - 1];
 			while ((lastInline is Span))
 			{
 				var span = (Span)lastInline;
@@ -256,9 +279,12 @@ namespace LabelHtml.Forms.Plugin.UWP
 				}
 			}
 
-			if (lastInline is LineBreak) return false;
+			if (lastInline is LineBreak)
+            {
+                return false;
+            }
 
-			inlines.Add(new LineBreak());
+            inlines.Add(new LineBreak());
 			return true;
 		}
 	}
@@ -270,8 +296,11 @@ namespace LabelHtml.Forms.Plugin.UWP
 		protected override void OnAttached()
 		{
 			base.OnAttached();
-			if (AssociatedObject == null) throw new InvalidOperationException("AssociatedObject is not of the right type");
-		}
+			if (AssociatedObject == null)
+            {
+                throw new InvalidOperationException("AssociatedObject is not of the right type");
+            }
+        }
 	}
 
 	internal abstract class Behavior : DependencyObject, IBehavior

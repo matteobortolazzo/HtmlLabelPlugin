@@ -1,4 +1,7 @@
-﻿using System;
+﻿#pragma warning disable CA1710 // Identifiers should have correct suffix
+#pragma warning disable CA1010 // Collections should implement generic interface
+
+using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -17,8 +20,8 @@ namespace LabelHtml.Forms.Plugin.iOS
 	/// HtmlLable Implementation
 	/// </summary>
 	[Xamarin.Forms.Internals.Preserve(AllMembers = true)]
-	public class HtmlLabelRenderer : LabelRenderer
-	{
+    public class HtmlLabelRenderer : LabelRenderer
+    {
 		private class LinkData
 		{
 			public LinkData(NSRange range, string url) { Range = range; Url = url; }
@@ -39,9 +42,12 @@ namespace LabelHtml.Forms.Plugin.iOS
 		{
 			base.OnElementChanged(e);
 
-			if (Control == null) return;
+			if (Control == null)
+            {
+                return;
+            }
 
-			UpdateText();
+            UpdateText();
 		}
 
 		/// <summary>
@@ -58,28 +64,29 @@ namespace LabelHtml.Forms.Plugin.iOS
 				e.PropertyName == Label.FontSizeProperty.PropertyName ||
 				e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
 				e.PropertyName == Label.TextColorProperty.PropertyName)
-				UpdateText();
-		}
+            {
+                UpdateText();
+            }
+        }
 
 		private void UpdateText()
 		{
-			if (Control == null || Element == null) return;
+			if (Control == null || Element == null)
+            {
+                return;
+            }
 
-			if (string.IsNullOrEmpty(Control.Text)) return;
-		
-			// Gets the complete HTML string
-			var helper = new LabelRendererHelper(Element, Control.Text);
+            if (string.IsNullOrEmpty(Control.Text))
+            {
+                return;
+            }
 
-			try
-			{
-				CreateAttributedString(Control, helper.ToString());
-				SetNeedsDisplay();
-			}
-			catch
-			{
-				// ignored
-			}
-		}
+            // Gets the complete HTML string
+            var helper = new LabelRendererHelper(Element, Control.Text);
+
+            CreateAttributedString(Control, helper.ToString());
+            SetNeedsDisplay();
+        }
 
 		private void CreateAttributedString(UILabel control, string html)
 		{
@@ -89,7 +96,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			// --------------
 			// 02-01-2018 : Fix for default font family => https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/9
 			var fontDescriptor = control.Font.FontDescriptor.VisibleName;
-			var fontFamily = fontDescriptor.ToLower().Contains("system") ? "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI" : control.Font.FamilyName;
+			var fontFamily = fontDescriptor.ToUpperInvariant().Contains("SYSTEM", StringComparison.Ordinal) ? "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI" : control.Font.FamilyName;
 			html += "<style> body{ font-family: " + fontFamily + ";}</style>";
 			// --------------
 			var myHtmlData = NSData.FromString(html, NSStringEncoding.Unicode);
@@ -107,30 +114,43 @@ namespace LabelHtml.Forms.Plugin.iOS
 			// Makes a list of all links:
 			mutable.EnumerateAttributes(new NSRange(0, mutable.Length), NSAttributedStringEnumeration.LongestEffectiveRangeNotRequired, (NSDictionary attrs, NSRange range, ref bool stop) =>
 			{
-				foreach (var a in attrs) // should use attrs.ContainsKey(something) instead
+				foreach (KeyValuePair<NSObject, NSObject> a in attrs) // should use attrs.ContainsKey(something) instead
 				{
-					if (a.Key.ToString() != "NSLink") continue;
-					links.Add(new LinkData(range, a.Value.ToString()));
+					if (a.Key.ToString() != "NSLink")
+                    {
+                        continue;
+                    }
+
+                    links.Add(new LinkData(range, a.Value.ToString()));
 					return;
 				}
 			});
 
 			// Sets up a Gesture recognizer:
-			if (links.Count <= 0) return;
-			control.UserInteractionEnabled = true;
+			if (links.Count <= 0)
+            {
+                return;
+            }
+
+            control.UserInteractionEnabled = true;
 			var tapGesture = new UITapGestureRecognizer((tap) =>
 			{
 				var url = DetectTappedUrl(tap, (UILabel)tap.View, links);
-				if (url == null) return;
+				if (url == null)
+                {
+                    return;
+                }
 
-				var label = (HtmlLabel)Element;
+                var label = (HtmlLabel)Element;
 				var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = url }, url);
 				label.SendNavigating(args);
 
 				if (args.Cancel)
-					return;
+                {
+                    return;
+                }
 
-				Device.OpenUri(new Uri(url));
+                Device.OpenUri(new Uri(url));
 				label.SendNavigated(args);
 			});
 			control.AddGestureRecognizer(tapGesture);
@@ -152,17 +172,17 @@ namespace LabelHtml.Forms.Plugin.iOS
 			textContainer.LineFragmentPadding = 0;
 			textContainer.LineBreakMode = label.LineBreakMode;
 			textContainer.MaximumNumberOfLines = (nuint)label.Lines;
-			var labelSize = label.Bounds.Size;
+            CGSize labelSize = label.Bounds.Size;
 			textContainer.Size = labelSize;
 
-			// Finds the tapped character location and compare it to the specified range
-			var locationOfTouchInLabel = tap.LocationInView(label);
-			var textBoundingBox = layoutManager.GetUsedRectForTextContainer(textContainer);
+            // Finds the tapped character location and compare it to the specified range
+            CGPoint locationOfTouchInLabel = tap.LocationInView(label);
+            CGRect textBoundingBox = layoutManager.GetUsedRectForTextContainer(textContainer);
 			var textContainerOffset = new CGPoint((labelSize.Width - textBoundingBox.Size.Width) * 0.0 - textBoundingBox.Location.X,
 				(labelSize.Height - textBoundingBox.Size.Height) * 0.0 - textBoundingBox.Location.Y);
 
-			nfloat labelX;
-			switch (Element.HorizontalTextAlignment)
+            nfloat labelX;
+            switch (Element.HorizontalTextAlignment)
 			{
 				case TextAlignment.End:
 					labelX = locationOfTouchInLabel.X - (labelSize.Width - textBoundingBox.Size.Width);
@@ -176,8 +196,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			}
 			var locationOfTouchInTextContainer = new CGPoint(labelX - textContainerOffset.X, locationOfTouchInLabel.Y - textContainerOffset.Y);
 
-			nfloat partialFraction = 0;
-			var indexOfCharacter = (nint)layoutManager.CharacterIndexForPoint(locationOfTouchInTextContainer, textContainer, ref partialFraction);
+            var indexOfCharacter = (nint)layoutManager.GetCharacterIndex(locationOfTouchInTextContainer, textContainer);
 
 			nint scaledIndexOfCharacter = 0;
 			// Problem is that method CharacterIndexForPoint always returns index based on UILabel font
@@ -196,9 +215,9 @@ namespace LabelHtml.Forms.Plugin.iOS
 				scaledIndexOfCharacter = (nint)(indexOfCharacter * 1.02);
 			}
 
-			foreach (var link in linkList)
+			foreach (LinkData link in linkList)
 			{
-				var rangeLength = link.Range.Length;
+                nint rangeLength = link.Range.Length;
 				var tolerance = 0;
 				if (label.Font.Name == "NeoSans-Light")
 				{
@@ -225,3 +244,6 @@ namespace LabelHtml.Forms.Plugin.iOS
 		}
 	}
 }
+
+#pragma warning restore CA1010 // Collections should implement generic interface
+#pragma warning restore CA1710 // Identifiers should have correct suffix
