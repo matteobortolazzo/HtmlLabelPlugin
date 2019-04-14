@@ -12,23 +12,6 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 	public class HtmlLabel : Label
 	{
 		/// <summary>
-	    /// MaxLines property for the label
-	    /// </summary>
-	    public static readonly BindableProperty MaxLinesProperty =
-		    BindableProperty.CreateAttached("MaxLines", typeof(int), typeof(HtmlLabel), default(int));
-
-		/// <summary>
-		/// Get the value of the MaxLines property
-		/// </summary>
-		/// <param name="view"></param>
-		/// <returns></returns>
-	    public static int GetMaxLines(BindableObject view)
-	    {
-		    if (view == null) return default(int);
-		    return (int)view.GetValue(MaxLinesProperty);
-	    }
-
-		/// <summary>
 		/// Set the value of the MaxLines property
 		/// </summary>
 		/// <param name="view"></param>

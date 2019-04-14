@@ -45,7 +45,6 @@ namespace LabelHtml.Forms.Plugin.Droid
 			if (Control == null) return;
 
 			UpdateText();
-			UpdateMaxLines();
 		}
 
 		/// <summary>
@@ -56,22 +55,13 @@ namespace LabelHtml.Forms.Plugin.Droid
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
-				UpdateMaxLines();
-			else if (e.PropertyName == Label.TextProperty.PropertyName ||
+			if (e.PropertyName == Label.TextProperty.PropertyName ||
 					 e.PropertyName == Label.FontAttributesProperty.PropertyName ||
 					 e.PropertyName == Label.FontFamilyProperty.PropertyName ||
 					 e.PropertyName == Label.FontSizeProperty.PropertyName ||
 					 e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
 					 e.PropertyName == Label.TextColorProperty.PropertyName)
 				UpdateText();
-		}
-
-		private void UpdateMaxLines()
-		{
-			var maxLines = HtmlLabel.GetMaxLines(Element);
-			if (maxLines == default(int)) return;
-			Control.SetMaxLines(maxLines);
 		}
 
 		private void UpdateText()
