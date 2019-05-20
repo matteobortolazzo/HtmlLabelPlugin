@@ -58,10 +58,6 @@ For underlined text use the &lt;u&gt; tag:
 Navigating
 Navigated
 
-## Custom Properties
-* MaxLines (int)
-
-
 ## Usage XAML
 
 ```xaml
@@ -79,12 +75,10 @@ xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=Html
 ```csharp
 var label = new HtmlLabel();
 label.Text = "..htmlstring.."
-HtmlLabel.SetMaxLines(label, 3);
 ```
 
 ## Limitations
 
-* SetMaxLines and LineBreakMode.TailTruncation do not work properly;
 * Using Links and custom fonts together could not work properly on iOS.
 * Images won't be displayed on Android (TextView limitation).
 
