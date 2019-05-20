@@ -45,34 +45,25 @@ namespace LabelHtml.Forms.Plugin.Droid
 			if (Control == null) return;
 
 			UpdateText();
-			UpdateMaxLines();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == HtmlLabel.MaxLinesProperty.PropertyName)
-				UpdateMaxLines();
-			else if (e.PropertyName == Label.TextProperty.PropertyName ||
-					 e.PropertyName == Label.FontAttributesProperty.PropertyName ||
-					 e.PropertyName == Label.FontFamilyProperty.PropertyName ||
-					 e.PropertyName == Label.FontSizeProperty.PropertyName ||
-					 e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
-					 e.PropertyName == Label.TextColorProperty.PropertyName)
-				UpdateText();
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
 
-		private void UpdateMaxLines()
-		{
-			var maxLines = HtmlLabel.GetMaxLines(Element);
-			if (maxLines == default(int)) return;
-			Control.SetMaxLines(maxLines);
-		}
+            if (e.PropertyName == Label.TextProperty.PropertyName ||
+                     e.PropertyName == Label.FontAttributesProperty.PropertyName ||
+                     e.PropertyName == Label.FontFamilyProperty.PropertyName ||
+                     e.PropertyName == Label.FontSizeProperty.PropertyName ||
+                     e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
+                     e.PropertyName == Label.TextColorProperty.PropertyName)
+                UpdateText();
+        }
 
 		private void UpdateText()
 		{
@@ -84,7 +75,10 @@ namespace LabelHtml.Forms.Plugin.Droid
 			// Android's TextView doesn't handle <ul>s, <ol>s and <li>s 
 			// so it replaces them with <ulc>, <olc> and <lic> respectively.
 			// Those tags will be handles by a custom TagHandler
-			customHtml = customHtml.Replace("ul>", "ulc>").Replace("ol>", "olc>").Replace("li>", "lic>");
+			customHtml = customHtml
+                .Replace("ul>", "ulc>", StringComparison.Ordinal)
+                .Replace("ol>", "olc>", StringComparison.Ordinal)
+                .Replace("li>", "lic>", StringComparison.Ordinal);
 
 			Control.SetIncludeFontPadding(false);
 
@@ -164,13 +158,13 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		public void HandleTag(bool opening, string tag, IEditable output, IXMLReader xmlReader)
 		{
-			tag = tag.ToLowerInvariant();
-			if (tag.Equals("lic"))
+			tag = tag.ToUpperInvariant();
+			if (tag.Equals("LIC", StringComparison.Ordinal))
 			{
 				_listBuilder.Li(opening, output);
 				return;
 			}
-			if (tag.Equals("olc") || tag.Equals("ulc"))
+			if (tag.Equals("OLC", StringComparison.Ordinal) || tag.Equals("ULC", StringComparison.Ordinal))
 			{
 				if (opening)
 				{
@@ -272,7 +266,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			return result;
 		}
 
-		private void EnsureParagraphBoundary(IEditable output)
+		private static void EnsureParagraphBoundary(IEditable output)
 		{
 			if (output.Length() == 0) return;
 			char lastChar = output.CharAt(output.Length() - 1);
