@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Globalization;
 using Android.OS;
 using Android.Text;
 using Android.Text.Method;
@@ -43,47 +42,36 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			base.OnElementChanged(e);
 
-			if (Control == null)
-            {
-                return;
-            }
+			if (Control == null) return;
 
-            UpdateText();
+			UpdateText();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == Label.TextProperty.PropertyName ||
-				e.PropertyName == Label.FontAttributesProperty.PropertyName ||
-				e.PropertyName == Label.FontFamilyProperty.PropertyName ||
-				e.PropertyName == Label.FontSizeProperty.PropertyName ||
-				e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
-				e.PropertyName == Label.TextColorProperty.PropertyName)
-            {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName == Label.TextProperty.PropertyName ||
+                     e.PropertyName == Label.FontAttributesProperty.PropertyName ||
+                     e.PropertyName == Label.FontFamilyProperty.PropertyName ||
+                     e.PropertyName == Label.FontSizeProperty.PropertyName ||
+                     e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
+                     e.PropertyName == Label.TextColorProperty.PropertyName)
                 UpdateText();
-            }
         }
 
 		private void UpdateText()
 		{
-			if (Control == null || Element == null)
-            {
-                return;
-            }
+			if (Control == null || Element == null) return;
+			if (string.IsNullOrEmpty(Control.Text)) return;
 
-            if (string.IsNullOrEmpty(Control.Text))
-            {
-                return;
-            }
-
-            // Gets the complete HTML string
-            var customHtml = new LabelRendererHelper(Element, Control.Text).ToString();
+			// Gets the complete HTML string
+			var customHtml = new LabelRendererHelper(Element, Control.Text).ToString();
 			// Android's TextView doesn't handle <ul>s, <ol>s and <li>s 
 			// so it replaces them with <ulc>, <olc> and <lic> respectively.
 			// Those tags will be handles by a custom TagHandler
@@ -99,8 +87,8 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		private void SetTextViewHtml(TextView text, string html)
 		{
-            // Tells the TextView that the content is HTML and adds a custom TagHandler
-            ISpanned sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
+			// Tells the TextView that the content is HTML and adds a custom TagHandler
+			var sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
 				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, new ListTagHandler()) :
 #pragma warning disable 618
 				Html.FromHtml(html, null, new ListTagHandler());
@@ -109,14 +97,12 @@ namespace LabelHtml.Forms.Plugin.Droid
 			// Makes clickable links
 			text.MovementMethod = LinkMovementMethod.Instance;
 			var strBuilder = new SpannableStringBuilder(sequence);
-            Java.Lang.Object[] urls = strBuilder.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)));
-			foreach (Java.Lang.Object span in urls)
-            {
-                MakeLinkClickable(strBuilder, (URLSpan)span);
-            }
+			var urls = strBuilder.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)));
+			foreach (var span in urls)
+				MakeLinkClickable(strBuilder, (URLSpan)span);
 
-            // Android adds an unnecessary "\n" that must be removed
-            ISpanned value = RemoveLastChar(strBuilder);
+			// Android adds an unnecessary "\n" that must be removed
+			var value = RemoveLastChar(strBuilder);
 
 			// Finally sets the value of the TextView 
 			text.SetText(value, TextView.BufferType.Spannable);
@@ -126,7 +112,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			var start = strBuilder.GetSpanStart(span);
 			var end = strBuilder.GetSpanEnd(span);
-            SpanTypes flags = strBuilder.GetSpanFlags(span);
+			var flags = strBuilder.GetSpanFlags(span);
 			var clickable = new MyClickableSpan((HtmlLabel)Element, span);
 			strBuilder.SetSpan(clickable, start, end, flags);
 			strBuilder.RemoveSpan(span);
@@ -149,11 +135,9 @@ namespace LabelHtml.Forms.Plugin.Droid
 				_label.SendNavigating(args);
 
 				if (args.Cancel)
-                {
-                    return;
-                }
+					return;
 
-                Device.OpenUri(new Uri(_span.URL));
+				Device.OpenUri(new Uri(_span.URL));
 				_label.SendNavigated(args);
 			}
 		}
@@ -162,74 +146,178 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			var builder = new SpannableStringBuilder(text);
 			if (text.Length() != 0)
-            {
-                _ = builder.Delete(text.Length() - 1, text.Length());
-            }
-
-            return builder;
+				builder.Delete(text.Length() - 1, text.Length());
+			return builder;
 		}
 	}
 
 	// TagHandler that handles lists (ul, ol)
 	internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
 	{
-		private bool _first = true;
-		private string _parent;
-		private int _index = 1;
+		private ListBuilder _listBuilder = new ListBuilder();
 
 		public void HandleTag(bool opening, string tag, IEditable output, IXMLReader xmlReader)
 		{
-			if (tag.Equals("ulc", StringComparison.Ordinal))
+			tag = tag.ToUpperInvariant();
+			if (tag.Equals("LIC", StringComparison.Ordinal))
 			{
-				_parent = "ulc";
-				_index = 1;
+				_listBuilder.Li(opening, output);
+				return;
 			}
-			else if (tag.Equals("olc", StringComparison.Ordinal))
+			if (tag.Equals("OLC", StringComparison.Ordinal) || tag.Equals("ULC", StringComparison.Ordinal))
 			{
-				_parent = "olc";
-				_index = 1;
-			}
-
-			if (!tag.Equals("lic", StringComparison.Ordinal))
-            {
-                return;
-            }
-
-            var lastChar = (char)0;
-			if (output.Length() > 0)
-			{
-				lastChar = output.CharAt(output.Length() - 1);
-			}
-			if (_parent.Equals("ulc", StringComparison.Ordinal))
-			{
-				if (_first)
+				if (opening)
 				{
-                    _ = output.Append(lastChar == '\n' ? "\t•  " : "\n\t•  ");
-					_first = false;
+					_listBuilder = _listBuilder.StartList(tag[0] == 'o', output);
 				}
 				else
-                {
-                    _first = true;
-                }
-            }
+				{
+					_listBuilder = _listBuilder.CloseList(output);
+				}
+				return;
+			}
+		}
+	}
+
+	internal class ListBuilder
+	{
+		public const int LIST_INTEND = 20;
+		private int _liIndex = -1;
+		private int _liStart = -1;
+		private LiGap _liGap;
+		private int _gap = 0;
+
+		private ListBuilder _parent = null;
+
+		internal ListBuilder() : this(null)
+		{
+		}
+
+		internal ListBuilder(LiGap liGap)
+		{
+			_parent = null;
+			_gap = 0;
+			if (liGap != null)
+			{
+				_liGap = liGap;
+			}
 			else
 			{
-				if (_first)
-				{
-                    if  (lastChar != '\n')
-                    {
-                        _ = output.Append("\n");
-                    }
-                    _ = output.Append("\t" + _index + ". ");
+				_liGap = GetLiGap(null);
+			}
+		}
 
-                    _first = false;
-					_index++;
+		private ListBuilder(ListBuilder parent, bool ordered)
+		{
+			_parent = parent;
+			_liGap = parent._liGap;
+			_gap = parent._gap + LIST_INTEND + _liGap.GetGap(ordered);
+			_liIndex = ordered ? 0 : -1;
+		}
+
+		internal ListBuilder StartList(bool ordered, IEditable output)
+		{
+			if (_parent == null)
+			{
+				if (output.Length() > 0) output.Append("\n ");
+			}
+			return new ListBuilder(this, ordered);
+		}
+
+		private bool IsOrdered()
+		{
+			return _liIndex >= 0;
+		}
+
+		internal void Li(bool opening, IEditable output)
+		{
+			if (opening)
+			{
+				EnsureParagraphBoundary(output);
+				_liStart = output.Length();
+
+				if (IsOrdered())
+				{
+					output.Append(++_liIndex + ". ");
 				}
 				else
-                {
-                    _first = true;
-                }
-            }
+				{
+					output.Append("â€¢  ");
+				}
+			}
+			else
+			{
+				if (_liStart >= 0)
+				{
+					EnsureParagraphBoundary(output);
+					output.SetSpan(new LeadingMarginSpanStandard(_gap - _liGap.GetGap(IsOrdered()), _gap), _liStart, output.Length(), SpanTypes.ExclusiveExclusive);
+					_liStart = -1;
+				}
+			}
 		}
+
+
+		internal ListBuilder CloseList(IEditable output)
+		{
+			EnsureParagraphBoundary(output);
+			var result = _parent;
+			if (result == null) result = this;
+			if (result._parent == null) output.Append('\n');
+			return result;
+		}
+
+		private static void EnsureParagraphBoundary(IEditable output)
+		{
+			if (output.Length() == 0) return;
+			char lastChar = output.CharAt(output.Length() - 1);
+			if (lastChar != '\n') output.Append('\n');
+		}
+
+		internal class LiGap
+		{
+			private readonly int _orderedGap;
+			private readonly int _unorderedGap;
+
+			internal LiGap(int orderedGap, int unorderedGap)
+			{
+				_orderedGap = orderedGap;
+				_unorderedGap = unorderedGap;
+			}
+
+			public int GetGap(bool ordered)
+			{
+				return ordered ? _orderedGap : _unorderedGap;
+			}
+		}
+
+		internal static LiGap GetLiGap(TextView tv)
+		{
+			if (tv == null)
+			{
+				return new LiGap(40, 30);
+			}
+			return new LiGap(ComputeWidth(tv, true), ComputeWidth(tv, false));
+		}
+
+		private static int ComputeWidth(TextView tv, bool ordered)
+		{
+			Android.Graphics.Paint paint = tv.Paint;
+
+			//paint.setTypeface(tv.getPaint().getTypeface());
+			//paint.setTextSize(tv.getPaint().getTextSize());
+
+			// Now compute!
+			var bounds = new Android.Graphics.Rect();
+			string myString = ordered ? "99. " : "â€¢ ";
+			paint.GetTextBounds(myString, 0, myString.Length, bounds);
+			int width = bounds.Width();
+			float pt = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Pt, width, tv.Context.Resources.DisplayMetrics);
+			float sp = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Sp, width, tv.Context.Resources.DisplayMetrics);
+			float dip = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Dip, width, tv.Context.Resources.DisplayMetrics);
+			float px = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Px, width, tv.Context.Resources.DisplayMetrics);
+			float mm = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Mm, width, tv.Context.Resources.DisplayMetrics);
+			return (int)pt;
+		}
+
 	}
 }
