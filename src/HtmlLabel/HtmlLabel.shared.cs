@@ -85,15 +85,19 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			}
 		}
 
-		private void SetFontFamily()
-		{
-			if (_label.FontFamily == null)
+        private void SetFontFamily(bool includeAppleSystem = false)
+        {
+            if (_label.FontFamily == null)
             {
                 return;
             }
-
-            _builder.Append($"font-family: '{_label.FontFamily}'; ");
-		}
+            _builder.Append($"font-family: '");
+            if (includeAppleSystem)
+            {
+                _builder.Append("-apple-system', '");
+            }
+            _builder.Append($"{_label.FontFamily}'; ");
+        }
 
 		private void SetFontSize()
 		{
@@ -141,6 +145,11 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		public override string ToString()
 		{
+			return ToString(false);
+		}
+
+		public string ToString(bool isAppleSystem)
+		{
 			if (string.IsNullOrWhiteSpace(_label.Text))
             {
                 return string.Empty;
@@ -148,7 +157,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
             _builder.Append("<div style=\"");
 			SetFontAttributes();
-			SetFontFamily();
+			SetFontFamily(isAppleSystem);
 			SetFontSize();
 			SetTextColor();
 			SetHorizontalTextAlign();

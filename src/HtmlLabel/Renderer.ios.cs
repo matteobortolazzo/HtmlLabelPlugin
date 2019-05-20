@@ -84,7 +84,7 @@ namespace LabelHtml.Forms.Plugin.iOS
             // Gets the complete HTML string
             var helper = new LabelRendererHelper(Element, Control.Text);
 
-            CreateAttributedString(Control, helper.ToString());
+            CreateAttributedString(Control, helper.ToString(true));
             SetNeedsDisplay();
         }
 
