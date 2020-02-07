@@ -163,9 +163,9 @@ namespace LabelHtml.Forms.Plugin.Droid
 	// TagHandler that handles lists (ul, ol)
 	internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
 	{
-		const string TAG_ULC = "ULC";
-		const string TAG_OLC = "OLC";
-		const string TAG_LIC = "LIC";
+		internal const string TAG_ULC = "ULC";
+		internal const string TAG_OLC = "OLC";
+		internal const string TAG_LIC = "LIC";
 
 		private ListBuilder _listBuilder = new ListBuilder();
 
