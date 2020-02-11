@@ -23,6 +23,11 @@ namespace LabelHtml.Forms.Plugin.Droid
     [Preserve(AllMembers = true)]
     public class HtmlLabelRenderer : LabelRenderer
     {
+
+		private const string TAG_UL_REGEX = "[uU][lL]";
+		private const string TAG_OL_REGEX = "[oO][lL]";
+		private const string TAG_LI_REGEX = "[lL][iI]";
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -75,14 +80,18 @@ namespace LabelHtml.Forms.Plugin.Droid
 			// Android's TextView doesn't handle <ul>s, <ol>s and <li>s 
 			// so it replaces them with <ulc>, <olc> and <lic> respectively.
 			// Those tags will be handles by a custom TagHandler
-			customHtml = customHtml
-                .Replace("ul>", "ulc>", StringComparison.Ordinal)
-                .Replace("ol>", "olc>", StringComparison.Ordinal)
-                .Replace("li>", "lic>", StringComparison.Ordinal);
+			customHtml = ReplaceTag(customHtml, TAG_UL_REGEX, ListTagHandler.TAG_ULC);
+			customHtml = ReplaceTag(customHtml, TAG_OL_REGEX, ListTagHandler.TAG_OLC);
+			customHtml = ReplaceTag(customHtml, TAG_LI_REGEX, ListTagHandler.TAG_LIC);
 
 			Control.SetIncludeFontPadding(false);
 
 			SetTextViewHtml(Control, customHtml);
+		}
+
+		private string ReplaceTag(string html, string tag, string newTag)
+		{
+			return Regex.Replace(html, @"(<\s*\/?\s*)" + tag + @"((\s+[\w\-\,\.\(\)\=""\:\;]*)*>)", "$1" + newTag + "$2");
 		}
 
 		private void SetTextViewHtml(TextView text, string html)
@@ -154,23 +163,36 @@ namespace LabelHtml.Forms.Plugin.Droid
 	// TagHandler that handles lists (ul, ol)
 	internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
 	{
+		internal const string TAG_ULC = "ULC";
+		internal const string TAG_OLC = "OLC";
+		internal const string TAG_LIC = "LIC";
+
 		private ListBuilder _listBuilder = new ListBuilder();
 
 		public void HandleTag(bool opening, string tag, IEditable output, IXMLReader xmlReader)
 		{
 			tag = tag.ToUpperInvariant();
-			if (tag.Equals("LIC", StringComparison.Ordinal))
+			if (tag.Equals(TAG_LIC, StringComparison.Ordinal))
 			{
 				_listBuilder.Li(opening, output);
 				return;
 			}
-			if (tag.Equals("OLC", StringComparison.Ordinal) || tag.Equals("ULC", StringComparison.Ordinal))
+			if (opening)
 			{
-				if (opening)
+				if (tag.Equals(TAG_OLC, StringComparison.Ordinal))
 				{
-					_listBuilder = _listBuilder.StartList(tag[0] == 'o', output);
+					_listBuilder = _listBuilder.StartList(true, output);
+					return;
 				}
-				else
+				if (tag.Equals(TAG_ULC, StringComparison.Ordinal))
+				{
+					_listBuilder = _listBuilder.StartList(false, output);
+					return;
+				}
+			}
+			else
+			{
+				if (tag.Equals(TAG_OLC, StringComparison.Ordinal) || tag.Equals(TAG_ULC, StringComparison.Ordinal))
 				{
 					_listBuilder = _listBuilder.CloseList(output);
 				}
