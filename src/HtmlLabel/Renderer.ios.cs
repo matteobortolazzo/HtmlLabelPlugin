@@ -57,6 +57,11 @@ namespace LabelHtml.Forms.Plugin.iOS
 		/// <param name="e"></param>
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
+			if (e == null)
+			{
+				throw new ArgumentNullException(nameof(e));
+			}
+
 			base.OnElementPropertyChanged(sender, e);
 			if (e.PropertyName == Label.TextProperty.PropertyName ||
 				e.PropertyName == Label.FontAttributesProperty.PropertyName ||
@@ -93,14 +98,13 @@ namespace LabelHtml.Forms.Plugin.iOS
 			var attr = new NSAttributedStringDocumentAttributes();
 			var nsError = new NSError();
 			attr.DocumentType = NSDocumentType.HTML;
-			// --------------
-			// 02-01-2018 : Fix for default font family => https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/9
+			
 			var fontDescriptor = control.Font.FontDescriptor.VisibleName;
 			var fontFamily = fontDescriptor.ToUpperInvariant().Contains("SYSTEM", StringComparison.Ordinal) ? "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI" : control.Font.FamilyName;
 			html += "<style> body{ font-family: " + fontFamily + ";}</style>";
-			// --------------
+			
 			var myHtmlData = NSData.FromString(html, NSStringEncoding.Unicode);
-			// control.Lines = 0;
+
 			var mutable = new NSMutableAttributedString(new NSAttributedString(myHtmlData, attr, ref nsError));
 
 			if (mutable.MutableString.HasSuffix(new NSString("\n")))

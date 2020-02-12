@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using Android.OS;
 using Android.Text;
 using Android.Text.Method;
@@ -9,6 +10,7 @@ using Java.Lang;
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.Droid;
 using Org.Xml.Sax;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
@@ -47,7 +49,10 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			base.OnElementChanged(e);
 
-			if (Control == null) return;
+			if (Control == null)
+			{
+				return;
+			}
 
 			UpdateText();
 		}
@@ -59,6 +64,11 @@ namespace LabelHtml.Forms.Plugin.Droid
         /// <param name="e"></param>
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+			if (e == null)
+			{
+				throw new ArgumentNullException(nameof(e));
+			}
+
             base.OnElementPropertyChanged(sender, e);
 
             if (e.PropertyName == Label.TextProperty.PropertyName ||
@@ -67,8 +77,10 @@ namespace LabelHtml.Forms.Plugin.Droid
                      e.PropertyName == Label.FontSizeProperty.PropertyName ||
                      e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
                      e.PropertyName == Label.TextColorProperty.PropertyName)
-                UpdateText();
-        }
+			{
+				UpdateText();
+			}
+		}
 
 		private void UpdateText()
 		{
@@ -89,7 +101,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			SetTextViewHtml(Control, customHtml);
 		}
 
-		private string ReplaceTag(string html, string tag, string newTag)
+		private static string ReplaceTag(string html, string tag, string newTag)
 		{
 			return Regex.Replace(html, @"(<\s*\/?\s*)" + tag + @"((\s+[\w\-\,\.\(\)\=""\:\;]*)*>)", "$1" + newTag + "$2");
 		}
@@ -97,21 +109,24 @@ namespace LabelHtml.Forms.Plugin.Droid
 		private void SetTextViewHtml(TextView text, string html)
 		{
 			// Tells the TextView that the content is HTML and adds a custom TagHandler
-			var sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
-				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, new ListTagHandler()) :
+			using var listTagHanlder = new ListTagHandler();
+			ISpanned sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
+				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, listTagHanlder) :
 #pragma warning disable 618
-				Html.FromHtml(html, null, new ListTagHandler());
+				Html.FromHtml(html, null, listTagHanlder);
 #pragma warning restore 618
 
 			// Makes clickable links
 			text.MovementMethod = LinkMovementMethod.Instance;
-			var strBuilder = new SpannableStringBuilder(sequence);
-			var urls = strBuilder.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)));
-			foreach (var span in urls)
+			using  var strBuilder = new SpannableStringBuilder(sequence);
+			Java.Lang.Object[] urls = strBuilder.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)));
+			foreach (Java.Lang.Object span in urls)
+			{
 				MakeLinkClickable(strBuilder, (URLSpan)span);
+			}
 
 			// Android adds an unnecessary "\n" that must be removed
-			var value = RemoveLastChar(strBuilder);
+			using ISpanned value = RemoveLastChar(strBuilder);
 
 			// Finally sets the value of the TextView 
 			text.SetText(value, TextView.BufferType.Spannable);
@@ -121,8 +136,8 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			var start = strBuilder.GetSpanStart(span);
 			var end = strBuilder.GetSpanEnd(span);
-			var flags = strBuilder.GetSpanFlags(span);
-			var clickable = new MyClickableSpan((HtmlLabel)Element, span);
+			SpanTypes flags = strBuilder.GetSpanFlags(span);
+			using var clickable = new MyClickableSpan((HtmlLabel)Element, span);
 			strBuilder.SetSpan(clickable, start, end, flags);
 			strBuilder.RemoveSpan(span);
 		}
@@ -144,9 +159,11 @@ namespace LabelHtml.Forms.Plugin.Droid
 				_label.SendNavigating(args);
 
 				if (args.Cancel)
+				{
 					return;
+				}
 
-				Device.OpenUri(new Uri(_span.URL));
+				_ = Launcher.TryOpenAsync(new Uri(_span.URL));
 				_label.SendNavigated(args);
 			}
 		}
@@ -155,7 +172,10 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			var builder = new SpannableStringBuilder(text);
 			if (text.Length() != 0)
-				builder.Delete(text.Length() - 1, text.Length());
+			{
+				_ = builder.Delete(text.Length() - 1, text.Length());
+			}
+
 			return builder;
 		}
 	}
@@ -219,14 +239,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			_parent = null;
 			_gap = 0;
-			if (liGap != null)
-			{
-				_liGap = liGap;
-			}
-			else
-			{
-				_liGap = GetLiGap(null);
-			}
+			_liGap = liGap ?? GetLiGap(null);
 		}
 
 		private ListBuilder(ListBuilder parent, bool ordered)
@@ -241,7 +254,10 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			if (_parent == null)
 			{
-				if (output.Length() > 0) output.Append("\n ");
+				if (output.Length() > 0)
+				{
+					_ = output.Append("\n ");
+				}
 			}
 			return new ListBuilder(this, ordered);
 		}
@@ -258,21 +274,15 @@ namespace LabelHtml.Forms.Plugin.Droid
 				EnsureParagraphBoundary(output);
 				_liStart = output.Length();
 
-				if (IsOrdered())
-				{
-					output.Append(++_liIndex + ". ");
-				}
-				else
-				{
-					output.Append("•  ");
-				}
+				_ = IsOrdered() ? output.Append(++_liIndex + ". ") : output.Append("•  ");
 			}
 			else
 			{
 				if (_liStart >= 0)
 				{
 					EnsureParagraphBoundary(output);
-					output.SetSpan(new LeadingMarginSpanStandard(_gap - _liGap.GetGap(IsOrdered()), _gap), _liStart, output.Length(), SpanTypes.ExclusiveExclusive);
+					using var leadingMarginSpan = new LeadingMarginSpanStandard(_gap - _liGap.GetGap(IsOrdered()), _gap);
+					output.SetSpan(leadingMarginSpan, _liStart, output.Length(), SpanTypes.ExclusiveExclusive);
 					_liStart = -1;
 				}
 			}
@@ -282,17 +292,32 @@ namespace LabelHtml.Forms.Plugin.Droid
 		internal ListBuilder CloseList(IEditable output)
 		{
 			EnsureParagraphBoundary(output);
-			var result = _parent;
-			if (result == null) result = this;
-			if (result._parent == null) output.Append('\n');
+			ListBuilder result = _parent;
+			if (result == null)
+			{
+				result = this;
+			}
+
+			if (result._parent == null)
+			{
+				_ = output.Append('\n');
+			}
+
 			return result;
 		}
 
 		private static void EnsureParagraphBoundary(IEditable output)
 		{
-			if (output.Length() == 0) return;
-			char lastChar = output.CharAt(output.Length() - 1);
-			if (lastChar != '\n') output.Append('\n');
+			if (output.Length() == 0)
+			{
+				return;
+			}
+
+			var lastChar = output.CharAt(output.Length() - 1);
+			if (lastChar != '\n')
+			{
+				_ = output.Append('\n');
+			}
 		}
 
 		internal class LiGap
@@ -314,11 +339,9 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		internal static LiGap GetLiGap(TextView tv)
 		{
-			if (tv == null)
-			{
-				return new LiGap(40, 30);
-			}
-			return new LiGap(ComputeWidth(tv, true), ComputeWidth(tv, false));
+			return tv == null ? 
+				new LiGap(40, 30) : 
+				new LiGap(ComputeWidth(tv, true), ComputeWidth(tv, false));
 		}
 
 		private static int ComputeWidth(TextView tv, bool ordered)
@@ -329,15 +352,15 @@ namespace LabelHtml.Forms.Plugin.Droid
 			//paint.setTextSize(tv.getPaint().getTextSize());
 
 			// Now compute!
-			var bounds = new Android.Graphics.Rect();
-			string myString = ordered ? "99. " : "• ";
+			using var bounds = new Android.Graphics.Rect();
+			var myString = ordered ? "99. " : "• ";
 			paint.GetTextBounds(myString, 0, myString.Length, bounds);
-			int width = bounds.Width();
-			float pt = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Pt, width, tv.Context.Resources.DisplayMetrics);
-			float sp = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Sp, width, tv.Context.Resources.DisplayMetrics);
-			float dip = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Dip, width, tv.Context.Resources.DisplayMetrics);
-			float px = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Px, width, tv.Context.Resources.DisplayMetrics);
-			float mm = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Mm, width, tv.Context.Resources.DisplayMetrics);
+			var width = bounds.Width();
+			var pt = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Pt, width, tv.Context.Resources.DisplayMetrics);
+			var sp = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Sp, width, tv.Context.Resources.DisplayMetrics);
+			var dip = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Dip, width, tv.Context.Resources.DisplayMetrics);
+			var px = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Px, width, tv.Context.Resources.DisplayMetrics);
+			var mm = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Mm, width, tv.Context.Resources.DisplayMetrics);
 			return (int)pt;
 		}
 

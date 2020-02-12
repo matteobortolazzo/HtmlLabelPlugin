@@ -39,13 +39,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.*" />
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991640" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.3.*" />
     <Compile Include="*.shared.cs" />
   </ItemGroup>
  
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.*" />
     <Compile Include="*.uwp.cs" />
   </ItemGroup>
 	
