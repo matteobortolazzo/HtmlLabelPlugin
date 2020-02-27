@@ -9,7 +9,6 @@ using Android.Widget;
 using Java.Lang;
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.Droid;
-using Org.Xml.Sax;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -153,7 +152,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 				_span = span;
 			}
 
-			public override void OnClick(global::Android.Views.View widget)
+			public override void OnClick(Android.Views.View widget)
 			{
 				var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = _span.URL }, _span.URL);
 				_label.SendNavigating(args);

@@ -1,7 +1,4 @@
-﻿#pragma warning disable CA1710 // Identifiers should have correct suffix
-#pragma warning disable CA1010 // Collections should implement generic interface
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -248,6 +245,3 @@ namespace LabelHtml.Forms.Plugin.iOS
 		}
 	}
 }
-
-#pragma warning restore CA1010 // Collections should implement generic interface
-#pragma warning restore CA1710 // Identifiers should have correct suffix
