@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
-// ReSharper disable once CheckNamespace
+[assembly: InternalsVisibleTo("HtmlLabel.Forms.Plugin.Shared.Tests")]
 namespace LabelHtml.Forms.Plugin.Abstractions
 {
 	/// <inheritdoc />
