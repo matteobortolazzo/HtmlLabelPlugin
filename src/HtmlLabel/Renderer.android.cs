@@ -9,13 +9,13 @@ using Android.Widget;
 using Java.Lang;
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.Droid;
+using Org.Xml.Sax;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
-// ReSharper disable once CheckNamespace
 namespace LabelHtml.Forms.Plugin.Droid
 {
     /// <summary>
@@ -24,10 +24,9 @@ namespace LabelHtml.Forms.Plugin.Droid
     [Preserve(AllMembers = true)]
     public class HtmlLabelRenderer : LabelRenderer
     {
-
-		private const string TAG_UL_REGEX = "[uU][lL]";
-		private const string TAG_OL_REGEX = "[oO][lL]";
-		private const string TAG_LI_REGEX = "[lL][iI]";
+		private const string _tagUlRegex = "[uU][lL]";
+		private const string _tagOlRegex = "[oO][lL]";
+		private const string _tagLiRegex = "[lL][iI]";
 
 		/// <summary>
 		/// 
@@ -83,17 +82,24 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		private void UpdateText()
 		{
-			if (Control == null || Element == null) return;
-			if (string.IsNullOrEmpty(Control.Text)) return;
+			if (Control == null || Element == null)
+			{
+				return;
+			}
+
+			if (string.IsNullOrEmpty(Control.Text))
+			{
+				return;
+			}
 
 			// Gets the complete HTML string
 			var customHtml = new LabelRendererHelper(Element, Control.Text).ToString();
 			// Android's TextView doesn't handle <ul>s, <ol>s and <li>s 
 			// so it replaces them with <ulc>, <olc> and <lic> respectively.
 			// Those tags will be handles by a custom TagHandler
-			customHtml = ReplaceTag(customHtml, TAG_UL_REGEX, ListTagHandler.TAG_ULC);
-			customHtml = ReplaceTag(customHtml, TAG_OL_REGEX, ListTagHandler.TAG_OLC);
-			customHtml = ReplaceTag(customHtml, TAG_LI_REGEX, ListTagHandler.TAG_LIC);
+			customHtml = ReplaceTag(customHtml, _tagUlRegex, ListTagHandler.TagUlc);
+			customHtml = ReplaceTag(customHtml, _tagOlRegex, ListTagHandler.TagOlc);
+			customHtml = ReplaceTag(customHtml, _tagLiRegex, ListTagHandler.TagLic);
 
 			Control.SetIncludeFontPadding(false);
 
@@ -182,28 +188,28 @@ namespace LabelHtml.Forms.Plugin.Droid
 	// TagHandler that handles lists (ul, ol)
 	internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
 	{
-		internal const string TAG_ULC = "ULC";
-		internal const string TAG_OLC = "OLC";
-		internal const string TAG_LIC = "LIC";
+		public const string TagUlc = "ULC";
+		public const string TagOlc = "OLC";
+		public const string TagLic = "LIC";
 
 		private ListBuilder _listBuilder = new ListBuilder();
-
+		
 		public void HandleTag(bool opening, string tag, IEditable output, IXMLReader xmlReader)
 		{
 			tag = tag.ToUpperInvariant();
-			if (tag.Equals(TAG_LIC, StringComparison.Ordinal))
+			if (tag.Equals(TagLic, StringComparison.Ordinal))
 			{
 				_listBuilder.Li(opening, output);
 				return;
 			}
 			if (opening)
 			{
-				if (tag.Equals(TAG_OLC, StringComparison.Ordinal))
+				if (tag.Equals(TagOlc, StringComparison.Ordinal))
 				{
 					_listBuilder = _listBuilder.StartList(true, output);
 					return;
 				}
-				if (tag.Equals(TAG_ULC, StringComparison.Ordinal))
+				if (tag.Equals(TagUlc, StringComparison.Ordinal))
 				{
 					_listBuilder = _listBuilder.StartList(false, output);
 					return;
@@ -211,7 +217,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 			else
 			{
-				if (tag.Equals(TAG_OLC, StringComparison.Ordinal) || tag.Equals(TAG_ULC, StringComparison.Ordinal))
+				if (tag.Equals(TagOlc, StringComparison.Ordinal) || tag.Equals(TagUlc, StringComparison.Ordinal))
 				{
 					_listBuilder = _listBuilder.CloseList(output);
 				}
@@ -222,14 +228,15 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 	internal class ListBuilder
 	{
-		public const int LIST_INTEND = 20;
+		private const int _listIndent = 20;
+
+		private readonly int _gap = 0;
+		private readonly LiGap _liGap;
+		private readonly ListBuilder _parent = null;
+
 		private int _liIndex = -1;
 		private int _liStart = -1;
-		private LiGap _liGap;
-		private int _gap = 0;
-
-		private ListBuilder _parent = null;
-
+		
 		internal ListBuilder() : this(null)
 		{
 		}
@@ -245,7 +252,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			_parent = parent;
 			_liGap = parent._liGap;
-			_gap = parent._gap + LIST_INTEND + _liGap.GetGap(ordered);
+			_gap = parent._gap + _listIndent + _liGap.GetGap(ordered);
 			_liIndex = ordered ? 0 : -1;
 		}
 
@@ -346,22 +353,12 @@ namespace LabelHtml.Forms.Plugin.Droid
 		private static int ComputeWidth(TextView tv, bool ordered)
 		{
 			Android.Graphics.Paint paint = tv.Paint;
-
-			//paint.setTypeface(tv.getPaint().getTypeface());
-			//paint.setTextSize(tv.getPaint().getTextSize());
-
-			// Now compute!
 			using var bounds = new Android.Graphics.Rect();
 			var myString = ordered ? "99. " : "• ";
-			paint.GetTextBounds(myString, 0, myString.Length, bounds);
+		    paint.GetTextBounds(myString, 0, myString.Length, bounds);
 			var width = bounds.Width();
-			var pt = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Pt, width, tv.Context.Resources.DisplayMetrics);
-			var sp = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Sp, width, tv.Context.Resources.DisplayMetrics);
-			var dip = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Dip, width, tv.Context.Resources.DisplayMetrics);
-			var px = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Px, width, tv.Context.Resources.DisplayMetrics);
-			var mm = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Mm, width, tv.Context.Resources.DisplayMetrics);
+			var pt = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Pt, width, tv.Context.Resources.DisplayMetrics);			
 			return (int)pt;
 		}
-
 	}
 }

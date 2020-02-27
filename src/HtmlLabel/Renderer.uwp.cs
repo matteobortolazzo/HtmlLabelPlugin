@@ -11,6 +11,7 @@ using LabelHtml.Forms.Plugin.UWP;
 using Microsoft.Xaml.Interactivity;
 using Xamarin.Forms;
 using Span = Windows.UI.Xaml.Documents.Span;
+using Xamarin.Essentials;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 // ReSharper disable once CheckNamespace
@@ -51,6 +52,12 @@ namespace LabelHtml.Forms.Plugin.UWP
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
+
+			if (e == null)
+			{
+				return;
+			}
+
 			if (e.PropertyName == Label.TextProperty.PropertyName ||
 			         e.PropertyName == Label.FontAttributesProperty.PropertyName ||
 			         e.PropertyName == Label.FontFamilyProperty.PropertyName ||
@@ -196,7 +203,7 @@ namespace LabelHtml.Forms.Plugin.UWP
                             return;
                         }
 
-                        Device.OpenUri(new Uri(href.Value));
+                        Launcher.OpenAsync(new Uri(href.Value)).GetAwaiter().GetResult();
 						label.SendNavigated(args);
 					};
 					inlines.Add(link);

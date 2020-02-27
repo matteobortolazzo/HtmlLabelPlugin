@@ -8,9 +8,9 @@ using CoreGraphics;
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.iOS;
 using UIKit;
+using Xamarin.Essentials;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
-// ReSharper disable once CheckNamespace
 namespace LabelHtml.Forms.Plugin.iOS
 {
 	/// <summary>
@@ -104,10 +104,13 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 			var mutable = new NSMutableAttributedString(new NSAttributedString(myHtmlData, attr, ref nsError));
 
-			if (mutable.MutableString.HasSuffix(new NSString("\n")))
+			using (var newLine = new NSString("\n"))
 			{
-				mutable.DeleteRange(new NSRange(mutable.MutableString.Length - 1, 1));
-			}
+				if (mutable.MutableString.HasSuffix(newLine))
+				{
+					mutable.DeleteRange(new NSRange(mutable.MutableString.Length - 1, 1));
+				}
+			}			
 
 			var links = new List<LinkData>();
 			control.AttributedText = mutable;
@@ -134,35 +137,37 @@ namespace LabelHtml.Forms.Plugin.iOS
             }
 
             control.UserInteractionEnabled = true;
-			var tapGesture = new UITapGestureRecognizer((tap) =>
+
+			void TapLinkAction(UITapGestureRecognizer tap)
 			{
 				var url = DetectTappedUrl(tap, (UILabel)tap.View, links);
 				if (url == null)
-                {
-                    return;
-                }
+				{
+					return;
+				}
 
-                var label = (HtmlLabel)Element;
+				var label = (HtmlLabel)Element;
 				var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = url }, url);
 				label.SendNavigating(args);
 
 				if (args.Cancel)
-                {
-                    return;
-                }
+				{
+					return;
+				}
 
-                Device.OpenUri(new Uri(url));
+				Launcher.OpenAsync(new Uri(url)).GetAwaiter().GetResult();
 				label.SendNavigated(args);
-			});
+			}
+			var tapGesture = new UITapGestureRecognizer(TapLinkAction);
 			control.AddGestureRecognizer(tapGesture);
 		}
 
 		private string DetectTappedUrl(UIGestureRecognizer tap, UILabel label, IEnumerable<LinkData> linkList)
 		{
 			// Creates instances of NSLayoutManager, NSTextContainer and NSTextStorage
-			var layoutManager = new NSLayoutManager();
-			var textContainer = new NSTextContainer();
-			var textStorage = new NSTextStorage();
+			using var layoutManager = new NSLayoutManager();
+			using var textContainer = new NSTextContainer();
+			using var textStorage = new NSTextStorage();
 			textStorage.SetString(label.AttributedText);
 
 			// Configures layoutManager and textStorage
@@ -182,19 +187,12 @@ namespace LabelHtml.Forms.Plugin.iOS
 			var textContainerOffset = new CGPoint((labelSize.Width - textBoundingBox.Size.Width) * 0.0 - textBoundingBox.Location.X,
 				(labelSize.Height - textBoundingBox.Size.Height) * 0.0 - textBoundingBox.Location.Y);
 
-            nfloat labelX;
-            switch (Element.HorizontalTextAlignment)
+			nfloat labelX = Element.HorizontalTextAlignment switch
 			{
-				case TextAlignment.End:
-					labelX = locationOfTouchInLabel.X - (labelSize.Width - textBoundingBox.Size.Width);
-					break;
-				case TextAlignment.Center:
-					labelX = locationOfTouchInLabel.X - (labelSize.Width - textBoundingBox.Size.Width) / 2;
-					break;
-				default:
-					labelX = locationOfTouchInLabel.X;
-					break;
-			}
+				TextAlignment.End => locationOfTouchInLabel.X - (labelSize.Width - textBoundingBox.Size.Width),
+				TextAlignment.Center => locationOfTouchInLabel.X - (labelSize.Width - textBoundingBox.Size.Width) / 2,
+				_ => locationOfTouchInLabel.X,
+			};
 			var locationOfTouchInTextContainer = new CGPoint(labelX - textContainerOffset.X, locationOfTouchInLabel.Y - textContainerOffset.Y);
 
             var indexOfCharacter = (nint)layoutManager.GetCharacterIndex(locationOfTouchInTextContainer, textContainer);

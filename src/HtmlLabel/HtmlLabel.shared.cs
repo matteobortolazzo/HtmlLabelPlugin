@@ -51,19 +51,19 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 	}
 
 
-    // Used by the renderes to generate the complete HTML string
-#pragma warning disable CA1812 // Avoid uninstantiated internal classes
-#pragma warning disable IDE0058 // Expression value is never used
-    internal class LabelRendererHelper
+    /// <summary>
+	/// 
+	/// </summary>
+    public class LabelRendererHelper
     {
 		private readonly Label _label;
 		private readonly string _text;
-		private readonly StringBuilder _builder;
+		private StringBuilder _builder;
 
 		public LabelRendererHelper(Label label, string text)
 		{
-			_label = label;
-			_text = text.Trim();
+			_label = label ?? throw new ArgumentNullException(nameof(label));
+			_text = text?.Trim() ?? throw new ArgumentNullException(nameof(text));
 			_builder = new StringBuilder();
 		}
 
@@ -77,10 +77,10 @@ namespace LabelHtml.Forms.Plugin.Abstractions
             switch (_label.FontAttributes)
 			{
 				case FontAttributes.Bold:
-                    _builder.Append("font-weight: bold; ");
+                    _builder = _builder.Append("font-weight: bold; ");
                     break;
 				case FontAttributes.Italic:
-                    _builder.Append("font-style: italic; ");
+                    _builder = _builder.Append("font-style: italic; ");
 					break;
 			}
 		}
@@ -91,12 +91,12 @@ namespace LabelHtml.Forms.Plugin.Abstractions
             {
                 return;
             }
-            _builder.Append($"font-family: '");
+            _builder = _builder.Append($"font-family: '");
             if (includeAppleSystem)
             {
-                _builder.Append("-apple-system', '");
+                _builder = _builder.Append("-apple-system', '");
             }
-            _builder.Append($"{_label.FontFamily}'; ");
+            _builder = _builder.Append($"{_label.FontFamily}'; ");
         }
 
 		private void SetFontSize()
@@ -106,7 +106,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
                 return;
             }
 
-            _builder.Append($"font-size: {_label.FontSize}px; ");
+            _builder = _builder.Append($"font-size: {_label.FontSize}px; ");
 		}
 
 		private void SetTextColor()
@@ -122,7 +122,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			var blue = (int)(color.B * 255);
 			var alpha = (int)(color.A * 255);
 			var hex = $"#{red:X2}{green:X2}{blue:X2}{alpha:X2}";
-			_builder.Append($"color: {hex}; ");
+			_builder = _builder.Append($"color: {hex}; ");
 		}
 
 		private void SetHorizontalTextAlign()
@@ -135,10 +135,10 @@ namespace LabelHtml.Forms.Plugin.Abstractions
             switch (_label.HorizontalTextAlignment)
 			{
 				case TextAlignment.Center:
-					_builder.Append("text-align: center; ");
+					_builder = _builder.Append("text-align: center; ");
 					break;
 				case TextAlignment.End:
-					_builder.Append("text-align: right; ");
+					_builder = _builder.Append("text-align: right; ");
 					break;
 			}
 		}
@@ -155,17 +155,15 @@ namespace LabelHtml.Forms.Plugin.Abstractions
                 return string.Empty;
             }
 
-            _builder.Append("<div style=\"");
+            _builder = _builder.Append("<div style=\"");
 			SetFontAttributes();
 			SetFontFamily(isAppleSystem);
 			SetFontSize();
 			SetTextColor();
 			SetHorizontalTextAlign();
-			_builder.Append($"\">{_text}</div>");
+			_builder = _builder.Append($"\">{_text}</div>");
 			var text = _builder.ToString();
 			return text;
 		}
     }
-#pragma warning restore IDE0058 // Expression value is never used
-#pragma warning restore CA1812 // Avoid uninstantiated internal classes
 }
