@@ -12,49 +12,48 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		private readonly Label _label;
 		private readonly string _text;
 		private readonly IList<KeyValuePair<string, string>> _styles;
-
+		
 		public RendererHelper(Label label, string text)
 		{
 			_label = label ?? throw new ArgumentNullException(nameof(label));
-			_text = text?.Trim() ?? throw new ArgumentNullException(nameof(text));
+			_text = text?.Trim();
 			_styles = new List<KeyValuePair<string, string>>();
 		}
 
-		public void SetFontAttributes()
+		public void AddFontAttributesStyle(FontAttributes fontAttributes)
 		{
-			if (_label.FontAttributes == FontAttributes.Bold)
+			if (fontAttributes == FontAttributes.Bold)
             {
 				AddStyle("font-weight", "bold");
 			}
-			else if (_label.FontAttributes == FontAttributes.Italic)
+			else if (fontAttributes == FontAttributes.Italic)
 			{
 				AddStyle("font-style", "italic");
 			}
 		}
 
-		public void SetFontFamily(bool includeAppleSystem = false)
+		public void AddFontFamilyStyle(string fontFamily, bool includeAppleSystem = false)
         {
-			var fontFamily = includeAppleSystem ?
-				"-apple-system, " :
+			var fontFamilyValue = includeAppleSystem ?
+				"-apple-system," :
 				string.Empty;
-			fontFamily += _label.FontFamily;
+			fontFamilyValue += fontFamily;
 
-			AddStyle("font-family", $"'{fontFamily}'");
+			AddStyle("font-family", $"'{fontFamilyValue}'");
         }
 
-		public void SetFontSize()
+		public void AddFontSizeStyle(double fontSize)
 		{
-			AddStyle("font-size", $"{_label.FontSize}px");
+			AddStyle("font-size", $"{fontSize}px");
 		}
 
-		public void SetTextColor()
+		public void AddTextColorStyle(Color color)
 		{
-			if (_label.TextColor.IsDefault)
+			if (color.IsDefault)
             {
                 return;
             }
 
-            Color color = _label.TextColor;
 			var red = (int)(color.R * 255);
 			var green = (int)(color.G * 255);
 			var blue = (int)(color.B * 255);
@@ -63,13 +62,13 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			AddStyle("color", hex);
 		}
 
-		public void SetHorizontalTextAlign()
+		public void AddHorizontalTextAlignStyle(TextAlignment textAlignment)
 		{
-			if (_label.HorizontalTextAlignment == TextAlignment.Center)
+			if (textAlignment == TextAlignment.Center)
 			{
 				AddStyle("text-align", "center");
 			}
-			else if (_label.HorizontalTextAlignment == TextAlignment.End)
+			else if (textAlignment == TextAlignment.End)
 			{
 				AddStyle("text-align", "right");
 				AddStyle("text-align", "end");
@@ -83,29 +82,35 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		public string ToString(bool isAppleSystem)
 		{
-			if (string.IsNullOrWhiteSpace(_label.Text))
+			if (string.IsNullOrWhiteSpace(_text))
             {
                 return string.Empty;
             }
 			            
-			SetFontAttributes();
-			SetFontFamily(isAppleSystem);
-			SetFontSize();
-			SetTextColor();
-			SetHorizontalTextAlign();
+			AddFontAttributesStyle(_label.FontAttributes);
+			AddFontFamilyStyle(_label.FontFamily, isAppleSystem);
+			AddTextColorStyle(_label.TextColor);
+			AddHorizontalTextAlignStyle(_label.HorizontalTextAlignment);
 
+			if (_label.FontSize != Device.GetNamedSize(NamedSize.Default, typeof(Label)))
+			{
+				AddFontSizeStyle(_label.FontSize);
+			}
+
+			var style = GetStyle();
+			return $"<div style=\"{style}\">{_text}</div>";
+		}
+
+		public string GetStyle()
+		{
 			var builder = new StringBuilder();
-
-			_ = builder.Append("<div style=\"");
 
 			foreach (KeyValuePair<string, string> style in _styles)
 			{
 				_ = builder.Append($"{style.Key}:{style.Value},");
 			}
 
-			_ = builder.Append($"\">{_text}</div>");
-			var text = builder.ToString();
-			return text;
+			return builder.ToString();
 		}
 
 		private void AddStyle(string selector, string value)
