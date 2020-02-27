@@ -82,7 +82,7 @@ namespace LabelHtml.Forms.Plugin.UWP
             }
 
             // Gets the complete HTML string
-            var helper = new LabelRendererHelper(Element, Element.Text);
+            var helper = new RendererHelper(Element, Element.Text);
 			Control.Text = helper.ToString();
 
 			// Adds the HtmlTextBehavior because UWP's TextBlock

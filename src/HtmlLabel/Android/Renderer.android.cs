@@ -93,7 +93,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 
 			// Gets the complete HTML string
-			var customHtml = new LabelRendererHelper(Element, Control.Text).ToString();
+			var customHtml = new RendererHelper(Element, Control.Text).ToString();
 			// Android's TextView doesn't handle <ul>s, <ol>s and <li>s 
 			// so it replaces them with <ulc>, <olc> and <lic> respectively.
 			// Those tags will be handles by a custom TagHandler

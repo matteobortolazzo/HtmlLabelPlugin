@@ -46,19 +46,19 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
-    <Compile Include="*.shared.cs" />
+    <Compile Include="Shared\**" />
   </ItemGroup>
  
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.*" />
-    <Compile Include="*.uwp.cs" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
+    <Compile Include="UWP\**" />
   </ItemGroup>
 	
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-		<Compile Include="*.android.cs" />
+    <Compile Include="Android\**" />
 	</ItemGroup>
 
    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-    <Compile Include="*.ios.cs" />
+     <Compile Include="iOS\**" />
   </ItemGroup>
 </Project>
