@@ -5,7 +5,6 @@ using LabelHtml.Forms.Plugin.UWP;
 using Microsoft.Xaml.Interactivity;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
-// ReSharper disable once CheckNamespace
 namespace LabelHtml.Forms.Plugin.UWP
 {
     internal abstract class Behavior : DependencyObject, IBehavior

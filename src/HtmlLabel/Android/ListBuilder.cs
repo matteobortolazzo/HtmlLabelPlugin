@@ -20,11 +20,11 @@ namespace LabelHtml.Forms.Plugin.Droid
 		private int _liIndex = -1;
 		private int _liStart = -1;
 		
-		internal ListBuilder() : this(null)
+		public ListBuilder() : this(null)
 		{
 		}
 
-		internal ListBuilder(LiGap liGap)
+		private ListBuilder(LiGap liGap)
 		{
 			_parent = null;
 			_gap = 0;
@@ -39,7 +39,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			_liIndex = ordered ? 0 : -1;
 		}
 
-		internal ListBuilder StartList(bool ordered, IEditable output)
+		public ListBuilder StartList(bool ordered, IEditable output)
 		{
 			if (_parent == null)
 			{
@@ -51,12 +51,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			return new ListBuilder(this, ordered);
 		}
 
-		private bool IsOrdered()
-		{
-			return _liIndex >= 0;
-		}
-
-		internal void Li(bool opening, IEditable output)
+		public void Li(bool opening, IEditable output)
 		{
 			if (opening)
 			{
@@ -77,8 +72,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 		}
 
-
-		internal ListBuilder CloseList(IEditable output)
+		public ListBuilder CloseList(IEditable output)
 		{
 			EnsureParagraphBoundary(output);
 			ListBuilder result = _parent;
@@ -95,6 +89,11 @@ namespace LabelHtml.Forms.Plugin.Droid
 			return result;
 		}
 
+		private bool IsOrdered()
+		{
+			return _liIndex >= 0;
+		}
+
 		private static void EnsureParagraphBoundary(IEditable output)
 		{
 			if (output.Length() == 0)
@@ -109,7 +108,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 		}
 
-		internal class LiGap
+		private class LiGap
 		{
 			private readonly int _orderedGap;
 			private readonly int _unorderedGap;
@@ -126,7 +125,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 		}
 
-		internal static LiGap GetLiGap(TextView tv)
+		private static LiGap GetLiGap(TextView tv)
 		{
 			return tv == null ? 
 				new LiGap(40, 30) : 

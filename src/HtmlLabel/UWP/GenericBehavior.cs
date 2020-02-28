@@ -5,7 +5,6 @@ using Xamarin.Forms.Platform.UWP;
 using LabelHtml.Forms.Plugin.UWP;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
-// ReSharper disable once CheckNamespace
 namespace LabelHtml.Forms.Plugin.UWP
 {
     internal abstract class Behavior<T> : Behavior where T : DependencyObject

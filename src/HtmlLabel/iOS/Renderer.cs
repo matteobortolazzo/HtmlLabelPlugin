@@ -31,10 +31,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 		/// </summary>
 		public static void Initialize() { }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="e"></param>
+		/// <inheritdoc />
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
 			base.OnElementChanged(e);
@@ -47,11 +44,7 @@ namespace LabelHtml.Forms.Plugin.iOS
             UpdateText();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <inheritdoc />
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e == null)

@@ -28,8 +28,8 @@ namespace LabelHtml.Forms.Plugin.UWP
 		internal const string _elementUl = "UL";
 		internal const string _elementLi = "LI";
 		internal const string _elementDiv = "DIV";
-
 		private readonly HtmlLabel _label;
+
 		public HtmlTextBehavior(HtmlLabel label)
 		{
 			_label = label;
@@ -183,6 +183,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 					ParseText(node as XElement, currentInlines, label);
 				}
 			}
+
 			// Add newlines for paragraph tags
 			if (elementName == "ElementP")
 			{

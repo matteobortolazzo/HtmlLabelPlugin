@@ -6,7 +6,6 @@ using Microsoft.Xaml.Interactivity;
 using Xamarin.Forms;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
-// ReSharper disable once CheckNamespace
 namespace LabelHtml.Forms.Plugin.UWP
 {
 	/// <summary>
@@ -20,10 +19,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 		/// </summary>
 		public static void Initialize() { }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="e"></param>
+		/// <inheritdoc />
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
 			base.OnElementChanged(e);
@@ -36,11 +32,7 @@ namespace LabelHtml.Forms.Plugin.UWP
             UpdateText();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <inheritdoc />
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);

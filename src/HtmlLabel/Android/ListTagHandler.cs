@@ -8,8 +8,10 @@ using Xamarin.Forms;
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 namespace LabelHtml.Forms.Plugin.Droid
 {
-    // TagHandler that handles lists (ul, ol)
-    internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
+	/// <summary>
+	/// TagHandler that handles lists (ul, ol).
+	/// </summary>
+	internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
 	{
 		public const string TagUlc = "ULC";
 		public const string TagOlc = "OLC";
