@@ -12,7 +12,6 @@ using Span = Windows.UI.Xaml.Documents.Span;
 using Xamarin.Essentials;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
-// ReSharper disable once CheckNamespace
 namespace LabelHtml.Forms.Plugin.UWP
 {
     internal class HtmlTextBehavior : Behavior<TextBlock>
