@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# CA1010: Collections should implement generic interface
+dotnet_diagnostic.CA1010.severity = silent
+
+# CA1710: Identifiers should have correct suffix
+dotnet_diagnostic.CA1710.severity = silent
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = silent

@@ -102,7 +102,8 @@ namespace LabelHtml.Forms.Plugin.iOS
 			
 			var myHtmlData = NSData.FromString(html, NSStringEncoding.Unicode);
 
-			var mutable = new NSMutableAttributedString(new NSAttributedString(myHtmlData, attr, ref nsError));
+			var attributedString = new NSAttributedString(myHtmlData, attr, ref nsError);
+			var mutable = new NSMutableAttributedString();
 
 			using (var newLine = new NSString("\n"))
 			{
@@ -158,6 +159,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 				Launcher.OpenAsync(new Uri(url)).GetAwaiter().GetResult();
 				label.SendNavigated(args);
 			}
+
 			var tapGesture = new UITapGestureRecognizer(TapLinkAction);
 			control.AddGestureRecognizer(tapGesture);
 		}
