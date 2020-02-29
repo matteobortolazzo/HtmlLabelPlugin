@@ -40,8 +40,8 @@ namespace LabelHtml.Forms.Plugin.Droid
 		/// <inheritdoc />
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
-			base.OnElementChanged(e);
 			ProcessText();
+			base.OnElementChanged(e);
 		}
 
 		/// <inheritdoc />

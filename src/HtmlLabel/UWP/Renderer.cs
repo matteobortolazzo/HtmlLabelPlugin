@@ -22,14 +22,8 @@ namespace LabelHtml.Forms.Plugin.UWP
 		/// <inheritdoc />
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
-			base.OnElementChanged(e);
-
-			if (Control == null)
-            {
-                return;
-            }
-
             ProcessText();
+			base.OnElementChanged(e);
 		}
 
 		/// <inheritdoc />
