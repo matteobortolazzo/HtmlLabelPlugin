@@ -58,24 +58,10 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         public void AddFontFamilyStyle_ShouldSet_FontFamily()
         {
             var fontFamily = Guid.NewGuid().ToString();
-            var expected = $"font-family:'{fontFamily}',";
+            var expected = $"font-family:'-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,{fontFamily}',";
 
             // Act
             _helper.AddFontFamilyStyle(fontFamily);
-            var actual = _helper.GetStyle();
-
-            // Assert
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void AddFontFamilyStyle_WithIncludeApple_ShouldSet_FontFamilyWithAppleSystem()
-        {
-            var fontFamily = Guid.NewGuid().ToString();
-            var expected = $"font-family:'-apple-system,{fontFamily}',";
-
-            // Act
-            _helper.AddFontFamilyStyle(fontFamily, true);
             var actual = _helper.GetStyle();
 
             // Assert

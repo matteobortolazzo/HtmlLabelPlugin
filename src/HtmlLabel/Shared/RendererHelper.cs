@@ -13,7 +13,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		private readonly Label _label;
 		private readonly string _text;
 		private readonly IList<KeyValuePair<string, string>> _styles;
-		private static string[] _supportedProperties = new []
+		private static readonly string[] _supportedProperties = new []
 			{
 				Label.TextProperty.PropertyName,
 				Label.FontAttributesProperty.PropertyName,
@@ -22,7 +22,8 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 				Label.HorizontalTextAlignmentProperty.PropertyName,
 				Label.TextColorProperty.PropertyName
 			};
-		
+		private const string _systemFontFamilies = "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI";
+
 		public RendererHelper(Label label, string text)
 		{
 			_label = label ?? throw new ArgumentNullException(nameof(label));
@@ -42,14 +43,13 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			}
 		}
 
-		public void AddFontFamilyStyle(string fontFamily, bool includeAppleSystem = false)
+		public void AddFontFamilyStyle(string fontFamily)
         {
-			var fontFamilyValue = includeAppleSystem ?
-				"-apple-system," :
-				string.Empty;
-			fontFamilyValue += fontFamily;
+			var fontFamilyValue = string.IsNullOrWhiteSpace(fontFamily)
+				? string.Empty
+				: $",{fontFamily}";
 
-			AddStyle("font-family", $"'{fontFamilyValue}'");
+			AddStyle("font-family", $"'{_systemFontFamilies}{fontFamilyValue}'");
         }
 
 		public void AddFontSizeStyle(double fontSize)
@@ -87,18 +87,13 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		public override string ToString()
 		{
-			return ToString(false);
-		}
-
-		public string ToString(bool isAppleSystem)
-		{
 			if (string.IsNullOrWhiteSpace(_text))
-            {
+			{
 				return null;
-            }
-			            
+			}
+
 			AddFontAttributesStyle(_label.FontAttributes);
-			AddFontFamilyStyle(_label.FontFamily, isAppleSystem);
+			AddFontFamilyStyle(_label.FontFamily);
 			AddTextColorStyle(_label.TextColor);
 			AddHorizontalTextAlignStyle(_label.HorizontalTextAlignment);
 

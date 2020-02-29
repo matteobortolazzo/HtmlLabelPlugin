@@ -61,15 +61,11 @@ namespace LabelHtml.Forms.Plugin.iOS
 		{
 			var attr = new NSAttributedStringDocumentAttributes();
 			var nsError = new NSError();
-			attr.DocumentType = NSDocumentType.HTML;
+			attr.DocumentType = NSDocumentType.HTML;			
 			
-			var fontDescriptor = control.Font.FontDescriptor.VisibleName;
-			var fontFamily = fontDescriptor.ToUpperInvariant().Contains("SYSTEM", StringComparison.Ordinal) ? "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI" : control.Font.FamilyName;
-			html += "<style> body{ font-family: " + fontFamily + ";}</style>";
-			
-			var myHtmlData = NSData.FromString(html, NSStringEncoding.Unicode);
+			var htmlData = NSData.FromString(html, NSStringEncoding.Unicode);
 
-			var attributedString = new NSAttributedString(myHtmlData, attr, ref nsError);
+			var attributedString = new NSAttributedString(htmlData, attr, ref nsError);
 			var mutable = new NSMutableAttributedString();
 
 			using (var newLine = new NSString("\n"))
