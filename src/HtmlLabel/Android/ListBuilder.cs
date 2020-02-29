@@ -20,15 +20,11 @@ namespace LabelHtml.Forms.Plugin.Droid
 		private int _liIndex = -1;
 		private int _liStart = -1;
 		
-		public ListBuilder() : this(null)
-		{
-		}
-
-		private ListBuilder(LiGap liGap)
+		public ListBuilder()
 		{
 			_parent = null;
 			_gap = 0;
-			_liGap = liGap ?? GetLiGap(null);
+			_liGap = GetLiGap(null);
 		}
 
 		private ListBuilder(ListBuilder parent, bool ordered)
@@ -41,24 +37,24 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		public ListBuilder StartList(bool ordered, IEditable output)
 		{
-			if (_parent == null)
+			if (_parent == null && output.Length() > 0)
 			{
-				if (output.Length() > 0)
-				{
-					_ = output.Append("\n ");
-				}
+				_ = output.Append("\n ");
 			}
 			return new ListBuilder(this, ordered);
 		}
 
-		public void Li(bool opening, IEditable output)
+		public void AddListItem(bool isOpening, IEditable output)
 		{
-			if (opening)
+			if (isOpening)
 			{
 				EnsureParagraphBoundary(output);
 				_liStart = output.Length();
 
-				_ = IsOrdered() ? output.Append(++_liIndex + ". ") : output.Append("•  ");
+				var lineStart = IsOrdered()
+					? ++_liIndex + ". "
+					: "•  ";
+				_ = output.Append(lineStart);
 			}
 			else
 			{
@@ -127,17 +123,18 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		private static LiGap GetLiGap(TextView tv)
 		{
-			return tv == null ? 
-				new LiGap(40, 30) : 
-				new LiGap(ComputeWidth(tv, true), ComputeWidth(tv, false));
+			var orderedGap = tv == null ? 40 : ComputeWidth(tv, true);
+			var unorderedGap = tv == null ? 30 : ComputeWidth(tv, false);
+
+			return new LiGap(orderedGap, unorderedGap);
 		}
 
-		private static int ComputeWidth(TextView tv, bool ordered)
+		private static int ComputeWidth(TextView tv, bool isOrdered)
 		{
 			Android.Graphics.Paint paint = tv.Paint;
 			using var bounds = new Android.Graphics.Rect();
-			var myString = ordered ? "99. " : "• ";
-		    paint.GetTextBounds(myString, 0, myString.Length, bounds);
+			var startString = isOrdered ? "99. " : "• ";
+		    paint.GetTextBounds(startString, 0, startString.Length, bounds);
 			var width = bounds.Width();
 			var pt = Android.Util.TypedValue.ApplyDimension(Android.Util.ComplexUnitType.Pt, width, tv.Context.Resources.DisplayMetrics);			
 			return (int)pt;

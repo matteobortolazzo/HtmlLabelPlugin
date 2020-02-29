@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using Android.OS;
 using Android.Text;
 using Android.Text.Method;
@@ -42,13 +41,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
 			base.OnElementChanged(e);
-
-			if (Control == null)
-			{
-				return;
-			}
-
-			UpdateText();
+			ProcessText();
 		}
 
 		/// <inheritdoc />
@@ -68,53 +61,42 @@ namespace LabelHtml.Forms.Plugin.Droid
                      e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
                      e.PropertyName == Label.TextColorProperty.PropertyName)
 			{
-				UpdateText();
+				ProcessText();
 			}
 		}
 
-		private void UpdateText()
+		private void ProcessText()
 		{
 			if (Control == null || Element == null)
 			{
 				return;
 			}
 
-			if (string.IsNullOrEmpty(Control.Text))
-			{
-				return;
-			}
-
-			// Gets the complete HTML string
-			var customHtml = new RendererHelper(Element, Control.Text).ToString();
-			// Android's TextView doesn't handle <ul>s, <ol>s and <li>s 
-			// so it replaces them with <ulc>, <olc> and <lic> respectively.
-			// Those tags will be handles by a custom TagHandler
-			customHtml = ReplaceTag(customHtml, _tagUlRegex, ListTagHandler.TagUlc);
-			customHtml = ReplaceTag(customHtml, _tagOlRegex, ListTagHandler.TagOlc);
-			customHtml = ReplaceTag(customHtml, _tagLiRegex, ListTagHandler.TagLic);
-
 			Control.SetIncludeFontPadding(false);
 
-			SetTextViewHtml(Control, customHtml);
+			var styledHtml = new RendererHelper(Element).ToString();
+			/* Android's TextView doesn't support lists.
+			 * List tags must be replaces with custom tags,
+			 * that it will be renderer by a custom tag handler.
+			 */
+			styledHtml = styledHtml
+				.ReplaceTag(_tagUlRegex, ListTagHandler.TagUl)
+				.ReplaceTag(_tagOlRegex, ListTagHandler.TagOl)
+				.ReplaceTag(_tagLiRegex, ListTagHandler.TagLi);
+
+			SetTextViewHtml(Control, styledHtml);
 		}
 
-		private static string ReplaceTag(string html, string tag, string newTag)
+		private void SetTextViewHtml(TextView control, string html)
 		{
-			return Regex.Replace(html, @"(<\s*\/?\s*)" + tag + @"((\s+[\w\-\,\.\(\)\=""\:\;]*)*>)", "$1" + newTag + "$2");
-		}
-
-		private void SetTextViewHtml(TextView text, string html)
-		{
-			// Tells the TextView that the content is HTML and adds a custom TagHandler
-			using var listTagHanlder = new ListTagHandler();
+			// Set the type of content and the custom tag list handler
+			using var listTagHandler = new ListTagHandler();
 			ISpanned sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
-				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, listTagHanlder) :
-#pragma warning disable 618
-				Html.FromHtml(html, null, listTagHanlder);
-#pragma warning restore 618
+				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, listTagHandler) :
+				Html.FromHtml(html, null, listTagHandler);
 
-			// Makes clickable links
-			text.MovementMethod = LinkMovementMethod.Instance;
+			// Make clickable links
+			control.MovementMethod = LinkMovementMethod.Instance;
 			using  var strBuilder = new SpannableStringBuilder(sequence);
 			Java.Lang.Object[] urls = strBuilder.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)));
 			foreach (Java.Lang.Object span in urls)
@@ -126,7 +108,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			using ISpanned value = RemoveLastChar(strBuilder);
 
 			// Finally sets the value of the TextView 
-			text.SetText(value, TextView.BufferType.Spannable);
+			control.SetText(value, TextView.BufferType.Spannable);
 		}
 
 	    private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
@@ -134,17 +116,28 @@ namespace LabelHtml.Forms.Plugin.Droid
 			var start = strBuilder.GetSpanStart(span);
 			var end = strBuilder.GetSpanEnd(span);
 			SpanTypes flags = strBuilder.GetSpanFlags(span);
-			using var clickable = new MyClickableSpan((HtmlLabel)Element, span);
+			var clickable = new HtmlLabelClickableSpan((HtmlLabel)Element, span);
 			strBuilder.SetSpan(clickable, start, end, flags);
 			strBuilder.RemoveSpan(span);
 		}
 
-		private class MyClickableSpan : ClickableSpan
+		private static ISpanned RemoveLastChar(ICharSequence text)
+		{
+			var builder = new SpannableStringBuilder(text);
+			if (text.Length() != 0)
+			{
+				_ = builder.Delete(text.Length() - 1, text.Length());
+			}
+
+			return builder;
+		}
+
+		private class HtmlLabelClickableSpan : ClickableSpan
 		{
 			private readonly HtmlLabel _label;
 			private readonly URLSpan _span;
 
-			public MyClickableSpan(HtmlLabel label, URLSpan span)
+			public HtmlLabelClickableSpan(HtmlLabel label, URLSpan span)
 			{
 				_label = label;
 				_span = span;
@@ -163,17 +156,6 @@ namespace LabelHtml.Forms.Plugin.Droid
 				_ = Launcher.TryOpenAsync(new Uri(_span.URL));
 				_label.SendNavigated(args);
 			}
-		}
-
-		private static ISpanned RemoveLastChar(ICharSequence text)
-		{
-			var builder = new SpannableStringBuilder(text);
-			if (text.Length() != 0)
-			{
-				_ = builder.Delete(text.Length() - 1, text.Length());
-			}
-
-			return builder;
 		}
 	}
 }

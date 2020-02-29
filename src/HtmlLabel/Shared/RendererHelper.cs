@@ -13,10 +13,10 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		private readonly string _text;
 		private readonly IList<KeyValuePair<string, string>> _styles;
 		
-		public RendererHelper(Label label, string text)
+		public RendererHelper(Label label)
 		{
 			_label = label ?? throw new ArgumentNullException(nameof(label));
-			_text = text?.Trim();
+			_text = label.Text?.Trim();
 			_styles = new List<KeyValuePair<string, string>>();
 		}
 

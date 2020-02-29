@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Text;
+﻿using Android.Text;
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.Droid;
 using Org.Xml.Sax;
@@ -9,45 +8,39 @@ using Xamarin.Forms;
 namespace LabelHtml.Forms.Plugin.Droid
 {
 	/// <summary>
-	/// TagHandler that handles lists (ul, ol).
+	/// Tag handler to support HTML lists.
 	/// </summary>
 	internal class ListTagHandler : Java.Lang.Object, Html.ITagHandler
 	{
-		public const string TagUlc = "ULC";
-		public const string TagOlc = "OLC";
-		public const string TagLic = "LIC";
+		public const string TagUl = "ULC";
+		public const string TagOl = "OLC";
+		public const string TagLi = "LIC";
 
 		private ListBuilder _listBuilder = new ListBuilder();
 		
-		public void HandleTag(bool opening, string tag, IEditable output, IXMLReader xmlReader)
+		public void HandleTag(bool isOpening, string tag, IEditable output, IXMLReader xmlReader)
 		{
 			tag = tag.ToUpperInvariant();
-			if (tag.Equals(TagLic, StringComparison.Ordinal))
+			var isItem = tag == TagLi;
+
+			// Is list item
+			if (isItem)
 			{
-				_listBuilder.Li(opening, output);
-				return;
+				_listBuilder.AddListItem(isOpening, output);
 			}
-			if (opening)
-			{
-				if (tag.Equals(TagOlc, StringComparison.Ordinal))
-				{
-					_listBuilder = _listBuilder.StartList(true, output);
-					return;
-				}
-				if (tag.Equals(TagUlc, StringComparison.Ordinal))
-				{
-					_listBuilder = _listBuilder.StartList(false, output);
-					return;
-				}
-			}
+			// Is list
 			else
 			{
-				if (tag.Equals(TagOlc, StringComparison.Ordinal) || tag.Equals(TagUlc, StringComparison.Ordinal))
+				if (isOpening)
+				{
+					var isOrdered = tag == TagOl;
+					_listBuilder = _listBuilder.StartList(isOrdered, output);
+				}
+				else
 				{
 					_listBuilder = _listBuilder.CloseList(output);
 				}
-				return;
-			}
+			}			
 		}
 	}
 }
