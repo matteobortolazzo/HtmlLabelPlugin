@@ -47,22 +47,12 @@ namespace LabelHtml.Forms.Plugin.Droid
 		/// <inheritdoc />
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-			if (e == null)
-			{
-				throw new ArgumentNullException(nameof(e));
-			}
-
-            base.OnElementPropertyChanged(sender, e);
-
-            if (e.PropertyName == Label.TextProperty.PropertyName ||
-                     e.PropertyName == Label.FontAttributesProperty.PropertyName ||
-                     e.PropertyName == Label.FontFamilyProperty.PropertyName ||
-                     e.PropertyName == Label.FontSizeProperty.PropertyName ||
-                     e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
-                     e.PropertyName == Label.TextColorProperty.PropertyName)
+			if (e != null && RendererHelper.RequireProcess(e.PropertyName))
 			{
 				ProcessText();
 			}
+
+			base.OnElementPropertyChanged(sender, e);
 		}
 
 		private void ProcessText()
@@ -74,7 +64,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 			Control.SetIncludeFontPadding(false);
 
-			var styledHtml = new RendererHelper(Element).ToString();
+			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
 			/* Android's TextView doesn't support lists.
 			 * List tags must be replaces with custom tags,
 			 * that it will be renderer by a custom tag handler.

@@ -19,13 +19,6 @@ namespace LabelHtml.Forms.Plugin.iOS
 	[Xamarin.Forms.Internals.Preserve(AllMembers = true)]
     public class HtmlLabelRenderer : LabelRenderer
     {
-		private class LinkData
-		{
-			public LinkData(NSRange range, string url) { Range = range; Url = url; }
-			public readonly NSRange Range;
-			public readonly string Url;
-		}
-
 		/// <summary>
 		/// Used for registration with dependency service
 		/// </summary>
@@ -41,45 +34,30 @@ namespace LabelHtml.Forms.Plugin.iOS
                 return;
             }
 
-            UpdateText();
+            ProcessText();
 		}
 
 		/// <inheritdoc />
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e == null)
+			if (e != null && RendererHelper.RequireProcess(e.PropertyName))
 			{
-				throw new ArgumentNullException(nameof(e));
+				ProcessText();
 			}
 
 			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == Label.TextProperty.PropertyName ||
-				e.PropertyName == Label.FontAttributesProperty.PropertyName ||
-				e.PropertyName == Label.FontFamilyProperty.PropertyName ||
-				e.PropertyName == Label.FontSizeProperty.PropertyName ||
-				e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
-				e.PropertyName == Label.TextColorProperty.PropertyName)
-            {
-                UpdateText();
-            }
-        }
+		}
 
-		private void UpdateText()
+		private void ProcessText()
 		{
 			if (Control == null || Element == null)
             {
                 return;
             }
 
-            if (string.IsNullOrEmpty(Control.Text))
-            {
-                return;
-            }
+			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
 
-            // Gets the complete HTML string
-            var helper = new RendererHelper(Element, Control.Text);
-
-            CreateAttributedString(Control, helper.ToString(true));
+			CreateAttributedString(Control, styledHtml);
             SetNeedsDisplay();
         }
 
@@ -235,6 +213,13 @@ namespace LabelHtml.Forms.Plugin.iOS
 				}
 			}
 			return null;
+		}
+
+		private class LinkData
+		{
+			public LinkData(NSRange range, string url) { Range = range; Url = url; }
+			public readonly NSRange Range;
+			public readonly string Url;
 		}
 	}
 }

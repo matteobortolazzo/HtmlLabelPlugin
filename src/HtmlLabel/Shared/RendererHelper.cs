@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Xamarin.Forms;
@@ -7,16 +8,25 @@ using Xamarin.Forms;
 [assembly: InternalsVisibleTo("HtmlLabel.Forms.Plugin.Shared.Tests")]
 namespace LabelHtml.Forms.Plugin.Abstractions
 {
-    internal class RendererHelper
-    {
+	internal class RendererHelper
+	{
 		private readonly Label _label;
 		private readonly string _text;
 		private readonly IList<KeyValuePair<string, string>> _styles;
+		private static string[] _supportedProperties = new []
+			{
+				Label.TextProperty.PropertyName,
+				Label.FontAttributesProperty.PropertyName,
+				Label.FontFamilyProperty.PropertyName,
+				Label.FontSizeProperty.PropertyName,
+				Label.HorizontalTextAlignmentProperty.PropertyName,
+				Label.TextColorProperty.PropertyName
+			};
 		
-		public RendererHelper(Label label)
+		public RendererHelper(Label label, string text)
 		{
 			_label = label ?? throw new ArgumentNullException(nameof(label));
-			_text = label.Text?.Trim();
+			_text = text?.Trim();
 			_styles = new List<KeyValuePair<string, string>>();
 		}
 
@@ -112,6 +122,8 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 			return builder.ToString();
 		}
+
+		public static bool RequireProcess(string propertyName) => _supportedProperties.Contains(propertyName);
 
 		private void AddStyle(string selector, string value)
 		{

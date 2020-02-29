@@ -29,45 +29,30 @@ namespace LabelHtml.Forms.Plugin.UWP
                 return;
             }
 
-            UpdateText();
+            ProcessText();
 		}
 
 		/// <inheritdoc />
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			base.OnElementPropertyChanged(sender, e);
-
-			if (e == null)
+			if (e != null && RendererHelper.RequireProcess(e.PropertyName))
 			{
-				return;
+				ProcessText();
 			}
 
-			if (e.PropertyName == Label.TextProperty.PropertyName ||
-			         e.PropertyName == Label.FontAttributesProperty.PropertyName ||
-			         e.PropertyName == Label.FontFamilyProperty.PropertyName ||
-			         e.PropertyName == Label.FontSizeProperty.PropertyName ||
-			         e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
-			         e.PropertyName == Label.TextColorProperty.PropertyName)
-            {
-                UpdateText();
-            }
-        }
+			base.OnElementPropertyChanged(sender, e);
+		}
 
-		private void UpdateText()
+		private void ProcessText()
 		{
 			if (Control == null || Element == null)
             {
                 return;
             }
 
-            if (string.IsNullOrEmpty(Control.Text))
-            {
-                return;
-            }
-
-            // Gets the complete HTML string
-            var helper = new RendererHelper(Element, Element.Text);
-			Control.Text = helper.ToString();
+			// Gets the complete HTML string
+			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
+			Control.Text = styledHtml;
 
 			// Adds the HtmlTextBehavior because UWP's TextBlock
 			// does not natively support HTML content
