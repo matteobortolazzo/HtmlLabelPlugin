@@ -94,7 +94,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		{
 			if (string.IsNullOrWhiteSpace(_text))
             {
-                return string.Empty;
+				return null;
             }
 			            
 			AddFontAttributesStyle(_label.FontAttributes);

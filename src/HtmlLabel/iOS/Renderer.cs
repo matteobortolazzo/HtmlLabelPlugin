@@ -50,12 +50,14 @@ namespace LabelHtml.Forms.Plugin.iOS
             }
 
 			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
+			if (styledHtml != null)
+			{
+				SetText(Control, styledHtml);
+				SetNeedsDisplay();
+			}
+		}
 
-			CreateAttributedString(Control, styledHtml);
-            SetNeedsDisplay();
-        }
-
-		private void CreateAttributedString(UILabel control, string html)
+		private void SetText(UILabel control, string html)
 		{
 			var attr = new NSAttributedStringDocumentAttributes();
 			var nsError = new NSError();

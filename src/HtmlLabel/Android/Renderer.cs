@@ -73,11 +73,14 @@ namespace LabelHtml.Forms.Plugin.Droid
 				.ReplaceTag(_tagUlRegex, ListTagHandler.TagUl)
 				.ReplaceTag(_tagOlRegex, ListTagHandler.TagOl)
 				.ReplaceTag(_tagLiRegex, ListTagHandler.TagLi);
-
-			SetTextViewHtml(Control, styledHtml);
+			
+			if (styledHtml != null)
+			{
+				SetText(Control, styledHtml);
+			}
 		}
 
-		private void SetTextViewHtml(TextView control, string html)
+		private void SetText(TextView control, string html)
 		{
 			// Set the type of content and the custom tag list handler
 			using var listTagHandler = new ListTagHandler();
