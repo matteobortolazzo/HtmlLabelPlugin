@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using Xamarin.Forms;
 
 namespace HtmlLabel.Forms.Plugin.Tests.App
@@ -16,6 +11,13 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = new Sources();
         }
+    }
+
+    public class Sources
+    {
+        public string Bold => HtmlSources.Bold;
+        public string Italic => HtmlSources.Italic;
     }
 }

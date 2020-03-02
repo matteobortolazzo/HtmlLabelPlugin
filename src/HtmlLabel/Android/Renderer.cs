@@ -40,19 +40,38 @@ namespace LabelHtml.Forms.Plugin.Droid
 		/// <inheritdoc />
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
-			ProcessText();
 			base.OnElementChanged(e);
+
+			if (e == null || e.OldElement != null || Element == null)
+			{
+				return;
+			}
+
+			try
+			{
+				ProcessText();
+			}
+			catch (System.Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+			}
 		}
 
 		/// <inheritdoc />
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
+		{
+			base.OnElementPropertyChanged(sender, e);
 			if (e != null && RendererHelper.RequireProcess(e.PropertyName))
 			{
-				ProcessText();
+				try
+				{
+					ProcessText();
+				}
+				catch (System.Exception ex)
+				{
+					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+				}
 			}
-
-			base.OnElementPropertyChanged(sender, e);
 		}
 
 		private void ProcessText()

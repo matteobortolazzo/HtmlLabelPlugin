@@ -3,14 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              mc:Ignorable="d"
+             ios:Page.UseSafeArea="true"
              x:Class="HtmlLabel.Forms.Plugin.Tests.App.MainPage">
-
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
-
+    <ScrollView>
+        <StackLayout Padding="10">
+            <StackLayout>
+                <Label Text="Bold" />
+                <htmlLabel:HtmlLabel Text="{Binding Bold}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Italic" />
+                <htmlLabel:HtmlLabel Text="{Binding Italic}" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

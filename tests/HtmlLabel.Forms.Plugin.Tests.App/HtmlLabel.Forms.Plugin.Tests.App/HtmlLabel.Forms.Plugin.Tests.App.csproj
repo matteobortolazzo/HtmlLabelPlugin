@@ -18,4 +18,19 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\HtmlLabel\HtmlLabel.Forms.Plugin.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="HtmlSources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>HtmlSources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="HtmlSources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HtmlSources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
