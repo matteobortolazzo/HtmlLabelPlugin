@@ -1,11 +1,8 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
+using LabelHtml.Forms.Plugin.Droid;
 
 namespace HtmlLabel.Forms.Plugin.Tests.App.Droid
 {
@@ -19,6 +16,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App.Droid
 
             base.OnCreate(savedInstanceState);
 
+            HtmlLabelRenderer.Initialize();
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

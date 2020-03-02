@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
+﻿using Foundation;
+using LabelHtml.Forms.Plugin.iOS;
 using UIKit;
 
 namespace HtmlLabel.Forms.Plugin.Tests.App.iOS
@@ -22,6 +19,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            HtmlLabelRenderer.Initialize();
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

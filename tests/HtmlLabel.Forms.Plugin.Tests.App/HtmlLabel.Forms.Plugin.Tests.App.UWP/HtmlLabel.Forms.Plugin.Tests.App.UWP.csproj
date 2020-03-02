@@ -148,6 +148,10 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\HtmlLabel\HtmlLabel.Forms.Plugin.csproj">
+      <Project>{1fab52ad-f3ba-423c-afa1-e21700aa96f4}</Project>
+      <Name>HtmlLabel.Forms.Plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HtmlLabel.Forms.Plugin.Tests.App\HtmlLabel.Forms.Plugin.Tests.App.csproj">
       <Project>{9911DD11-3F2C-4BE4-A523-CA0AE35EDA7A}</Project>
       <Name>HtmlLabel.Forms.Plugin.Tests.App</Name>
