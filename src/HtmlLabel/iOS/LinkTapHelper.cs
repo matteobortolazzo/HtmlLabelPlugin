@@ -8,9 +8,9 @@ using Xamarin.Forms;
 
 namespace LabelHtml.Forms.Plugin.iOS
 {
-	internal static class UiLabelExtensions
-    {
-        public static void LinkTapHelper(this UILabel control, HtmlLabel element)
+	internal static class LinkTapHelper
+	{
+        public static void HandleLinkTap(this UILabel control, HtmlLabel element)
 		{
 			void TapHandler(UITapGestureRecognizer tap)
 			{
