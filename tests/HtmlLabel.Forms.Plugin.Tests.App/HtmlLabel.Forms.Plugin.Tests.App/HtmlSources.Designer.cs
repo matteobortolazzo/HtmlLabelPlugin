@@ -61,6 +61,24 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An align center string..
+        /// </summary>
+        public static string AlignCenter {
+            get {
+                return ResourceManager.GetString("AlignCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An align end string..
+        /// </summary>
+        public static string AlignEnd {
+            get {
+                return ResourceManager.GetString("AlignEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A &lt;strong&gt;bold&lt;/strong&gt; string..
         /// </summary>
         public static string Bold {

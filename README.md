@@ -81,6 +81,7 @@ label.Text = "..htmlstring.."
 
 * Using Links and custom fonts together could not work properly on iOS.
 * Images won't be displayed on Android (TextView limitation).
+* HorizontalTextAlignment not working in iOS.
 
 
 ### Contributions

@@ -20,5 +20,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string Bold => HtmlSources.Bold;
         public string Italic => HtmlSources.Italic;
         public string Color => HtmlSources.Color;
+        public string AlignCenter => HtmlSources.AlignCenter;
+        public string AlignEnd => HtmlSources.AlignEnd;
     }
 }

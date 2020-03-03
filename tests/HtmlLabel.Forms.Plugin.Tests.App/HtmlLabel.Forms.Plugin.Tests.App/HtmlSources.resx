@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlignCenter" xml:space="preserve">
+    <value>An align center string.</value>
+  </data>
+  <data name="AlignEnd" xml:space="preserve">
+    <value>An align end string.</value>
+  </data>
   <data name="Bold" xml:space="preserve">
     <value>A &lt;strong&gt;bold&lt;/strong&gt; string.</value>
   </data>

@@ -22,6 +22,14 @@
                 <Label Text="Red color" />
                 <htmlLabel:HtmlLabel Text="{Binding Color}" TextColor="Red" />
             </StackLayout>
+            <StackLayout>
+                <Label Text="Align center" />
+                <htmlLabel:HtmlLabel Text="{Binding AlignCenter}" HorizontalTextAlignment="Center" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Align end (no iOS)" />
+                <htmlLabel:HtmlLabel Text="{Binding AlignEnd}" HorizontalTextAlignment="End" />
+            </StackLayout>
         </StackLayout>
     </ScrollView>
 </ContentPage>
