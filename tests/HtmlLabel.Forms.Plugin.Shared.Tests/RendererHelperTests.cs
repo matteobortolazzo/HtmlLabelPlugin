@@ -31,7 +31,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         [Fact]
         public void AddFontAttributesStyle_WithBold_ShouldSet_FontWeightBold()
         {
-            var expected = "font-weight:bold,";
+            var expected = "font-weight:bold";
 
             // Act
             _helper.AddFontAttributesStyle(FontAttributes.Bold);
@@ -44,7 +44,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         [Fact]
         public void AddFontAttributesStyle_WithItalic_ShouldSet_FontStyleItalic()
         {
-            var expected = "font-style:italic,";
+            var expected = "font-style:italic";
 
             // Act
             _helper.AddFontAttributesStyle(FontAttributes.Italic);
@@ -58,7 +58,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         public void AddFontFamilyStyle_ShouldSet_FontFamily()
         {
             var fontFamily = Guid.NewGuid().ToString();
-            var expected = $"font-family:'-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,{fontFamily}',";
+            var expected = $"font-family:'-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,{fontFamily}'";
 
             // Act
             _helper.AddFontFamilyStyle(fontFamily);
@@ -72,7 +72,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         public void AddFontSizeStyle_ShouldSet_FontSize()
         {
             var fontSize = new Random().Next();
-            var expected = $"font-size:{fontSize}px,";
+            var expected = $"font-size:{fontSize}px";
 
             // Act
             _helper.AddFontSizeStyle(fontSize);
@@ -102,9 +102,9 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
             var red = rnd.Next(255);
             var green = rnd.Next(255);
             var blue = rnd.Next(255);
-            var alpha = rnd.Next(255);
+            var alpha = rnd.Next(255) / 100;
             var color = new Color(red / 255d, green / 255d, blue / 255d, alpha / 255d);
-            var expected = $"color:#{red:X2}{green:X2}{blue:X2}{alpha:X2},";
+            var expected = $"color:#{red:X2}{green:X2}{blue:X2};color:rgba({red},{green},{blue},{alpha})";
 
             // Act
             _helper.AddTextColorStyle(color);
@@ -128,7 +128,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         [Fact]
         public void AddHorizontalTextAlignStyle_WithCenter_ShouldSet_TextAlignCenter()
         {
-            var expected = "text-align:center,";
+            var expected = "text-align:center";
 
             // Act
             _helper.AddHorizontalTextAlignStyle(TextAlignment.Center);
@@ -141,7 +141,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         [Fact]
         public void AddHorizontalTextAlignStyle_WithEnd_ShouldSet_TextAlignRightEnd()
         {
-            var expected = "text-align:right,text-align:end,";
+            var expected = "text-align:right;text-align:end";
 
             // Act
             _helper.AddHorizontalTextAlignStyle(TextAlignment.End);

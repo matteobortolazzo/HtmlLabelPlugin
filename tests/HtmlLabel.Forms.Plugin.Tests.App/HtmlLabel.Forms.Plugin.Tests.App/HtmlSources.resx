@@ -120,7 +120,10 @@
   <data name="Bold" xml:space="preserve">
     <value>A &lt;strong&gt;bold&lt;/strong&gt; string.</value>
   </data>
+  <data name="Color" xml:space="preserve">
+    <value>Red color string</value>
+  </data>
   <data name="Italic" xml:space="preserve">
-    <value>A &lt;em&gt;bold&lt;/em&gt; string.</value>
+    <value>An &lt;em&gt;italic&lt;/em&gt; string.</value>
   </data>
 </root>

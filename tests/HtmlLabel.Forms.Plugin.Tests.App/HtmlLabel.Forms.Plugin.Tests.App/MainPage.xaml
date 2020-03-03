@@ -18,6 +18,10 @@
                 <Label Text="Italic" />
                 <htmlLabel:HtmlLabel Text="{Binding Italic}" />
             </StackLayout>
+            <StackLayout>
+                <Label Text="Red color" />
+                <htmlLabel:HtmlLabel Text="{Binding Color}" TextColor="Red" />
+            </StackLayout>
         </StackLayout>
     </ScrollView>
 </ContentPage>

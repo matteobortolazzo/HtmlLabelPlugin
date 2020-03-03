@@ -67,9 +67,11 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			var red = (int)(color.R * 255);
 			var green = (int)(color.G * 255);
 			var blue = (int)(color.B * 255);
-			var alpha = (int)(color.A * 255);
-			var hex = $"#{red:X2}{green:X2}{blue:X2}{alpha:X2}";
+			var alpha = color.A;
+			var hex = $"#{red:X2}{green:X2}{blue:X2}";
+			var rgba = $"rgba({red},{green},{blue},{alpha})";
 			AddStyle("color", hex);
+			AddStyle("color", rgba);
 		}
 
 		public void AddHorizontalTextAlignStyle(TextAlignment textAlignment)
@@ -112,10 +114,16 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 			foreach (KeyValuePair<string, string> style in _styles)
 			{
-				_ = builder.Append($"{style.Key}:{style.Value},");
+				_ = builder.Append($"{style.Key}:{style.Value};");
 			}
 
-			return builder.ToString();
+			var css = builder.ToString();
+			if (_styles.Any())
+			{
+				css = css.Substring(0, css.Length - 1);
+			}
+
+			return css;
 		}
 
 		public static bool RequireProcess(string propertyName) => _supportedProperties.Contains(propertyName);

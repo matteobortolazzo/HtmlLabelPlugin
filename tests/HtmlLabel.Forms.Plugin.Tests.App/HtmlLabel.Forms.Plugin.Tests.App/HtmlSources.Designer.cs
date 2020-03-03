@@ -70,7 +70,16 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A &lt;em&gt;bold&lt;/em&gt; string..
+        ///   Looks up a localized string similar to Red color string.
+        /// </summary>
+        public static string Color {
+            get {
+                return ResourceManager.GetString("Color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An &lt;em&gt;italic&lt;/em&gt; string..
         /// </summary>
         public static string Italic {
             get {
