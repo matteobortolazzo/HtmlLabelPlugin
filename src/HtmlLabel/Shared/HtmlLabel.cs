@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 [assembly: InternalsVisibleTo("HtmlLabel.Forms.Plugin.Shared.Tests")]
@@ -12,14 +13,29 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 	public class HtmlLabel : Label
 	{
 		/// <summary>
-		/// Set the value of the MaxLines property
+		/// Identify the BrowserLaunchOptions property.
 		/// </summary>
-		/// <param name="view"></param>
-		/// <param name="value"></param>
-		public static void SetMaxLines(BindableObject view, int value)
+		public static readonly BindableProperty BrowserLaunchOptionsProperty =
+			BindableProperty.Create(nameof(BrowserLaunchOptions), typeof(BrowserLaunchOptions), typeof(HtmlLabel), default);
+
+		/// <summary>
+		/// Get or set the options to use when opening a web link. <see cref="https://docs.microsoft.com/en-us/xamarin/essentials/open-browser"/>
+		/// </summary>
+		public BrowserLaunchOptions BrowserLaunchOptions
 		{
-			view?.SetValue(MaxLinesProperty, value);
+			get { return (BrowserLaunchOptions)GetValue(BrowserLaunchOptionsProperty); }
+			set { SetValue(BrowserLaunchOptionsProperty, value); }
 		}
+
+		/// <summary>
+		/// Fires before the open URL request is done.
+		/// </summary>
+		public event EventHandler<WebNavigatingEventArgs> Navigating;
+
+		/// <summary>
+		/// Fires when the open URL request is done.
+		/// </summary>
+		public event EventHandler<WebNavigatingEventArgs> Navigated;
 
 		/// <summary>
 		/// Send the Navigating event
@@ -37,16 +53,6 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		internal void SendNavigated(WebNavigatingEventArgs args)
 	    {
 		    Navigated?.Invoke(this, args);
-	    }
-
-		/// <summary>
-		/// Fires before the open URL request is done.
-		/// </summary>
-		public event EventHandler<WebNavigatingEventArgs> Navigating;
-
-		/// <summary>
-		/// Fires when the open URL request is done.
-		/// </summary>
-		public event EventHandler<WebNavigatingEventArgs> Navigated;
+	    }		
 	}
 }

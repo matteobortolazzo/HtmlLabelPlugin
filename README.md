@@ -1,14 +1,6 @@
 # HTML Label Plugin for Xamarin.Forms
 Use this Xamarin.Forms plugin to display HTML content into a label.
 
-** **MID YEAR UPDATE** **
-
-* Xamarin.Forms 3.0
-* IsHtml and RemoveHtmlTags properties removed
-* HtmlAgilityPack dependency removed
-* Navigating and Navitated events added when users tap on links
-* Namespace and assembly name changed
-
 ## Setup
 * Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel ![](https://img.shields.io/badge/nuget-v3.0.1-blue.svg) ![](https://matteobortolazzo.visualstudio.com/_apis/public/build/definitions/35196e9f-8b5a-4efb-af02-71d7a588c1fc/4/badge)
 * Install it in every Xamarin.Forms project.
@@ -79,6 +71,7 @@ label.Text = "..htmlstring.."
 
 ## Limitations
 
+* TextType="HTML" disables any effect.
 * Using Links and custom fonts together could not work properly on iOS.
 * Images won't be displayed on Android (TextView limitation).
 * HorizontalTextAlignment not working in iOS.

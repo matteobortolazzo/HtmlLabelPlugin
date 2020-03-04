@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using Colors = System.Drawing.Color;
 
 namespace HtmlLabel.Forms.Plugin.Tests.App
 {
@@ -22,5 +24,14 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string Color => HtmlSources.Color;
         public string AlignCenter => HtmlSources.AlignCenter;
         public string AlignEnd => HtmlSources.AlignEnd;
+        public string Links => HtmlSources.Links;
+        public string LinksWithOptions => HtmlSources.LinksWithOptions;
+        public BrowserLaunchOptions BrowserLaunchOptions => new BrowserLaunchOptions
+        {
+            LaunchMode = BrowserLaunchMode.SystemPreferred,
+            TitleMode = BrowserTitleMode.Show,
+            PreferredToolbarColor = Colors.AliceBlue,
+            PreferredControlColor = Colors.Violet
+        };
     }
 }

@@ -3,8 +3,6 @@ using Foundation;
 using LabelHtml.Forms.Plugin.Abstractions;
 using System;
 using UIKit;
-using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace LabelHtml.Forms.Plugin.iOS
 {
@@ -15,17 +13,18 @@ namespace LabelHtml.Forms.Plugin.iOS
 			void TapHandler(UITapGestureRecognizer tap)
 			{
 				var detectedUrl = DetectTappedUrl(tap, (UILabel)tap.View);
-				if (detectedUrl != null)
-				{
-					var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = detectedUrl }, detectedUrl);
-					element.SendNavigating(args);
 
-					if (!args.Cancel)
-					{
-						Launcher.OpenAsync(new Uri(detectedUrl)).GetAwaiter().GetResult();
-						element.SendNavigated(args);
-					}
-				}							
+				try
+				{
+					RendererHelper.HandleUriAsync(element, detectedUrl)
+						.ConfigureAwait(false)
+						.GetAwaiter()
+						.GetResult();
+				}
+				catch (Exception ex)
+				{
+					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+				}				
 			}
 
 			var tapGesture = new UITapGestureRecognizer(TapHandler);
@@ -52,7 +51,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			using var textStorage = new NSTextStorage();
 			textStorage.SetString(attributedText);
 
-			using var fontAttributeName = new NSString("Font");
+			using var fontAttributeName = new NSString("NSFont");
 			var textRange = new NSRange(0, control.AttributedText.Length);
 			textStorage.AddAttribute(fontAttributeName, control.Font, textRange);
 			textStorage.AddLayoutManager(layoutManager);	
@@ -77,13 +76,13 @@ namespace LabelHtml.Forms.Plugin.iOS
 			var rightMostPointInLineTapped = new CGPoint(bounds.Size.Width, control.Font.LineHeight * lineTapped);
 			var charsInLineTapped = (nint)layoutManager.GetCharacterIndex(rightMostPointInLineTapped, textContainer);
 
-			if (characterIndex < charsInLineTapped)
+			if (characterIndex > charsInLineTapped)
 			{
 				return null;
 			}
 
 			// Try to get the URL
-			using var linkAttributeName = new NSString("Link");
+			using var linkAttributeName = new NSString("NSLink");
 			NSObject linkAttributeValue = attributedText.GetAttribute(linkAttributeName, characterIndex, out NSRange range);
 			return linkAttributeValue is NSUrl url ? url.AbsoluteString : null;
 		}

@@ -4,7 +4,6 @@ using Xamarin.Forms.Platform.UWP;
 using LabelHtml.Forms.Plugin.UWP;
 using Microsoft.Xaml.Interactivity;
 using Xamarin.Forms;
-using Windows.UI.Xaml.Controls;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 namespace LabelHtml.Forms.Plugin.UWP

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 [assembly: InternalsVisibleTo("HtmlLabel.Forms.Plugin.Shared.Tests")]
@@ -127,6 +129,61 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		}
 
 		public static bool RequireProcess(string propertyName) => _supportedProperties.Contains(propertyName);
+
+		public static async Task HandleUriAsync(HtmlLabel label, string url)
+		{
+			if (url == null || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
+			{
+				return;
+			}
+
+			var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = url }, url);
+
+			label.SendNavigating(args);
+
+			if (args.Cancel)
+			{
+				return;
+			}
+
+			var uri = new Uri(url);
+
+			Task<bool> navigatedTask = NeedBrowser(uri)
+				? LaunchBrowserAsync(label, uri)
+				: LaunchAppAsync(uri);
+
+			var navigated = await navigatedTask.ConfigureAwait(false);
+			if (navigated)
+			{
+				label.SendNavigated(args);
+			}			
+		}
+
+		private static bool NeedBrowser(Uri uri) =>
+			uri.Scheme.Equals("http", StringComparison.InvariantCultureIgnoreCase) ||
+			uri.Scheme.Equals("https", StringComparison.InvariantCultureIgnoreCase);
+
+		private static async Task<bool> LaunchBrowserAsync(HtmlLabel label, Uri uri)
+		{
+			if (label.BrowserLaunchOptions == null)
+			{
+				await Browser.OpenAsync(uri).ConfigureAwait(false);
+				return true;
+			}
+
+			return await Browser.OpenAsync(uri, label.BrowserLaunchOptions).ConfigureAwait(false);
+		}
+
+		private static async Task<bool> LaunchAppAsync(Uri uri)
+		{
+			var canOpen = await Launcher.CanOpenAsync(uri).ConfigureAwait(false);
+			if (canOpen)
+			{
+				await Launcher.OpenAsync(uri).ConfigureAwait(false);
+				return true;
+			}
+			return false;
+		}
 
 		private void AddStyle(string selector, string value)
 		{

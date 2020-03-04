@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using Android.OS;
 using Android.Text;
@@ -8,7 +7,6 @@ using Android.Widget;
 using Java.Lang;
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.Droid;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
@@ -83,14 +81,15 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 			Control.SetIncludeFontPadding(false);
 			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
-			/* Android's TextView doesn't support lists.
+			/* 
+			 * Android's TextView doesn't support lists.
 			 * List tags must be replaces with custom tags,
 			 * that it will be renderer by a custom tag handler.
 			 */
 			styledHtml = styledHtml
-				.ReplaceTag(_tagUlRegex, ListTagHandler.TagUl)
-				.ReplaceTag(_tagOlRegex, ListTagHandler.TagOl)
-				.ReplaceTag(_tagLiRegex, ListTagHandler.TagLi);
+				?.ReplaceTag(_tagUlRegex, ListTagHandler.TagUl)
+				?.ReplaceTag(_tagOlRegex, ListTagHandler.TagOl)
+				?.ReplaceTag(_tagLiRegex, ListTagHandler.TagLi);
 			
 			if (styledHtml != null)
 			{
@@ -156,16 +155,10 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 			public override void OnClick(Android.Views.View widget)
 			{
-				var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = _span.URL }, _span.URL);
-				_label.SendNavigating(args);
-
-				if (args.Cancel)
-				{
-					return;
-				}
-
-				_ = Launcher.TryOpenAsync(new Uri(_span.URL));
-				_label.SendNavigated(args);
+				RendererHelper.HandleUriAsync(_label, _span.URL)
+					.ConfigureAwait(false)
+					.GetAwaiter()
+					.GetResult();
 			}
 		}
 	}

@@ -10,7 +10,7 @@
              x:Class="HtmlLabel.Forms.Plugin.Tests.App.MainPage">
     <ScrollView>
         <StackLayout Padding="10">
-            <StackLayout>
+            <!--<StackLayout>
                 <Label Text="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Bold}" />
             </StackLayout>
@@ -29,6 +29,14 @@
             <StackLayout>
                 <Label Text="Align end (no iOS)" />
                 <htmlLabel:HtmlLabel Text="{Binding AlignEnd}" HorizontalTextAlignment="End" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links" />
+                <htmlLabel:HtmlLabel Text="{Binding Links}" />
+            </StackLayout>-->
+            <StackLayout>
+                <Label Text="Links with options" />
+                <htmlLabel:HtmlLabel Text="{Binding LinksWithOptions}" BrowserLaunchOptions="{Binding BrowserLaunchOptions}" />
             </StackLayout>
         </StackLayout>
     </ScrollView>

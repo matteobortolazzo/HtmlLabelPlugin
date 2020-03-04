@@ -110,21 +110,10 @@ namespace LabelHtml.Forms.Plugin.UWP
 					link.Click += (sender, e) =>
 					{
 						sender.NavigateUri = null;
-						if (href == null)
-                        {
-                            return;
-                        }
-
-                        var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = href.Value }, href.Value);
-						label.SendNavigating(args);
-
-						if (args.Cancel)
-                        {
-                            return;
-                        }
-
-                        Launcher.OpenAsync(new Uri(href.Value)).GetAwaiter().GetResult();
-						label.SendNavigated(args);
+						RendererHelper.HandleUriAsync(label, href.Value)
+							.ConfigureAwait(false)
+							.GetAwaiter()
+							.GetResult();
 					};
 					inlines.Add(link);
 					currentInlines = link.Inlines;
