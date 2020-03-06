@@ -13,18 +13,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			void TapHandler(UITapGestureRecognizer tap)
 			{
 				var detectedUrl = DetectTappedUrl(tap, (UILabel)tap.View);
-
-				try
-				{
-					RendererHelper.HandleUriAsync(element, detectedUrl)
-						.ConfigureAwait(false)
-						.GetAwaiter()
-						.GetResult();
-				}
-				catch (Exception ex)
-				{
-					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
-				}				
+				RendererHelper.HandleUriClick(element, detectedUrl);
 			}
 
 			var tapGesture = new UITapGestureRecognizer(TapHandler);

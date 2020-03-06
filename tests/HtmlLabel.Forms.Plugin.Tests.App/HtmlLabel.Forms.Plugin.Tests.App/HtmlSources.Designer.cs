@@ -122,5 +122,32 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
                 return ResourceManager.GetString("LinksWithOptions", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email to &lt;a href=&quot;mailto:github@github.com?subject=Awesome&amp;body=Awesome%20plugin&quot;&gt;github@github.com&lt;/a&gt;..
+        /// </summary>
+        public static string LinkToEmail {
+            get {
+                return ResourceManager.GetString("LinkToEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send SMS to &lt;a href=&quot;sms://8372717112?body=Awesome%20plugin&quot;&gt;8372717112&lt;/a&gt;..
+        /// </summary>
+        public static string LinkToSms {
+            get {
+                return ResourceManager.GetString("LinkToSms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Call to &lt;a href=&quot;tel://8372717112&quot;&gt;8372717112&lt;/a&gt;..
+        /// </summary>
+        public static string LinkToTel {
+            get {
+                return ResourceManager.GetString("LinkToTel", resourceCulture);
+            }
+        }
     }
 }

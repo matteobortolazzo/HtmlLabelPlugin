@@ -26,6 +26,9 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string AlignEnd => HtmlSources.AlignEnd;
         public string Links => HtmlSources.Links;
         public string LinksWithOptions => HtmlSources.LinksWithOptions;
+        public string LinkToEmail => HtmlSources.LinkToEmail;
+        public string LinkToTel => HtmlSources.LinkToTel;
+        public string LinkToSms => HtmlSources.LinkToSms;
         public BrowserLaunchOptions BrowserLaunchOptions => new BrowserLaunchOptions
         {
             LaunchMode = BrowserLaunchMode.SystemPreferred,

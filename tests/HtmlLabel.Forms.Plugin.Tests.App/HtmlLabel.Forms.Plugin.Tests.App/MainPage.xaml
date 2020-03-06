@@ -9,8 +9,8 @@
              ios:Page.UseSafeArea="true"
              x:Class="HtmlLabel.Forms.Plugin.Tests.App.MainPage">
     <ScrollView>
-        <StackLayout Padding="10">
-            <!--<StackLayout>
+        <StackLayout Padding="10">            
+            <StackLayout>
                 <Label Text="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Bold}" />
             </StackLayout>
@@ -33,10 +33,22 @@
             <StackLayout>
                 <Label Text="Links" />
                 <htmlLabel:HtmlLabel Text="{Binding Links}" />
-            </StackLayout>-->
+            </StackLayout>
             <StackLayout>
                 <Label Text="Links with options" />
                 <htmlLabel:HtmlLabel Text="{Binding LinksWithOptions}" BrowserLaunchOptions="{Binding BrowserLaunchOptions}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links to email" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkToEmail}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links to phone dial" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkToTel}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links to SMS" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkToSms}" />
             </StackLayout>
         </StackLayout>
     </ScrollView>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -24,7 +23,9 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 				Label.HorizontalTextAlignmentProperty.PropertyName,
 				Label.TextColorProperty.PropertyName
 			};
-		private const string _systemFontFamilies = "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI";
+		private static readonly string[] _openWithBrowserSchema = new[]
+			{ "http", "https", "mailto", "tel", "sms", "geo" };
+		private const string _systemFontFamilies = "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI";		
 
 		public RendererHelper(Label label, string text)
 		{
@@ -130,7 +131,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		public static bool RequireProcess(string propertyName) => _supportedProperties.Contains(propertyName);
 
-		public static async Task HandleUriAsync(HtmlLabel label, string url)
+		public static void HandleUriClick(HtmlLabel label, string url)
 		{
 			if (url == null || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
 			{
@@ -148,42 +149,24 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 			var uri = new Uri(url);
 
-			Task<bool> navigatedTask = NeedBrowser(uri)
-				? LaunchBrowserAsync(label, uri)
-				: LaunchAppAsync(uri);
-
-			var navigated = await navigatedTask.ConfigureAwait(false);
-			if (navigated)
+			if (_openWithBrowserSchema.Contains(uri.Scheme))
 			{
-				label.SendNavigated(args);
-			}			
-		}
-
-		private static bool NeedBrowser(Uri uri) =>
-			uri.Scheme.Equals("http", StringComparison.InvariantCultureIgnoreCase) ||
-			uri.Scheme.Equals("https", StringComparison.InvariantCultureIgnoreCase);
-
-		private static async Task<bool> LaunchBrowserAsync(HtmlLabel label, Uri uri)
-		{
-			if (label.BrowserLaunchOptions == null)
+				if (label.BrowserLaunchOptions == null)
+				{
+					Browser.OpenAsync(uri);
+				}
+				else
+				{
+					Browser.OpenAsync(uri, label.BrowserLaunchOptions);
+				}
+			}
+			else
 			{
-				await Browser.OpenAsync(uri).ConfigureAwait(false);
-				return true;
+				Launcher.TryOpenAsync(uri);
 			}
 
-			return await Browser.OpenAsync(uri, label.BrowserLaunchOptions).ConfigureAwait(false);
-		}
-
-		private static async Task<bool> LaunchAppAsync(Uri uri)
-		{
-			var canOpen = await Launcher.CanOpenAsync(uri).ConfigureAwait(false);
-			if (canOpen)
-			{
-				await Launcher.OpenAsync(uri).ConfigureAwait(false);
-				return true;
-			}
-			return false;
-		}
+			label.SendNavigated(args);
+		}				
 
 		private void AddStyle(string selector, string value)
 		{

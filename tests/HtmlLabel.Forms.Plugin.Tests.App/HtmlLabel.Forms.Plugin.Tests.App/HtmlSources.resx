@@ -138,4 +138,13 @@
   <data name="LinksWithOptions" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with options.</value>
   </data>
+  <data name="LinkToEmail" xml:space="preserve">
+    <value>Email to &lt;a href="mailto:github@github.com?subject=Awesome&amp;body=Awesome%20plugin"&gt;github@github.com&lt;/a&gt;.</value>
+  </data>
+  <data name="LinkToSms" xml:space="preserve">
+    <value>Send SMS to &lt;a href="sms://8372717112?body=Awesome%20plugin"&gt;8372717112&lt;/a&gt;.</value>
+  </data>
+  <data name="LinkToTel" xml:space="preserve">
+    <value>Call to &lt;a href="tel://8372717112"&gt;8372717112&lt;/a&gt;.</value>
+  </data>
 </root>

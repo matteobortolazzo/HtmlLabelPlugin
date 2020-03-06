@@ -51,7 +51,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 			catch (System.Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+				System.Diagnostics.Debug.WriteLine(@$"ERROR: ${ex.Message}");
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 				}
 				catch (System.Exception ex)
 				{
-					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+					System.Diagnostics.Debug.WriteLine(@$"ERROR: ${ex.Message}");
 				}
 			}
 		}
@@ -155,10 +155,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 			public override void OnClick(Android.Views.View widget)
 			{
-				RendererHelper.HandleUriAsync(_label, _span.URL)
-					.ConfigureAwait(false)
-					.GetAwaiter()
-					.GetResult();
+				RendererHelper.HandleUriClick(_label, _span.URL);
 			}
 		}
 	}

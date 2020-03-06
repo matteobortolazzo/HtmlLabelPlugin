@@ -110,10 +110,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 					link.Click += (sender, e) =>
 					{
 						sender.NavigateUri = null;
-						RendererHelper.HandleUriAsync(label, href.Value)
-							.ConfigureAwait(false)
-							.GetAwaiter()
-							.GetResult();
+						RendererHelper.HandleUriClick(label, href.Value);
 					};
 					inlines.Add(link);
 					currentInlines = link.Inlines;
