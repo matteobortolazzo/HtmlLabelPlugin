@@ -160,11 +160,29 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A label with custom gestures..
+        /// </summary>
+        public static string LinkWithGestures {
+            get {
+                return ResourceManager.GetString("LinkWithGestures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt; with no underline..
         /// </summary>
         public static string LinkWithoutUnderline {
             get {
                 return ResourceManager.GetString("LinkWithoutUnderline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

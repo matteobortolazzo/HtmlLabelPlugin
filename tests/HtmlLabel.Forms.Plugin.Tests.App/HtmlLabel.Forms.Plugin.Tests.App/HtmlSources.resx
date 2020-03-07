@@ -150,7 +150,13 @@
   <data name="LinkWithColor" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with custom color.</value>
   </data>
+  <data name="LinkWithGestures" xml:space="preserve">
+    <value>A label with custom gestures.</value>
+  </data>
   <data name="LinkWithoutUnderline" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with no underline.</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

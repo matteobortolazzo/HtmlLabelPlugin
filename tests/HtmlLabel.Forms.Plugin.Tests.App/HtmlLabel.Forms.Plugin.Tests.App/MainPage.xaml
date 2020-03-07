@@ -10,7 +10,7 @@
              x:Class="HtmlLabel.Forms.Plugin.Tests.App.MainPage">
     <ScrollView>
         <StackLayout Padding="10">            
-            <StackLayout> 
+            <StackLayout>  
                 <Label Text="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Bold}" />
             </StackLayout>
@@ -57,6 +57,14 @@
             <StackLayout>
                 <Label Text="Links with no underline" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkWithoutUnderline}" UnderlineText="False" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links with gestures" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkWithGestures}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Clicked}" />
+                    </Label.GestureRecognizers>
+                </htmlLabel:HtmlLabel>
             </StackLayout>
         </StackLayout>
     </ScrollView>

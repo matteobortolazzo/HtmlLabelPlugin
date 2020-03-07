@@ -106,23 +106,27 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		private void SetText(TextView control, string html)
 		{
+
 			// Set the type of content and the custom tag list handler
 			using var listTagHandler = new ListTagHandler();
 			ISpanned sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
 				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, listTagHandler) :
 				Html.FromHtml(html, null, listTagHandler);
+			using var strBuilder = new SpannableStringBuilder(sequence);
 
 			// Make clickable links
-			control.MovementMethod = LinkMovementMethod.Instance;
-			using  var strBuilder = new SpannableStringBuilder(sequence);
-			URLSpan[] urls = strBuilder
+			if (!Element.GestureRecognizers.Any())
+			{
+				control.MovementMethod = LinkMovementMethod.Instance;
+				URLSpan[] urls = strBuilder
 				.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)))
 				.Cast<URLSpan>()
 				.ToArray();
-			foreach (URLSpan span in urls)
-			{
-				MakeLinkClickable(strBuilder, (URLSpan)span);
-			}
+				foreach (URLSpan span in urls)
+				{
+					MakeLinkClickable(strBuilder, (URLSpan)span);
+				}
+			}			
 
 			// Android adds an unnecessary "\n" that must be removed
 			using ISpanned value = RemoveLastChar(strBuilder);

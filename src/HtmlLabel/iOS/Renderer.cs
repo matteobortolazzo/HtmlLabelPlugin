@@ -5,6 +5,7 @@ using Foundation;
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.iOS;
 using UIKit;
+using System.Linq;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 namespace LabelHtml.Forms.Plugin.iOS
@@ -81,6 +82,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 		private void SetText(UILabel control, string html)
 		{
 			var element = (HtmlLabel)Element;
+
 			// Create HTML data sting
 			var stringType = new NSAttributedStringDocumentAttributes
 			{				
@@ -93,7 +95,11 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 			SetLinksStyles(element, mutableHtmlString);
 			control.AttributedText = mutableHtmlString;
-			control.HandleLinkTap(element);
+
+			if (!Element.GestureRecognizers.Any())
+			{
+				control.HandleLinkTap(element);
+			}
 		}
 
 		private static void SetLinksStyles(HtmlLabel element, NSMutableAttributedString mutableHtmlString)
