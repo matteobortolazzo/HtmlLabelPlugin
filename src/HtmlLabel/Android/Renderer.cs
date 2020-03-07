@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Linq;
 using Android.OS;
 using Android.Text;
 using Android.Text.Method;
@@ -79,6 +80,12 @@ namespace LabelHtml.Forms.Plugin.Droid
 				return;
 			}
 
+			Color linkColor = ((HtmlLabel)Element).LinkColor;
+			if (!linkColor.IsDefault)
+			{
+				Control.SetLinkTextColor(linkColor.ToAndroid());
+			}
+
 			Control.SetIncludeFontPadding(false);
 			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
 			/* 
@@ -108,8 +115,11 @@ namespace LabelHtml.Forms.Plugin.Droid
 			// Make clickable links
 			control.MovementMethod = LinkMovementMethod.Instance;
 			using  var strBuilder = new SpannableStringBuilder(sequence);
-			Java.Lang.Object[] urls = strBuilder.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)));
-			foreach (Java.Lang.Object span in urls)
+			URLSpan[] urls = strBuilder
+				.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)))
+				.Cast<URLSpan>()
+				.ToArray();
+			foreach (URLSpan span in urls)
 			{
 				MakeLinkClickable(strBuilder, (URLSpan)span);
 			}
@@ -151,6 +161,12 @@ namespace LabelHtml.Forms.Plugin.Droid
 			{
 				_label = label;
 				_span = span;
+			}
+
+			public override void UpdateDrawState(TextPaint ds)
+			{
+				base.UpdateDrawState(ds);
+				ds.UnderlineText = _label.UnderlineText;
 			}
 
 			public override void OnClick(Android.Views.View widget)

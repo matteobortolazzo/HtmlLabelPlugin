@@ -147,4 +147,10 @@
   <data name="LinkToTel" xml:space="preserve">
     <value>Call to &lt;a href="tel://8372717112"&gt;8372717112&lt;/a&gt;.</value>
   </data>
+  <data name="LinkWithColor" xml:space="preserve">
+    <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with custom color.</value>
+  </data>
+  <data name="LinkWithoutUnderline" xml:space="preserve">
+    <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with no underline.</value>
+  </data>
 </root>

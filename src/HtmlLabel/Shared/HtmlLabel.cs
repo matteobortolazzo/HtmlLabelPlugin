@@ -13,6 +13,36 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 	public class HtmlLabel : Label
 	{
 		/// <summary>
+		/// Identify the UnderlineText property.
+		/// </summary>
+		public static readonly BindableProperty UnderlineTextProperty =
+			BindableProperty.Create(nameof(UnderlineText), typeof(bool), typeof(HtmlLabel), true);
+
+		/// <summary>
+		/// Get or set if hyperlinks are underlined.
+		/// </summary>
+		public bool UnderlineText
+		{
+			get { return (bool)GetValue(UnderlineTextProperty); }
+			set { SetValue(UnderlineTextProperty, value); }
+		}
+
+		/// <summary>
+		/// Identify the LinkColor property.
+		/// </summary>
+		public static readonly BindableProperty LinkColorProperty =
+			BindableProperty.Create(nameof(LinkColor), typeof(Color), typeof(HtmlLabel), default);
+
+		/// <summary>
+		/// Get or set the color of hyperlinks.
+		/// </summary>
+		public Color LinkColor
+		{
+			get { return (Color)GetValue(LinkColorProperty); }
+			set { SetValue(LinkColorProperty, value); }
+		}
+
+		/// <summary>
 		/// Identify the BrowserLaunchOptions property.
 		/// </summary>
 		public static readonly BindableProperty BrowserLaunchOptionsProperty =

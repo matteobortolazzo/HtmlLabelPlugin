@@ -149,5 +149,23 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
                 return ResourceManager.GetString("LinkToTel", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt; with custom color..
+        /// </summary>
+        public static string LinkWithColor {
+            get {
+                return ResourceManager.GetString("LinkWithColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt; with no underline..
+        /// </summary>
+        public static string LinkWithoutUnderline {
+            get {
+                return ResourceManager.GetString("LinkWithoutUnderline", resourceCulture);
+            }
+        }
     }
 }

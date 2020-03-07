@@ -7,14 +7,13 @@ using Windows.UI.Xaml.Documents;
 using LabelHtml.Forms.Plugin.Abstractions;
 using Xamarin.Forms.Platform.UWP;
 using LabelHtml.Forms.Plugin.UWP;
-using Xamarin.Forms;
 using Span = Windows.UI.Xaml.Documents.Span;
-using Xamarin.Essentials;
+using System.Web;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 namespace LabelHtml.Forms.Plugin.UWP
 {
-    internal class HtmlTextBehavior : Behavior<TextBlock>
+	internal class HtmlTextBehavior : Behavior<TextBlock>
 	{
 		// All the supported tags
 		internal const string _elementA = "A";
@@ -74,6 +73,24 @@ namespace LabelHtml.Forms.Plugin.UWP
 
             // Just incase we are not given text with elements.
             var modifiedText = $"<div>{text}</div>";
+
+			var linkRegex = new Regex(@"<a\s+href=""(.+?)\""");
+
+			MatchCollection matches = linkRegex.Matches(modifiedText);
+			if (matches.Count > 0)
+			{
+				foreach (Match match in matches)
+				{
+					for (var i = 1; i < match.Groups.Count; i++)
+					{
+						Group group = match.Groups[i];
+						var escapedUri = Uri.EscapeDataString(group.Value);
+						modifiedText = modifiedText.Replace(group.Value, escapedUri, StringComparison.InvariantCulture);
+					}
+				}
+				System.Diagnostics.Debug.WriteLine(@$"ERROR: ${matches}");
+			}
+
 			modifiedText = Regex.Replace(modifiedText, "<br>", "<br></br>", RegexOptions.IgnoreCase);
 			// reset the text because we will add to it.
 			AssociatedObject.Inlines.Clear();
@@ -99,19 +116,28 @@ namespace LabelHtml.Forms.Plugin.UWP
 				case _elementA:
 					var link = new Hyperlink();
                     XAttribute href = element.Attribute("href");
+					var unescapedUri = Uri.UnescapeDataString(href?.Value);
 					if (href != null)
 					{
 						try
 						{
-							link.NavigateUri = new Uri(href.Value);
+							link.NavigateUri = new Uri(unescapedUri);
 						}
 						catch (FormatException) { /* href is not valid */ }
 					}
 					link.Click += (sender, e) =>
 					{
 						sender.NavigateUri = null;
-						RendererHelper.HandleUriClick(label, href.Value);
+						RendererHelper.HandleUriClick(label, unescapedUri);
 					};
+					if (!label.LinkColor.IsDefault)
+					{
+						link.Foreground = label.LinkColor.ToBrush();
+					}
+					if (!label.UnderlineText)
+					{
+						link.UnderlineStyle = UnderlineStyle.None;
+					}					
 					inlines.Add(link);
 					currentInlines = link.Inlines;
 					break;

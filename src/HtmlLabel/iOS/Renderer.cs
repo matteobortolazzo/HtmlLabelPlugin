@@ -64,6 +64,12 @@ namespace LabelHtml.Forms.Plugin.iOS
                 return;
             }
 
+			Color linkColor = ((HtmlLabel)Element).LinkColor;
+			if (!linkColor.IsDefault)
+			{
+				Control.TintColor = linkColor.ToUIColor();
+			}
+
 			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
 			if (styledHtml != null)
 			{
@@ -74,25 +80,43 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 		private void SetText(UILabel control, string html)
 		{
+			var element = (HtmlLabel)Element;
 			// Create HTML data sting
 			var stringType = new NSAttributedStringDocumentAttributes
-			{
+			{				
 				DocumentType = NSDocumentType.HTML
 			};
 			var nsError = new NSError();
 			var htmlData = NSData.FromString(html, NSStringEncoding.Unicode);
-			var htmlString = new NSAttributedString(htmlData, stringType, ref nsError);
+			using var htmlString = new NSAttributedString(htmlData, stringType, ref nsError);
 			var mutableHtmlString = new NSMutableAttributedString(htmlString);
-			
-			using var newLine = new NSString("\n");
-			if (mutableHtmlString.MutableString.HasSuffix(newLine))
-			{
-				mutableHtmlString.DeleteRange(new NSRange(mutableHtmlString.MutableString.Length - 1, 1));
-			}
 
-			var element = (HtmlLabel)Element;
+			SetLinksStyles(element, mutableHtmlString);
 			control.AttributedText = mutableHtmlString;
 			control.HandleLinkTap(element);
+		}
+
+		private static void SetLinksStyles(HtmlLabel element, NSMutableAttributedString mutableHtmlString)
+		{
+			using var linkAttributeName = new NSString("NSLink");
+			var linkAttributes = new UIStringAttributes();
+			if (!element.UnderlineText)
+			{
+				linkAttributes.UnderlineStyle = NSUnderlineStyle.None;
+			};
+			if (!element.LinkColor.IsDefault)
+			{
+				linkAttributes.ForegroundColor = element.LinkColor.ToUIColor();
+			};
+
+			mutableHtmlString.EnumerateAttribute(linkAttributeName, new NSRange(0, mutableHtmlString.Length), NSAttributedStringEnumeration.LongestEffectiveRangeNotRequired,
+				(NSObject value, NSRange range, ref bool stop) =>
+				{
+					if (value != null && value is NSUrl)
+					{
+						mutableHtmlString.AddAttributes(linkAttributes, range);
+					}
+				});
 		}
 	}
 }

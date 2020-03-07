@@ -29,6 +29,8 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string LinkToEmail => HtmlSources.LinkToEmail;
         public string LinkToTel => HtmlSources.LinkToTel;
         public string LinkToSms => HtmlSources.LinkToSms;
+        public string LinkWithColor => HtmlSources.LinkWithColor;
+        public string LinkWithoutUnderline => HtmlSources.LinkWithoutUnderline;
         public BrowserLaunchOptions BrowserLaunchOptions => new BrowserLaunchOptions
         {
             LaunchMode = BrowserLaunchMode.SystemPreferred,

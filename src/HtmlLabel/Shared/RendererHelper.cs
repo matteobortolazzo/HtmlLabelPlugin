@@ -21,7 +21,8 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 				Label.FontFamilyProperty.PropertyName,
 				Label.FontSizeProperty.PropertyName,
 				Label.HorizontalTextAlignmentProperty.PropertyName,
-				Label.TextColorProperty.PropertyName
+				Label.TextColorProperty.PropertyName,
+				HtmlLabel.LinkColorProperty.PropertyName
 			};
 		private static readonly string[] _openWithBrowserSchema = new[]
 			{ "http", "https", "mailto", "tel", "sms", "geo" };
