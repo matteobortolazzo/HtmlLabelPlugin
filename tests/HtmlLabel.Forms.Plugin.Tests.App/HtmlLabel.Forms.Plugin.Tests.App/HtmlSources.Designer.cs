@@ -79,6 +79,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to سلسلة عربية..
+        /// </summary>
+        public static string Arab {
+            get {
+                return ResourceManager.GetString("Arab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A &lt;strong&gt;bold&lt;/strong&gt; string..
         /// </summary>
         public static string Bold {
@@ -174,15 +183,6 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         public static string LinkWithoutUnderline {
             get {
                 return ResourceManager.GetString("LinkWithoutUnderline", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

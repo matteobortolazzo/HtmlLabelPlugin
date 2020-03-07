@@ -32,6 +32,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string LinkWithColor => HtmlSources.LinkWithColor;
         public string LinkWithoutUnderline => HtmlSources.LinkWithoutUnderline;
         public string LinkWithGestures => HtmlSources.LinkWithGestures;
+        public string Arab => HtmlSources.Arab;
         public Command Clicked => new Command(() => Browser.OpenAsync("https://github.com/matteobortolazzo/HtmlLabelPlugin"));
         public BrowserLaunchOptions BrowserLaunchOptions => new BrowserLaunchOptions
         {

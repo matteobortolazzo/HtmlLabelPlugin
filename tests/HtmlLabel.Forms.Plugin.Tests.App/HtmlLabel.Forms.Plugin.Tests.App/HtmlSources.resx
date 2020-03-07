@@ -123,6 +123,9 @@
   <data name="AlignEnd" xml:space="preserve">
     <value>An align end string.</value>
   </data>
+  <data name="Arab" xml:space="preserve">
+    <value>سلسلة عربية.</value>
+  </data>
   <data name="Bold" xml:space="preserve">
     <value>A &lt;strong&gt;bold&lt;/strong&gt; string.</value>
   </data>
@@ -155,8 +158,5 @@
   </data>
   <data name="LinkWithoutUnderline" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with no underline.</value>
-  </data>
-  <data name="String1" xml:space="preserve">
-    <value />
   </data>
 </root>

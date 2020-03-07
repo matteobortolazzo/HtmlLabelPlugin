@@ -109,7 +109,10 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			}
 
 			var style = GetStyle();
-			return $"<div style=\"{style}\">{_text}</div>";
+			var direction = Device.FlowDirection == FlowDirection.RightToLeft
+				? "dir=\"rtl\""
+				: string.Empty;
+			return $"<div style=\"{style}\" {direction}>{_text}</div>";
 		}
 
 		public string GetStyle()

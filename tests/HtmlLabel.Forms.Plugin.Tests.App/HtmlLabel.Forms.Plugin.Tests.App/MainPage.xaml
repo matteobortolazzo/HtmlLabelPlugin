@@ -7,6 +7,7 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              mc:Ignorable="d"
              ios:Page.UseSafeArea="true"
+             FlowDirection="{x:Static Device.FlowDirection}"
              x:Class="HtmlLabel.Forms.Plugin.Tests.App.MainPage">
     <ScrollView>
         <StackLayout Padding="10">            
@@ -65,6 +66,10 @@
                         <TapGestureRecognizer Command="{Binding Clicked}" />
                     </Label.GestureRecognizers>
                 </htmlLabel:HtmlLabel>
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Arab" />
+                <htmlLabel:HtmlLabel Text="{Binding Arab}" />
             </StackLayout>
         </StackLayout>
     </ScrollView>
