@@ -31,6 +31,7 @@
     <DebugType>portable</DebugType>
     <Configurations>Debug;Release</Configurations>
     <LangVersion>8.0</LangVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
@@ -51,8 +52,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Include="..\LICENSE" PackagePath="" Pack="true" />
-    <None Include="..\Assets\xamarin.essentials_128x128.png" PackagePath="icon.png" Pack="true" />
+    <None Include="..\..\LICENSE" PackagePath="" Pack="true" />
+    <None Include="..\..\Assets\xamarin.html-label_128x128.png" PackagePath="icon.png" Pack="true" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
