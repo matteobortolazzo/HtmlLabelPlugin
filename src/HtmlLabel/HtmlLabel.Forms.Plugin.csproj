@@ -1,41 +1,58 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
-
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
   <PropertyGroup>
-		<TargetFrameworks>netstandard2.0;MonoAndroid90;Xamarin.iOS10;uap10.0.16299</TargetFrameworks>
-
+		<TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
 		<AssemblyName>HtmlLabel.Forms.Plugin</AssemblyName>
     <RootNamespace>LabelHtml.Forms.Plugin</RootNamespace>
-    <Product>HtmlLabel.Forms.Plugin</Product>
-    <AssemblyVersion>4.0.0</AssemblyVersion>
-    <AssemblyFileVersion>4.0.0</AssemblyFileVersion>
-    <Version>4.0.0</Version>
-    <Authors>Matteo Bortolazzo</Authors>
     <PackageId>Xam.Plugin.HtmlLabel</PackageId>
-    <PackOnBuild>true</PackOnBuild>   
+    <Product>HtmlLabel.Forms.Plugin</Product>
+    <!-- PackageIcon>icon.png</PackageIcon -->
+    <PackageIconUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin/blob/dev/Assets/xamarin.html-label_128x128.png</PackageIconUrl>
+    <Summary>Xam.Plugin.HtmlLabel: display HTML content in labels</Summary>
+    <PackageTags>xamarin, windows, uwp, ios, android, xamarin.forms, Xamarin.HtmlLabel, html</PackageTags>
+    <Title>Xam.Plugin.HtmlLabel</Title>
+    <Description>Xam.Plugin.HtmlLabel: display HTML content in labels</Description>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyFileVersion>4.0.0.0</AssemblyFileVersion>
+    <Version>4.0.0</Version>
+    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+    <Authors>Matteo Bortolazzo</Authors>
     <Owners>Matteo Bortolazzo</Owners>
-    <PackageProjectUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</PackageProjectUrl>
-    <Summary>Use a HTML Label in your Xamarin.Forms projects! Ensure you call HtmlLabelRenderer.Init() on each platform!</Summary>
-    <PackageTags>xamarin, pcl, xam.pcl, uwp, uwa, windows phone, winphone, wp8, android, xamarin.forms, ios</PackageTags>
-    <Title>HTML Label Control Plugin for Xamarin.Forms</Title>
-    <Description>Custom control for your Xamarin.Forms project to display HTML content into labels. Ensure you call HtmlLabelRenderer.Init() on each platform!</Description>
-    <Copyright>Copyright 2020</Copyright>
-    <RepositoryUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</RepositoryUrl>
-    <PackageReleaseNotes>See: https://github.com/matteobortolazzo/HtmlLabelPlugin </PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
-    <DebugType>full</DebugType>
+    <Copyright>© Matteo Bortolazzo. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</RepositoryUrl>
     <DefineConstants>$(DefineConstants);</DefineConstants>
-    <PackageIconUrl>http://xamarin.com/content/images/nuget/xamarin.png</PackageIconUrl>
+    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</PackageProjectUrl>
+    <DebugType>portable</DebugType>
+    <Configurations>Debug;Release</Configurations>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
+  
+  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-
+  
+  <PropertyGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
+    <!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- sourcelink: Include PDB in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+  
+  <ItemGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  
   <ItemGroup>
+    <None Include="..\LICENSE" PackagePath="" Pack="true" />
+    <None Include="..\Assets\xamarin.essentials_128x128.png" PackagePath="icon.png" Pack="true" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -43,8 +60,8 @@
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
     <Compile Include="Shared\**" />
-  </ItemGroup>
- 
+  </ItemGroup> 
+  
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
     <Compile Include="UWP\**" />

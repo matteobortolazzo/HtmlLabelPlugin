@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{49C6E954-C9FF-429A-A011-E647B388FA12}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		nuget.config = nuget.config
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -21,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlLabel.Forms.Plugin.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlLabel.Forms.Plugin.Tests.App.iOS", "..\tests\HtmlLabel.Forms.Plugin.Tests.App\HtmlLabel.Forms.Plugin.Tests.App.iOS\HtmlLabel.Forms.Plugin.Tests.App.iOS.csproj", "{E43D8E9D-9065-4266-BC87-D00045242F99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlLabel.Forms.Plugin.Tests.App", "..\tests\HtmlLabel.Forms.Plugin.Tests.App\HtmlLabel.Forms.Plugin.Tests.App\HtmlLabel.Forms.Plugin.Tests.App.csproj", "{72BBA3A9-5705-40F1-8220-AFBED5AB0825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlLabel.Forms.Plugin.Tests.App", "..\tests\HtmlLabel.Forms.Plugin.Tests.App\HtmlLabel.Forms.Plugin.Tests.App\HtmlLabel.Forms.Plugin.Tests.App.csproj", "{72BBA3A9-5705-40F1-8220-AFBED5AB0825}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
