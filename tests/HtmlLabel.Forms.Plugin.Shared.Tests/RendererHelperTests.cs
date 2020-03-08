@@ -14,7 +14,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         {
             var label = new Label();
             var text = Guid.NewGuid().ToString();
-            _helper = new RendererHelper(label, text);
+            _helper = new RendererHelper(label, text, false);
         }
 
         [Fact]

@@ -71,7 +71,8 @@ namespace LabelHtml.Forms.Plugin.iOS
 				Control.TintColor = linkColor.ToUIColor();
 			}
 
-			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
+			var isRtl = Device.FlowDirection == FlowDirection.RightToLeft;
+			var styledHtml = new RendererHelper(Element, Control.Text, isRtl).ToString();
 			if (styledHtml != null)
 			{
 				SetText(Control, styledHtml);

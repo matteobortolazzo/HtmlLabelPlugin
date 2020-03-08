@@ -12,6 +12,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 	internal class RendererHelper
 	{
 		private readonly Label _label;
+		private readonly bool _isRtl;
 		private readonly string _text;
 		private readonly IList<KeyValuePair<string, string>> _styles;
 		private static readonly string[] _supportedProperties = new []
@@ -28,9 +29,10 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			{ "http", "https", "mailto", "tel", "sms", "geo" };
 		private const string _systemFontFamilies = "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI";		
 
-		public RendererHelper(Label label, string text)
+		public RendererHelper(Label label, string text, bool isRtl)
 		{
 			_label = label ?? throw new ArgumentNullException(nameof(label));
+			_isRtl = isRtl;
 			_text = text?.Trim();
 			_styles = new List<KeyValuePair<string, string>>();
 		}
@@ -80,13 +82,17 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		public void AddHorizontalTextAlignStyle(TextAlignment textAlignment)
 		{
-			if (textAlignment == TextAlignment.Center)
+			if (textAlignment == TextAlignment.Start)
+			{
+				AddStyle("text-align", _isRtl ? "right" : "left");
+			}
+			else if (textAlignment == TextAlignment.Center)
 			{
 				AddStyle("text-align", "center");
 			}
 			else if (textAlignment == TextAlignment.End)
 			{
-				AddStyle("text-align", "right");
+				AddStyle("text-align", _isRtl ? "left" : "right");
 			}
 		}
 

@@ -64,7 +64,8 @@ namespace LabelHtml.Forms.Plugin.UWP
             }
 
 			// Gets the complete HTML string
-			var styledHtml = new RendererHelper(Element, Control.Text).ToString();
+			var isRtl = Device.FlowDirection == Xamarin.Forms.FlowDirection.RightToLeft;
+			var styledHtml = new RendererHelper(Element, Control.Text, isRtl).ToString();
 			if (styledHtml == null)
 			{
 				return;
