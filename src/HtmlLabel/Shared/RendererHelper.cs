@@ -87,7 +87,6 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			else if (textAlignment == TextAlignment.End)
 			{
 				AddStyle("text-align", "right");
-				AddStyle("text-align", "end");
 			}
 		}
 
@@ -97,7 +96,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			{
 				return null;
 			}
-
+			
 			AddFontAttributesStyle(_label.FontAttributes);
 			AddFontFamilyStyle(_label.FontFamily);
 			AddTextColorStyle(_label.TextColor);
@@ -109,10 +108,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			}
 
 			var style = GetStyle();
-			var direction = Device.FlowDirection == FlowDirection.RightToLeft
-				? "dir=\"rtl\""
-				: string.Empty;
-			return $"<div style=\"{style}\" {direction}>{_text}</div>";
+			return $"<div style=\"{style}\" dir=\"auto\">{_text}</div>";
 		}
 
 		public string GetStyle()

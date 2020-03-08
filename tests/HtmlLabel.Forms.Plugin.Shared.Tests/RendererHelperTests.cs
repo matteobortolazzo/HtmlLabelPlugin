@@ -141,7 +141,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         [Fact]
         public void AddHorizontalTextAlignStyle_WithEnd_ShouldSet_TextAlignRightEnd()
         {
-            var expected = "text-align:right;text-align:end";
+            var expected = "text-align:right";
 
             // Act
             _helper.AddHorizontalTextAlignStyle(TextAlignment.End);

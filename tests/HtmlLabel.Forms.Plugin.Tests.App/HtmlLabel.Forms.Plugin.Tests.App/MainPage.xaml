@@ -28,7 +28,7 @@
                 <htmlLabel:HtmlLabel Text="{Binding AlignCenter}" HorizontalTextAlignment="Center" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Align end (no iOS)" />
+                <Label Text="Align end" />
                 <htmlLabel:HtmlLabel Text="{Binding AlignEnd}" HorizontalTextAlignment="End" />
             </StackLayout>
             <StackLayout>
