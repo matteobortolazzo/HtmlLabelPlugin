@@ -2,7 +2,7 @@
 Use this Xamarin.Forms plugin to display HTML content into a label.
 
 ## Setup
-* Available on NuGet: https://www.nuget.org/packages/Xam.Plugin.HtmlLabel ![](https://img.shields.io/badge/nuget-v3.0.1-blue.svg) ![](https://matteobortolazzo.visualstudio.com/_apis/public/build/definitions/35196e9f-8b5a-4efb-af02-71d7a588c1fc/4/badge)
+* Available on [NuGet](https://www.nuget.org/packages/Xam.Plugin.HtmlLabel)
 * Install it in every Xamarin.Forms project.
 * **iOS**: AppDelegate.cs
     ```cs
@@ -38,6 +38,8 @@ For underlined text use the &lt;u&gt; tag:
 
 **For links**: remember to add the schema (http:// https:// tel:// mailto:// ext...)
 
+**WARNING**: not all styles are supported by each platform!
+
 ## Supported Properties
 * Text
 * FontAttributes
@@ -45,6 +47,9 @@ For underlined text use the &lt;u&gt; tag:
 * FontSize
 * TextColor
 * HorizontalTextAlignment
+* UnderlineText
+* LinkColor
+* BrowserLaunchOptions
 
 ## Events
 Navigating
@@ -69,12 +74,20 @@ var label = new HtmlLabel();
 label.Text = "..htmlstring.."
 ```
 
+## Links
+It is possible to customize *links*: 
+* Color
+* Underline
+* Browser options
+
+[*Browser options*](https://docs.microsoft.com/en-us/xamarin/essentials/open-browser) are applied with the following schemas: *http*, *https*, *mailto*, *tel*, *sms* and *geo*.
+
+
 ## Limitations
 
-* TextType="HTML" disables any effect.
-* Using Links and custom fonts together could not work properly on iOS.
-* Images won't be displayed on Android (TextView limitation).
-* HorizontalTextAlignment not working in iOS.
+* XF Label's TextType="HTML" disables this implementation.
+* Images are not displayed on Android (TextView limitation).
+* Link styling not working in iOS.
 
 
 ### Contributions
