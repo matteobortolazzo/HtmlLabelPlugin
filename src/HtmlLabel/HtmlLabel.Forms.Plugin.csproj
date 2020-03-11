@@ -1,13 +1,12 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
   <PropertyGroup>
 		<TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.17763</TargetFrameworks>
 		<AssemblyName>HtmlLabel.Forms.Plugin</AssemblyName>
     <RootNamespace>LabelHtml.Forms.Plugin</RootNamespace>
     <PackageId>Xam.Plugin.HtmlLabel</PackageId>
     <Product>HtmlLabel.Forms.Plugin</Product>
-    <!-- PackageIcon>icon.png</PackageIcon -->
-    <PackageIconUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin/blob/dev/Assets/xamarin.html-label_128x128.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <Summary>Xam.Plugin.HtmlLabel: display HTML content in labels</Summary>
     <PackageTags>xamarin, windows, uwp, ios, android, xamarin.forms, Xamarin.HtmlLabel, html</PackageTags>
     <Title>Xam.Plugin.HtmlLabel</Title>
@@ -53,7 +52,7 @@
   
   <ItemGroup>
     <None Include="..\..\LICENSE" PackagePath="" Pack="true" />
-    <None Include="..\..\Assets\xamarin.html-label_128x128.png" PackagePath="icon.png" Pack="true" />
+    <None Include="..\..\Assets\icon.png" PackagePath="" Pack="true" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

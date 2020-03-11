@@ -14,3 +14,6 @@ dotnet_diagnostic.CS0618.severity = silent
 
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = silent
+
+# CA2000: Dispose objects before losing scope
+dotnet_diagnostic.CA2000.severity = silent
