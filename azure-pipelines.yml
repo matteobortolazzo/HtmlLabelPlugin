@@ -1,0 +1,55 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- dev
+
+pool:
+  vmImage: 'windows-latest'
+
+stages:
+- stage: CI
+  jobs:
+  - job: restore
+    displayName: Restore dependencies
+    steps:
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'select'
+  - job: build
+    displayName: Build package
+    steps:
+    - task: MSBuild@1
+      inputs:
+        solution: '**/*.sln'
+  - job: publish
+    displayName: Publish artifact
+    steps:
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: '**/*.nupkg'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage:  CD
+  jobs:
+  - deployment: Push
+    strategy:
+      runOnce:
+        deploy:
+          steps:    
+          - task: NuGetCommand@2
+            inputs:
+              command: 'push'
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+              nuGetFeedType: 'external'
+              publishFeedCredentials: 'NuGet - HTML Label'
