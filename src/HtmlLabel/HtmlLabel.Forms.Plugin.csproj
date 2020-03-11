@@ -31,7 +31,7 @@
     <DebugType>portable</DebugType>
     <Configurations>Debug;Release</Configurations>
     <LangVersion>8.0</LangVersion>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
