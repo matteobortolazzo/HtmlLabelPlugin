@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- dev
+- master
 
 pool:
   vmImage: 'windows-latest'
@@ -40,7 +40,7 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-- stage:  CD
+- stage: CD
   jobs:
   - deployment: Push
     strategy:
