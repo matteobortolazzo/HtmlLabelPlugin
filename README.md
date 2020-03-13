@@ -82,13 +82,13 @@ It is possible to customize *links*:
 
 [*Browser options*](https://docs.microsoft.com/en-us/xamarin/essentials/open-browser) are applied with the following schemas: *http*, *https*, *mailto*, *tel*, *sms* and *geo*.
 
+**iOS WARNING**: Changing the style of iOS links is not supported by *iOS* intentionally and this plugin use a workaround. From *Apple*:
+> To promote consistency, the intended behavior is for ranges that represent links (specified via NSLinkAttributeName) to be drawn using the default link appearance.
 
 ## Limitations
 
 * XF Label's TextType="HTML" disables this implementation.
 * Images are not displayed on Android (TextView limitation).
-* Link styling not working in iOS.
-
 
 ### Contributions
 Contributions are welcome!

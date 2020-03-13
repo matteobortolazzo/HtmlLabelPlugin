@@ -8,7 +8,9 @@ namespace LabelHtml.Forms.Plugin.iOS
 {
 	internal static class LinkTapHelper
 	{
-        public static void HandleLinkTap(this UILabel control, HtmlLabel element)
+		public static readonly NSString CustomLinkAttribute = new NSString("LabelLink");
+
+		public static void HandleLinkTap(this UILabel control, HtmlLabel element)
 		{
 			void TapHandler(UITapGestureRecognizer tap)
 			{
@@ -71,8 +73,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			}
 
 			// Try to get the URL
-			using var linkAttributeName = new NSString("NSLink");
-			NSObject linkAttributeValue = attributedText.GetAttribute(linkAttributeName, characterIndex, out NSRange range);
+			NSObject linkAttributeValue = attributedText.GetAttribute(CustomLinkAttribute, characterIndex, out NSRange range);
 			return linkAttributeValue is NSUrl url ? url.AbsoluteString : null;
 		}
 	}

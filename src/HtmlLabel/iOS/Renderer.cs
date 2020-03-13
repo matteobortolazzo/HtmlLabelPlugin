@@ -102,17 +102,20 @@ namespace LabelHtml.Forms.Plugin.iOS
 				control.HandleLinkTap(element);
 			}
 		}
-
+		
 		private static void SetLinksStyles(HtmlLabel element, NSMutableAttributedString mutableHtmlString)
-		{
+		{			
 			using var linkAttributeName = new NSString("NSLink");
-			var linkAttributes = new UIStringAttributes();
+			UIStringAttributes linkAttributes = null;
+
 			if (!element.UnderlineText)
 			{
+				linkAttributes ??= new UIStringAttributes();
 				linkAttributes.UnderlineStyle = NSUnderlineStyle.None;
 			};
 			if (!element.LinkColor.IsDefault)
 			{
+				linkAttributes ??= new UIStringAttributes();
 				linkAttributes.ForegroundColor = element.LinkColor.ToUIColor();
 			};
 
@@ -121,9 +124,17 @@ namespace LabelHtml.Forms.Plugin.iOS
 				{
 					if (value != null && value is NSUrl)
 					{
-						mutableHtmlString.AddAttributes(linkAttributes, range);
+						// Replace the standard NSLink because iOS does not change the aspect of it otherwise.
+						mutableHtmlString.AddAttribute(LinkTapHelper.CustomLinkAttribute, value, range);
+						mutableHtmlString.RemoveAttribute("NSLink", range);
+
+						// Applies the style
+						if (linkAttributes != null)
+						{
+							mutableHtmlString.AddAttributes(linkAttributes, range);
+						}
 					}
 				});
-		}
+		}		
 	}
 }
