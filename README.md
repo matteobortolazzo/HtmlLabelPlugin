@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/matteobortolazzo/HtmlLabel/_apis/build/status/matteobortolazzo.HtmlLabelPlugin?branchName=master)](https://dev.azure.com/matteobortolazzo/HtmlLabel/_build/latest?definitionId=26&branchName=master)
+
 # HTML Label Plugin for Xamarin.Forms
 Use this Xamarin.Forms plugin to display HTML content into a label.
 
