@@ -1,3 +1,6 @@
+variables:
+  BuildConfiguration: Release
+
 trigger:
   branches:
     include:
