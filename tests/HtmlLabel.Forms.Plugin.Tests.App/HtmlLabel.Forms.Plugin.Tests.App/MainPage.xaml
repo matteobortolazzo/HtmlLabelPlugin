@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             mc:Ignorable="d"
+             ios:Page.UseSafeArea="true"
+             FlowDirection="{x:Static Device.FlowDirection}"
+             x:Class="HtmlLabel.Forms.Plugin.Tests.App.MainPage">
+    <ScrollView>
+        <StackLayout Padding="10">            
+            <StackLayout>  
+                <Label Text="Bold" />
+                <htmlLabel:HtmlLabel Text="{Binding Bold}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Italic" />
+                <htmlLabel:HtmlLabel Text="{Binding Italic}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Red color" />
+                <htmlLabel:HtmlLabel Text="{Binding Color}" TextColor="Red" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Align center" />
+                <htmlLabel:HtmlLabel Text="{Binding AlignCenter}" HorizontalTextAlignment="Center" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Align end" />
+                <htmlLabel:HtmlLabel Text="{Binding AlignEnd}" HorizontalTextAlignment="End" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links" />
+                <htmlLabel:HtmlLabel Text="{Binding Links}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links with options" />
+                <htmlLabel:HtmlLabel Text="{Binding LinksWithOptions}" BrowserLaunchOptions="{Binding BrowserLaunchOptions}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links to email" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkToEmail}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links to phone dial" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkToTel}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links to SMS" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkToSms}" />
+            </StackLayout>            
+            <StackLayout>
+                <Label Text="Links with different color" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkWithColor}" LinkColor="Green" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links with no underline" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkWithoutUnderline}" UnderlineText="False" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links with gestures" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkWithGestures}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Clicked}" />
+                    </Label.GestureRecognizers>
+                </htmlLabel:HtmlLabel>
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Arab" />
+                <htmlLabel:HtmlLabel Text="{Binding Arab}" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
