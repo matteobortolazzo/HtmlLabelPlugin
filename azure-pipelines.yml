@@ -4,52 +4,107 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+    - dev
+  paths:
+    include:
+    - src/*
+    - test/*.Tests
+
+pr:
+  branches:
+    include:
+    - master
+    - dev
+  paths:
+    include:
+    - src/*
+    - test/*.Tests
 
 pool:
   vmImage: 'windows-latest'
 
 stages:
-- stage: CI
+- stage: generate_package
+  displayName: Create Artifact
   jobs:
-  - job: restore
-    displayName: Restore dependencies
+  - job: create_artifact
+    displayName: Build Package
     steps:
-    - task: NuGetCommand@2
-      inputs:
-        command: 'restore'
-        restoreSolution: '**/*.sln'
-        feedsToUse: 'select'
-  - job: build
-    displayName: Build package
-    steps:
-    - task: MSBuild@1
-      inputs:
-        solution: '**/*.sln'
-  - job: publish
-    displayName: Publish artifact
-    steps:
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(Build.SourcesDirectory)'
-        Contents: '**/*.nupkg'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+      - task: NuGetToolInstaller@1
+        displayName: NuGet Install
+        inputs:
+          versionSpec: 
+          checkLatest: true
+      - task: NuGetCommand@2
+        displayName: NuGet Restore
+        inputs:
+          command: 'restore'
+          restoreSolution: '**/*.sln'
+          feedsToUse: 'select'
+      - task: MSBuild@1
+        displayName: Build
+        inputs:
+          solution: '**/*.sln'
+          configuration: $(BuildConfiguration)
+      - task: VSTest@2
+        displayName: Unit tests
+        inputs:
+          testSelector: 'testAssemblies'
+          testAssemblyVer2: |
+            **\*test*.dll
+            !**\*TestAdapter.dll
+            !**\obj\**
+          searchFolder: '$(System.DefaultWorkingDirectory)'
+      - task: CopyFiles@2
+        condition: ne(variables['Build.Reason'], 'PullRequest')
+        inputs:
+          SourceFolder: '$(Build.SourcesDirectory)'
+          Contents: '**\bin\$(BuildConfiguration)\**\*.nupkg'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          flattenFolders: true
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
 
-- stage: CD
+- stage: release_dev_feed
+  dependsOn: generate_package
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  displayName: Dev Feed Push
   jobs:
-  - deployment: Push
+  - deployment: push
+    displayName: Push To Azure Artifacts
+    environment: Dev
     strategy:
       runOnce:
         deploy:
-          steps:    
+          steps:
           - task: NuGetCommand@2
             inputs:
               command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+              packagesToPush: '$(Pipeline.Workspace)/**/drop/*.nupkg'
+              nuGetFeedType: 'internal'
+              publishVstsFeed: 'aef7161a-73f0-42a6-8415-7f15629f6d98'
+
+- stage: release_public_feed
+  dependsOn: release_dev_feed
+  displayName: Public Feed Push
+  jobs:
+  - deployment: push
+    displayName: Push To NuGet
+    environment: NuGet
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: NuGetCommand@2
+            displayName: NuGet Push
+            inputs:
+              command: 'push'
+              packagesToPush: '$(Pipeline.Workspace)/**/drop/*.nupkg'
               nuGetFeedType: 'external'
               publishFeedCredentials: 'NuGet - HTML Label'
