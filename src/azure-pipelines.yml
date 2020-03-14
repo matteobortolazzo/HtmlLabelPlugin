@@ -1,0 +1,86 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/*
+    - test/*.Tests
+
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/*
+    - test/*.Tests
+
+pool:
+  vmImage: 'windows-latest'
+
+stages:
+- stage: generate_package
+  displayName: Create Artifact
+  jobs:
+  - job: create_artifact
+    displayName: Build Package
+    steps:
+      - task: NuGetToolInstaller@1
+        displayName: NuGet Install
+        inputs:
+          versionSpec: 
+          checkLatest: true
+      - task: NuGetCommand@2
+        displayName: NuGet Restore
+        inputs:
+          command: 'restore'
+          restoreSolution: '**/*.sln'
+          feedsToUse: 'select'
+      - task: MSBuild@1
+        displayName: Build
+        inputs:
+          solution: '**/*.sln'
+          configuration: $(BuildConfiguration)
+      - task: VSTest@2
+        displayName: Run Unit Tests
+        inputs:
+          testSelector: 'testAssemblies'
+          testAssemblyVer2: |
+            **\*test*.dll
+            !**\*TestAdapter.dll
+            !**\obj\**
+          searchFolder: '$(System.DefaultWorkingDirectory)'
+      - task: CopyFiles@2
+        displayName: Copy Artifact
+        condition: ne(variables['Build.Reason'], 'PullRequest')
+        inputs:
+          SourceFolder: '$(Build.SourcesDirectory)'
+          Contents: '**\bin\$(BuildConfiguration)\**\*.nupkg'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          flattenFolders: true
+      - task: PublishBuildArtifacts@1
+        displayName: Push Artifact
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+- stage: release_public_feed
+  dependsOn: release_dev_feed
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  displayName: Public Feed Push
+  jobs:
+  - deployment: push
+    displayName: Push To NuGet
+    environment: NuGet
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: NuGetCommand@2
+            displayName: NuGet Push
+            inputs:
+              command: 'push'
+              packagesToPush: '$(Pipeline.Workspace)/**/drop/*.nupkg'
+              nuGetFeedType: 'external'
+              publishFeedCredentials: 'NuGet - HTML Label'
