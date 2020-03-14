@@ -6,18 +6,22 @@ trigger:
     include:
     - master
   paths:
-    include:
-    - src/*
-    - test/*.Tests
-
+    exclude:
+    - README.md
+    - CHANGELOG.md
+    - LATEST_CHANGE.md
+    - azure-pipelines.yml
+    
 pr:
   branches:
     include:
     - master
   paths:
-    include:
-    - src/*
-    - test/*.Tests
+    exclude:
+    - README.md
+    - CHANGELOG.md
+    - LATEST_CHANGE.md
+    - azure-pipelines.yml
 
 pool:
   vmImage: 'windows-latest'

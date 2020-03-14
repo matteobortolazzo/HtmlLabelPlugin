@@ -89,6 +89,10 @@ It is possible to customize *links*:
 
 * XF Label's TextType="HTML" disables this implementation.
 * Images are not displayed on Android (TextView limitation).
+<<<<<<< HEAD
+* Adding *GestureRecognizers* will disabled links.
+=======
+>>>>>>> 20e156f7fe3386811d28943aef556ec9f8da9f5e
 
 ### Contributions
 Contributions are welcome!
