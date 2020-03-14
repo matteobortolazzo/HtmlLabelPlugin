@@ -64,6 +64,7 @@ stages:
           flattenFolders: true
       - task: PublishBuildArtifacts@1
         displayName: Push Artifact
+        condition: ne(variables['Build.Reason'], 'PullRequest')
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
