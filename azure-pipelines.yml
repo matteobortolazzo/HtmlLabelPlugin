@@ -1,3 +1,6 @@
+variables:
+  BuildConfiguration: Release
+
 trigger:
   branches:
     include:
@@ -66,7 +69,7 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 - stage: release_public_feed
-  dependsOn: release_dev_feed
+  dependsOn: generate_package
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   displayName: Public Feed Push
   jobs:
