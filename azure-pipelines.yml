@@ -1,13 +1,7 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
   branches:
     include:
     - master
-    - dev
   paths:
     include:
     - src/*
@@ -17,7 +11,6 @@ pr:
   branches:
     include:
     - master
-    - dev
   paths:
     include:
     - src/*
@@ -50,7 +43,7 @@ stages:
           solution: '**/*.sln'
           configuration: $(BuildConfiguration)
       - task: VSTest@2
-        displayName: Unit tests
+        displayName: Run Unit Tests
         inputs:
           testSelector: 'testAssemblies'
           testAssemblyVer2: |
@@ -59,6 +52,7 @@ stages:
             !**\obj\**
           searchFolder: '$(System.DefaultWorkingDirectory)'
       - task: CopyFiles@2
+        displayName: Copy Artifact
         condition: ne(variables['Build.Reason'], 'PullRequest')
         inputs:
           SourceFolder: '$(Build.SourcesDirectory)'
@@ -66,32 +60,14 @@ stages:
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
           flattenFolders: true
       - task: PublishBuildArtifacts@1
+        displayName: Push Artifact
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
           publishLocation: 'Container'
-
-- stage: release_dev_feed
-  dependsOn: generate_package
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  displayName: Dev Feed Push
-  jobs:
-  - deployment: push
-    displayName: Push To Azure Artifacts
-    environment: Dev
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: NuGetCommand@2
-            inputs:
-              command: 'push'
-              packagesToPush: '$(Pipeline.Workspace)/**/drop/*.nupkg'
-              nuGetFeedType: 'internal'
-              publishVstsFeed: 'aef7161a-73f0-42a6-8415-7f15629f6d98'
-
 - stage: release_public_feed
   dependsOn: release_dev_feed
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   displayName: Public Feed Push
   jobs:
   - deployment: push
