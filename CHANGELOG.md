@@ -1,4 +1,8 @@
-# 1.2.1 (2020-03-14)
+# 4.0.1 (2020-03-15)
+## Bug Fix
+* **iOS:** Fix system font. [#81](https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/81)
+
+# 4.0.0 (2020-03-14)
 
 ## Features
 * **Links:** New *Underline* property (bool).
