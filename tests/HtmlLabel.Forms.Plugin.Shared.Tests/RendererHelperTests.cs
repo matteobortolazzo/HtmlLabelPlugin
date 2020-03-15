@@ -102,9 +102,8 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
             var red = rnd.Next(255);
             var green = rnd.Next(255);
             var blue = rnd.Next(255);
-            var alpha = rnd.Next(255) / 100;
-            var color = new Color(red / 255d, green / 255d, blue / 255d, alpha / 255d);
-            var expected = $"color:#{red:X2}{green:X2}{blue:X2};color:rgba({red},{green},{blue},{alpha})";
+            var color = new Color(red / 255d, green / 255d, blue / 255d, 255);
+            var expected = $"color:#{red:X2}{green:X2}{blue:X2};color:rgba({red},{green},{blue},1)";
 
             // Act
             _helper.AddTextColorStyle(color);
