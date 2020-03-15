@@ -14,7 +14,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         {
             var label = new Label();
             var text = Guid.NewGuid().ToString();
-            _helper = new RendererHelper(label, text, false);
+            _helper = new RendererHelper(label, text, "iOS", false);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         public void AddFontFamilyStyle_ShouldSet_FontFamily()
         {
             var fontFamily = Guid.NewGuid().ToString();
-            var expected = $"font-family:'-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,{fontFamily}'";
+            var expected = $"font-family:'-apple-system,{fontFamily}'";
 
             // Act
             _helper.AddFontFamilyStyle(fontFamily);
@@ -117,12 +117,14 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         [Fact]
         public void AddHorizontalTextAlignStyle_WithStart_ShouldNotSet()
         {
+            var expected = "text-align:left";
+
             // Act
             _helper.AddHorizontalTextAlignStyle(TextAlignment.Start);
             var actual = _helper.GetStyle();
 
             // Assert
-            Assert.Equal(string.Empty, actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
