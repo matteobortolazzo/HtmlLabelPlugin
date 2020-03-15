@@ -12,6 +12,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 	internal class RendererHelper
 	{
 		private readonly Label _label;
+		private readonly string _runtimePlatform;
 		private readonly bool _isRtl;
 		private readonly string _text;
 		private readonly IList<KeyValuePair<string, string>> _styles;
@@ -27,11 +28,11 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			};
 		private static readonly string[] _openWithBrowserSchema = new[]
 			{ "http", "https", "mailto", "tel", "sms", "geo" };
-		private const string _systemFontFamilies = "-apple-system,system-ui,BlinkMacSystemFont,Segoe UI";		
 
-		public RendererHelper(Label label, string text, bool isRtl)
+		public RendererHelper(Label label, string text, string runtimePlatform, bool isRtl)
 		{
 			_label = label ?? throw new ArgumentNullException(nameof(label));
+			_runtimePlatform = runtimePlatform;
 			_isRtl = isRtl;
 			_text = text?.Trim();
 			_styles = new List<KeyValuePair<string, string>>();
@@ -55,7 +56,14 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 				? string.Empty
 				: $",{fontFamily}";
 
-			AddStyle("font-family", $"'{_systemFontFamilies}{fontFamilyValue}'");
+			var systemFont = _runtimePlatform switch
+			{
+				Device.iOS => "-apple-system",
+				Device.Android => "Roboto",
+				Device.UWP => "Segoe UI",
+				_ => "system-ui",
+			};
+			AddStyle("font-family", $"'{systemFont}{fontFamilyValue}'");
         }
 
 		public void AddFontSizeStyle(double fontSize)

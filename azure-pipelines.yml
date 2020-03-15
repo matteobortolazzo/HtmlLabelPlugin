@@ -54,10 +54,18 @@ stages:
         inputs:
           testSelector: 'testAssemblies'
           testAssemblyVer2: |
-            **\*test*.dll
+            **\*Shared.Tests.dll
             !**\*TestAdapter.dll
             !**\obj\**
           searchFolder: '$(System.DefaultWorkingDirectory)'
+          minimumExpectedTests: 1,
+          failOnMinTestsNotRun: true
+      - task: PublishTestResults@2
+        displayName: Publish Unit Tests
+        inputs:
+          testResultsFormat: 'XUnit'
+          testResultsFiles: '**/TEST-*.xml'
+          failTaskOnFailedTests: true
       - task: CopyFiles@2
         displayName: Copy Artifact
         condition: ne(variables['Build.Reason'], 'PullRequest')
