@@ -12,9 +12,6 @@
     <Title>Xam.Plugin.HtmlLabel</Title>
     <Description>Xam.Plugin.HtmlLabel: display HTML content in labels</Description>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <AssemblyFileVersion>4.0.0.0</AssemblyFileVersion>
-    <Version>4.0.1</Version>
     <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
     <Authors>Matteo Bortolazzo</Authors>
     <Owners>Matteo Bortolazzo</Owners>
@@ -30,7 +27,7 @@
     <DebugType>portable</DebugType>
     <Configurations>Debug;Release</Configurations>
     <LangVersion>8.0</LangVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">

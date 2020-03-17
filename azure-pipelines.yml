@@ -1,4 +1,7 @@
 variables:
+  Major: '4'
+  Minor: '0'
+  Patch: '1'
   BuildConfiguration: Release
 
 trigger:
@@ -34,18 +37,18 @@ stages:
     displayName: Build Package
     steps:
       - task: NuGetToolInstaller@1
-        displayName: NuGet Install
+        displayName: Install NuGet
         inputs:
           versionSpec: 
           checkLatest: true
       - task: NuGetCommand@2
-        displayName: NuGet Restore
+        displayName: Restore Packages
         inputs:
           command: 'restore'
           restoreSolution: '**/*.sln'
           feedsToUse: 'select'
       - task: MSBuild@1
-        displayName: Build
+        displayName: Build Solution
         inputs:
           solution: '**/*.sln'
           configuration: $(BuildConfiguration)
@@ -57,6 +60,8 @@ stages:
             **\*Shared.Tests.dll
             !**\*TestAdapter.dll
             !**\obj\**
+            !**\xunit.runner.visualstudio.testadapter.dll
+            !**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
           searchFolder: '$(System.DefaultWorkingDirectory)'
           minimumExpectedTests: 1,
           failOnMinTestsNotRun: true
@@ -64,39 +69,60 @@ stages:
         displayName: Publish Unit Tests
         inputs:
           testResultsFormat: 'XUnit'
-          testResultsFiles: '**/TEST-*.xml'
-          failTaskOnFailedTests: true
-      - task: CopyFiles@2
-        displayName: Copy Artifact
+          testResultsFiles: '*.trx'
+          searchFolder: '$(Agent.TempDirectory)\TestResults'
+          buildConfiguration: '$(BuildConfiguration)'
+      - task: MSBuild@1
+        displayName: Build Package
         condition: ne(variables['Build.Reason'], 'PullRequest')
         inputs:
+          solution: '**/src/**/*.csproj'
+          configuration: $(BuildConfiguration)
+          msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Major).$(Minor).$(Patch) /p:AssemblyFileVersion=$(Major).$(Minor).$(Patch) /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)'    
+      - task: CopyFiles@2
+        displayName: Copy Release Notes
+        condition: succeeded()
+        inputs:
           SourceFolder: '$(Build.SourcesDirectory)'
-          Contents: '**\bin\$(BuildConfiguration)\**\*.nupkg'
+          Contents: '**/LATEST_CHANGE.md'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
-          flattenFolders: true
       - task: PublishBuildArtifacts@1
         displayName: Push Artifact
-        condition: ne(variables['Build.Reason'], 'PullRequest')
+        condition: succeeded()
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
           publishLocation: 'Container'
 - stage: release_public_feed
   dependsOn: generate_package
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  displayName: Public Feed Push
+  condition: succeeded()
+  displayName: Release
   jobs:
   - deployment: push
-    displayName: Push To NuGet
+    displayName: Release Package
     environment: NuGet
     strategy:
       runOnce:
         deploy:
           steps:
           - task: NuGetCommand@2
-            displayName: NuGet Push
+            displayName: Push to NuGet
             inputs:
               command: 'push'
               packagesToPush: '$(Pipeline.Workspace)/**/drop/*.nupkg'
               nuGetFeedType: 'external'
               publishFeedCredentials: 'NuGet - HTML Label'
+          - task: GitHubRelease@1
+            displayName: Create GitHub Release
+            inputs:
+              gitHubConnection: 'GitHub connection 1'
+              repositoryName: '$(Build.Repository.Name)'
+              action: 'create'
+              target: '$(Build.SourceVersion)'
+              tagSource: 'gitTag'
+              tagPattern: 'v$(Major).$(Minor).$(Patch)'
+              title: 'v$(Major).$(Minor).$(Patch)'
+              releaseNotesFilePath: '$(Pipeline.Workspace)/**/drop/LATEST_CHANGE.md'
+              changeLogCompareToRelease: 'lastFullRelease'
+              changeLogType: 'commitBased'
+              assets: '$(Pipeline.Workspace)/**/drop/*.nupkg'
