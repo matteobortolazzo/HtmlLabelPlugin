@@ -132,6 +132,9 @@
   <data name="Color" xml:space="preserve">
     <value>Red color string</value>
   </data>
+  <data name="Demo" xml:space="preserve">
+    <value>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tortor massa, fringilla ornare congue id, maximus eleifend justo. Donec ipsum nulla, hendrerit ut scelerisque nec, pellentesque in lorem.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;test 1&lt;/li&gt;&lt;li&gt;Test 2&lt;ol&gt;&lt;li&gt;Test 2.1&lt;/li&gt;&lt;li&gt;test 2.2&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;Donec pharetra quam mi, ac mollis lacus ultrices vitae. Aenean vitae suscipit felis. Donec convallis orci vitae magna consectetur, lobortis vulputate lectus ultrices.&lt;/p&gt;&lt;p&gt;Maecenas fermentum leo non augue sagittis consectetur. Quisque feugiat a magna sit amet tempus. Morbi ac ornare nibh, in viverra dui. Quisque iaculis ipsum sapien, vel lobortis velit blandit sed. Vivamus ac congue nunc.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;test 1&lt;/li&gt;&lt;li&gt;Test 2&lt;ul&gt;&lt;li&gt;Test 2.1&lt;/li&gt;&lt;li&gt;test 2.2&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</value>
+  </data>
   <data name="Italic" xml:space="preserve">
     <value>An &lt;em&gt;italic&lt;/em&gt; string.</value>
   </data>
@@ -158,5 +161,11 @@
   </data>
   <data name="LinkWithoutUnderline" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with no underline.</value>
+  </data>
+  <data name="Lists" xml:space="preserve">
+    <value>&lt;ol&gt;&lt;li&gt;Test&lt;/li&gt;&lt;li&gt;Test 2&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;Test 1&lt;/li&gt;&lt;li&gt;Test 2&lt;/li&gt;&lt;/ul&gt;</value>
+  </data>
+  <data name="Paragraphs" xml:space="preserve">
+    <value>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tortor massa, fringilla ornare congue id, maximus eleifend justo. Donec ipsum nulla, hendrerit ut scelerisque nec, pellentesque in lorem.&lt;/p&gt;&lt;p&gt;Donec pharetra quam mi, ac mollis lacus ultrices vitae. Aenean vitae suscipit felis. Donec convallis orci vitae magna consectetur, lobortis vulputate lectus ultrices.&lt;/p&gt;&lt;p&gt;Maecenas fermentum leo non augue sagittis consectetur. Quisque feugiat a magna sit amet tempus. Morbi ac ornare nibh, in viverra dui. Quisque iaculis ipsum sapien, vel lobortis velit blandit sed. Vivamus ac congue nunc.&lt;/p&gt;</value>
   </data>
 </root>

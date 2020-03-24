@@ -106,6 +106,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tortor massa, fringilla ornare congue id, maximus eleifend justo. Donec ipsum nulla, hendrerit ut scelerisque nec, pellentesque in lorem.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;test 1&lt;/li&gt;&lt;li&gt;Test 2&lt;ol&gt;&lt;li&gt;Test 2.1&lt;/li&gt;&lt;li&gt;test 2.2&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;Donec pharetra quam mi, ac mollis lacus ultrices vitae. Aenean vitae suscipit felis. Donec convallis orci vitae magna consectetur, lobortis vulputate lectus ultrices.&lt;/p&gt;&lt;p&gt;Maecenas fermentum leo non augue sagittis consecte [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Demo {
+            get {
+                return ResourceManager.GetString("Demo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An &lt;em&gt;italic&lt;/em&gt; string..
         /// </summary>
         public static string Italic {
@@ -183,6 +192,24 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         public static string LinkWithoutUnderline {
             get {
                 return ResourceManager.GetString("LinkWithoutUnderline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;ol&gt;&lt;li&gt;Test&lt;/li&gt;&lt;li&gt;Test 2&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;Test 1&lt;/li&gt;&lt;li&gt;Test 2&lt;/li&gt;&lt;/ul&gt;.
+        /// </summary>
+        public static string Lists {
+            get {
+                return ResourceManager.GetString("Lists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tortor massa, fringilla ornare congue id, maximus eleifend justo. Donec ipsum nulla, hendrerit ut scelerisque nec, pellentesque in lorem.&lt;/p&gt;&lt;p&gt;Donec pharetra quam mi, ac mollis lacus ultrices vitae. Aenean vitae suscipit felis. Donec convallis orci vitae magna consectetur, lobortis vulputate lectus ultrices.&lt;/p&gt;&lt;p&gt;Maecenas fermentum leo non augue sagittis consectetur. Quisque feugiat a magna sit amet tempus. Morbi ac ornare nibh, in viverra dui [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Paragraphs {
+            get {
+                return ResourceManager.GetString("Paragraphs", resourceCulture);
             }
         }
     }

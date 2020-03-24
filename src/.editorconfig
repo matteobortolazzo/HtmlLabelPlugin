@@ -1,5 +1,16 @@
 ﻿[*.cs]
 
+# Indentation and spacing
+indent_size = 4
+indent_style = space
+tab_width = 4
+
+# this. and Me. preferences
+dotnet_style_qualification_for_event = false:silent
+dotnet_style_qualification_for_field = false:silent
+dotnet_style_qualification_for_method = false:silent
+dotnet_style_qualification_for_property = false:silent
+
 # CA1010: Collections should implement generic interface
 dotnet_diagnostic.CA1010.severity = silent
 
