@@ -70,6 +70,16 @@ xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=Html
 <htmlLabel:HtmlLabel Text="{Binding HtmlString}" htmlLabel:HtmlLabel.MaxLines="2"/>
 ```
 
+## Android specific
+For Android it is possible to switch the HTML rendering between CompactMode (default) and LegacyMode.
+LegacyMode will give you white spacing between paragraphs, while CompactMode won't. 
+
+```xaml
+xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"
+xmlns:htmlLabelAndroid="clr-namespace:LabelHtml.Forms.Plugin.PlatformSpecifics.Android;assembly=HtmlLabel.Forms.Plugin"
+<htmlLabel:HtmlLabel htmlLabelAndroid:HtmlLabel.HtmlLegacyModeEnabled="True" Text="{Binding HtmlString}"/>
+```
+
 ## Usage C#
 
 ```csharp
