@@ -185,5 +185,14 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
                 return ResourceManager.GetString("LinkWithoutUnderline", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;First paragraph&lt;/p&gt;&lt;p&gt;Second paragraph&lt;/p&gt;.
+        /// </summary>
+        public static string Paragraphs {
+            get {
+                return ResourceManager.GetString("Paragraphs", resourceCulture);
+            }
+        }
     }
 }

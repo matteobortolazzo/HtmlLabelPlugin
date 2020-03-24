@@ -58,6 +58,21 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		}
 
 		/// <summary>
+		/// Identify the AndroidLegacyMode property.
+		/// </summary>
+		public static readonly BindableProperty AndroidLegacyModeProperty =
+			BindableProperty.Create(nameof(AndroidLegacyModeProperty), typeof(bool), typeof(HtmlLabel), default);
+
+		/// <summary>
+		///  Get or set if the Android renderer separates block-level elements with blank lines.
+		/// </summary>
+		public bool AndroidLegacyMode
+		{
+			get { return (bool)GetValue(AndroidLegacyModeProperty); }
+			set { SetValue(AndroidLegacyModeProperty, value); }
+		}
+
+		/// <summary>
 		/// Fires before the open URL request is done.
 		/// </summary>
 		public event EventHandler<WebNavigatingEventArgs> Navigating;

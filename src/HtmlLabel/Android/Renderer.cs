@@ -18,7 +18,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 	/// <summary>
 	/// HtmlLable Implementation
 	/// </summary>
-	[Preserve(AllMembers = true)]
+    [Preserve(AllMembers = true)]
     public class HtmlLabelRenderer : LabelRenderer
     {
 		private const string _tagUlRegex = "[uU][lL]";
@@ -107,11 +107,13 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		private void SetText(TextView control, string html)
 		{
+			var htmlLabel = (HtmlLabel)Element;
 
 			// Set the type of content and the custom tag list handler
 			using var listTagHandler = new ListTagHandler();
+			FromHtmlOptions fromHtmlOptions = htmlLabel.AndroidLegacyMode ? FromHtmlOptions.ModeLegacy : FromHtmlOptions.ModeCompact;
 			ISpanned sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
-				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, listTagHandler) :
+				Html.FromHtml(html, fromHtmlOptions, null, listTagHandler) :
 				Html.FromHtml(html, null, listTagHandler);
 			using var strBuilder = new SpannableStringBuilder(sequence);
 

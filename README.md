@@ -53,6 +53,7 @@ For underlined text use the &lt;u&gt; tag:
 * UnderlineText
 * LinkColor
 * BrowserLaunchOptions
+* AndroidLegacyMode
 
 ## Events
 Navigating
@@ -87,6 +88,9 @@ It is possible to customize *links*:
 
 **iOS WARNING**: Changing the style of iOS links is not supported by *iOS* intentionally and this plugin use a workaround. From *Apple*:
 > To promote consistency, the intended behavior is for ranges that represent links (specified via NSLinkAttributeName) to be drawn using the default link appearance.
+
+## Android's Legacy Mode
+Settings the property `AndroidLegacyMode` to *True* the renderer separates block-level elements with blank lines.
 
 ## Limitations
 

@@ -1,7 +1,7 @@
 variables:
   Major: '4'
-  Minor: '0'
-  Patch: '1'
+  Minor: '1'
+  Patch: '0'
   BuildConfiguration: Release
 
 trigger:
@@ -81,21 +81,21 @@ stages:
           msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Major).$(Minor).$(Patch) /p:AssemblyFileVersion=$(Major).$(Minor).$(Patch) /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)'    
       - task: CopyFiles@2
         displayName: Copy Release Notes
-        condition: succeeded()
+        condition: ne(variables['Build.Reason'], 'PullRequest')
         inputs:
           SourceFolder: '$(Build.SourcesDirectory)'
           Contents: '**/LATEST_CHANGE.md'
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
       - task: PublishBuildArtifacts@1
         displayName: Push Artifact
-        condition: succeeded()
+        condition: ne(variables['Build.Reason'], 'PullRequest')
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
           publishLocation: 'Container'
 - stage: release_public_feed
   dependsOn: generate_package
-  condition: succeeded()
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   displayName: Release
   jobs:
   - deployment: push
