@@ -1,2 +1,3 @@
-﻿## Bug Fix
-* **iOS:** Fix system font. [#81](https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/81)
+﻿## Features
+* **Android:** Support for Android's Legacy Mode rendering. [#83](https://github.com/matteobortolazzo/HtmlLabelPlugin/pull/83)
+* **Android:** Support for images. [#49](https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/49)

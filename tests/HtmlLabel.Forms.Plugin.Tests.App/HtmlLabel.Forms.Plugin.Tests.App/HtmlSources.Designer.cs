@@ -106,6 +106,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Text with image: &lt;img src=&quot;https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png&quot; /&gt;.
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An &lt;em&gt;italic&lt;/em&gt; string..
         /// </summary>
         public static string Italic {
@@ -183,6 +192,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         public static string LinkWithoutUnderline {
             get {
                 return ResourceManager.GetString("LinkWithoutUnderline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;First paragraph&lt;/p&gt;&lt;p&gt;Second paragraph&lt;/p&gt;.
+        /// </summary>
+        public static string Paragraphs {
+            get {
+                return ResourceManager.GetString("Paragraphs", resourceCulture);
             }
         }
     }

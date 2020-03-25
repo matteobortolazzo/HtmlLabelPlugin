@@ -1,8 +1,15 @@
-# 4.0.1 (2020-03-15)
+# 4.1.0
+
+## Features
+* **Android:** Support for Android's Legacy Mode rendering. [#83](https://github.com/matteobortolazzo/HtmlLabelPlugin/pull/83)
+* **Android:** Support for images. [#49](https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/49)
+
+# 4.0.1
+
 ## Bug Fix
 * **iOS:** Fix system font. [#81](https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/81)
 
-# 4.0.0 (2020-03-14)
+# 4.0.0
 
 ## Features
 * **Links:** New *Underline* property (bool).

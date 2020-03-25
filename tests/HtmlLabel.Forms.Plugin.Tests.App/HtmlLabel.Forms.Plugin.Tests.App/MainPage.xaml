@@ -71,6 +71,28 @@
                 <Label Text="Arab" />
                 <htmlLabel:HtmlLabel Text="{Binding Arab}" />
             </StackLayout>
+            <StackLayout>
+                <Label Text="Image" />
+                <htmlLabel:HtmlLabel Text="{Binding Image}" />
+            </StackLayout>
+            <StackLayout>
+                <StackLayout.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean">
+                        <OnPlatform.Platforms>
+                            <On Platform="iOS, UWP" Value="False" />
+                            <On Platform="Android" Value="True" />
+                        </OnPlatform.Platforms>
+                    </OnPlatform>
+                </StackLayout.IsVisible>
+                <StackLayout>
+                    <Label Text="Paragraphs Default" />
+                    <htmlLabel:HtmlLabel Text="{Binding Paragraphs}" />
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Paragraphs Legacy" />
+                    <htmlLabel:HtmlLabel AndroidLegacyMode="True" Text="{Binding Paragraphs}" />
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
     </ScrollView>
 </ContentPage>

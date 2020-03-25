@@ -132,6 +132,9 @@
   <data name="Color" xml:space="preserve">
     <value>Red color string</value>
   </data>
+  <data name="Image" xml:space="preserve">
+    <value>Text with image: &lt;img src="https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png" /&gt;</value>
+  </data>
   <data name="Italic" xml:space="preserve">
     <value>An &lt;em&gt;italic&lt;/em&gt; string.</value>
   </data>
@@ -158,5 +161,8 @@
   </data>
   <data name="LinkWithoutUnderline" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with no underline.</value>
+  </data>
+  <data name="Paragraphs" xml:space="preserve">
+    <value>&lt;p&gt;First paragraph&lt;/p&gt;&lt;p&gt;Second paragraph&lt;/p&gt;</value>
   </data>
 </root>

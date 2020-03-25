@@ -52,7 +52,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 			catch (System.Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine(@$"ERROR: ${ex.Message}");
+				System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 				}
 				catch (System.Exception ex)
 				{
-					System.Diagnostics.Debug.WriteLine(@$"ERROR: ${ex.Message}");
+					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
 				}
 			}
 		}
@@ -80,7 +80,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 				return;
 			}
 
-			Color linkColor = ((HtmlLabel)Element).LinkColor;
+			Xamarin.Forms.Color linkColor = ((HtmlLabel)Element).LinkColor;
 			if (!linkColor.IsDefault)
 			{
 				Control.SetLinkTextColor(linkColor.ToAndroid());
@@ -107,12 +107,15 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 		private void SetText(TextView control, string html)
 		{
+			var htmlLabel = (HtmlLabel)Element;
 
 			// Set the type of content and the custom tag list handler
 			using var listTagHandler = new ListTagHandler();
+			var imageGetter = new UrlImageParser(Control);
+			FromHtmlOptions fromHtmlOptions = htmlLabel.AndroidLegacyMode ? FromHtmlOptions.ModeLegacy : FromHtmlOptions.ModeCompact;
 			ISpanned sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
-				Html.FromHtml(html, FromHtmlOptions.ModeCompact, null, listTagHandler) :
-				Html.FromHtml(html, null, listTagHandler);
+				Html.FromHtml(html, fromHtmlOptions, imageGetter, listTagHandler) :
+				Html.FromHtml(html, imageGetter, listTagHandler);
 			using var strBuilder = new SpannableStringBuilder(sequence);
 
 			// Make clickable links
