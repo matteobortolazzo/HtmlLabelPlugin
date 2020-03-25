@@ -35,7 +35,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 			}
 			catch (System.Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine(@$"ERROR: ${ex.Message}");
+				System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 				}
 				catch (System.Exception ex)
 				{
-					System.Diagnostics.Debug.WriteLine(@$"ERROR: ${ex.Message}");
+					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
 				}
 			}
 		}

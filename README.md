@@ -95,7 +95,6 @@ Settings the property `AndroidLegacyMode` to *True* the renderer separates block
 ## Limitations
 
 * XF Label's TextType="HTML" disables this implementation.
-* Images are not displayed on Android (TextView limitation).
 * Adding *GestureRecognizers* will disabled links.
 
 ### Contributions

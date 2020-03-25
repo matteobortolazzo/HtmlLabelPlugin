@@ -72,6 +72,10 @@
                 <htmlLabel:HtmlLabel Text="{Binding Arab}" />
             </StackLayout>
             <StackLayout>
+                <Label Text="Image" />
+                <htmlLabel:HtmlLabel Text="{Binding Image}" />
+            </StackLayout>
+            <StackLayout>
                 <StackLayout.IsVisible>
                     <OnPlatform x:TypeArguments="x:Boolean">
                         <OnPlatform.Platforms>
