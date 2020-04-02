@@ -115,11 +115,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			AddFontFamilyStyle(_label.FontFamily);
 			AddTextColorStyle(_label.TextColor);
 			AddHorizontalTextAlignStyle(_label.HorizontalTextAlignment);
-
-			if (_label.FontSize != Device.GetNamedSize(NamedSize.Default, typeof(Label)))
-			{
-				AddFontSizeStyle(_label.FontSize);
-			}
+			AddFontSizeStyle(_label.FontSize);
 
 			var style = GetStyle();
 			return $"<div style=\"{style}\" dir=\"auto\">{_text}</div>";
