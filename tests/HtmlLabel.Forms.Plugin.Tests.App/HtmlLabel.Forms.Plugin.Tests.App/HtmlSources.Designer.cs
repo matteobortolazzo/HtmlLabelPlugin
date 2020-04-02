@@ -97,7 +97,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Red color string.
+        ///   Looks up a localized string similar to Red color string..
         /// </summary>
         public static string Color {
             get {
@@ -106,7 +106,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Text with image: &lt;img src=&quot;https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png&quot; /&gt;.
+        ///   Looks up a localized string similar to Text with image &lt;img src=&quot;https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png&quot; /&gt;.
         /// </summary>
         public static string Image {
             get {

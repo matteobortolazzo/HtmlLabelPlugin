@@ -121,25 +121,45 @@ namespace LabelHtml.Forms.Plugin.Droid
 			// Make clickable links
 			if (!Element.GestureRecognizers.Any())
 			{
+				
 				control.MovementMethod = LinkMovementMethod.Instance;
 				URLSpan[] urls = strBuilder
-				.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)))
-				.Cast<URLSpan>()
-				.ToArray();
+					.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)))
+					.Cast<URLSpan>()
+					.ToArray();
 				foreach (URLSpan span in urls)
 				{
-					MakeLinkClickable(strBuilder, (URLSpan)span);
+					MakeLinkClickable(strBuilder, span);
 				}
-			}			
+			}
 
-			// Android adds an unnecessary "\n" that must be removed
-			using ISpanned value = RemoveLastChar(strBuilder);
+			ISpanned value = RemoveTrailingNewLine(strBuilder);
 
 			// Finally sets the value of the TextView 
 			control.SetText(value, TextView.BufferType.Spannable);
 		}
 
-	    private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
+		private static ISpanned RemoveTrailingNewLine(ICharSequence text)
+		{
+			var builder = new SpannableStringBuilder(text);
+
+			static string RemoveTrailingNewLineRec(string str)
+			{
+				if (!string.IsNullOrEmpty(str))
+				{
+					// If the last char is a new line, removed it and check again
+					return str[^1..] == "\n"
+						? RemoveTrailingNewLineRec(str[0..^1])
+						: str;
+				}
+				return str;
+			}
+
+			var value = RemoveTrailingNewLineRec(text.ToString());
+			return new SpannableStringBuilder(value);
+		}
+
+		private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
 		{
 			var start = strBuilder.GetSpanStart(span);
 			var end = strBuilder.GetSpanEnd(span);
@@ -147,17 +167,6 @@ namespace LabelHtml.Forms.Plugin.Droid
 			var clickable = new HtmlLabelClickableSpan((HtmlLabel)Element, span);
 			strBuilder.SetSpan(clickable, start, end, flags);
 			strBuilder.RemoveSpan(span);
-		}
-
-		private static ISpanned RemoveLastChar(ICharSequence text)
-		{
-			var builder = new SpannableStringBuilder(text);
-			if (text.Length() != 0)
-			{
-				_ = builder.Delete(text.Length() - 1, text.Length());
-			}
-
-			return builder;
 		}
 
 		private class HtmlLabelClickableSpan : ClickableSpan

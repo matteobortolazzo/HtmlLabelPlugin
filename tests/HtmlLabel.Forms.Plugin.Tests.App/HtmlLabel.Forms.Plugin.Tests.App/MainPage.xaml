@@ -12,55 +12,55 @@
     <ScrollView>
         <StackLayout Padding="10">            
             <StackLayout>  
-                <Label Text="Bold" />
+                <Label Text="Bold" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Bold}" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Italic" />
+                <Label Text="Italic" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Italic}" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Red color" />
+                <Label Text="Red color" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Color}" TextColor="Red" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Align center" />
+                <Label Text="Align center" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding AlignCenter}" HorizontalTextAlignment="Center" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Align end" />
+                <Label Text="Align end" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding AlignEnd}" HorizontalTextAlignment="End" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Links" />
+                <Label Text="Links" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Links}" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Links with options" />
+                <Label Text="Links with options" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinksWithOptions}" BrowserLaunchOptions="{Binding BrowserLaunchOptions}" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Links to email" />
+                <Label Text="Links to email" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkToEmail}" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Links to phone dial" />
+                <Label Text="Links to phone dial" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkToTel}" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Links to SMS" />
+                <Label Text="Links to SMS" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkToSms}" />
             </StackLayout>            
             <StackLayout>
-                <Label Text="Links with different color" />
+                <Label Text="Links with different color" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkWithColor}" LinkColor="Green" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Links with no underline" />
+                <Label Text="Links with no underline" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkWithoutUnderline}" UnderlineText="False" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Links with gestures" />
+                <Label Text="Links with gestures" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkWithGestures}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Clicked}" />
@@ -68,11 +68,11 @@
                 </htmlLabel:HtmlLabel>
             </StackLayout>
             <StackLayout>
-                <Label Text="Arab" />
+                <Label Text="Arab" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Arab}" />
             </StackLayout>
             <StackLayout>
-                <Label Text="Image" />
+                <Label Text="Image" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Image}" />
             </StackLayout>
             <StackLayout>
@@ -85,11 +85,11 @@
                     </OnPlatform>
                 </StackLayout.IsVisible>
                 <StackLayout>
-                    <Label Text="Paragraphs Default" />
+                    <Label Text="Paragraphs Default" FontAttributes="Bold" />
                     <htmlLabel:HtmlLabel Text="{Binding Paragraphs}" />
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Paragraphs Legacy" />
+                    <Label Text="Paragraphs Legacy" FontAttributes="Bold" />
                     <htmlLabel:HtmlLabel AndroidLegacyMode="True" Text="{Binding Paragraphs}" />
                 </StackLayout>
             </StackLayout>

@@ -86,13 +86,13 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 			// Create HTML data sting
 			var stringType = new NSAttributedStringDocumentAttributes
-			{				
+			{			
 				DocumentType = NSDocumentType.HTML
 			};
 			var nsError = new NSError();
 			var htmlData = NSData.FromString(html, NSStringEncoding.Unicode);
 			using var htmlString = new NSAttributedString(htmlData, stringType, ref nsError);
-			var mutableHtmlString = new NSMutableAttributedString(htmlString);
+			NSMutableAttributedString mutableHtmlString = RemoveTrailingNewLine(htmlString);			
 
 			SetLinksStyles(element, mutableHtmlString);
 			control.AttributedText = mutableHtmlString;
@@ -102,7 +102,18 @@ namespace LabelHtml.Forms.Plugin.iOS
 				control.HandleLinkTap(element);
 			}
 		}
-		
+
+		private static NSMutableAttributedString RemoveTrailingNewLine(NSAttributedString htmlString)
+		{
+			NSAttributedString lastCharRange = htmlString.Substring(htmlString.Length - 1, 1);
+			if (lastCharRange.Value == "\n")
+			{
+				htmlString = htmlString.Substring(0, htmlString.Length - 1);
+			}
+
+			return new NSMutableAttributedString(htmlString);
+		}
+
 		private static void SetLinksStyles(HtmlLabel element, NSMutableAttributedString mutableHtmlString)
 		{			
 			using var linkAttributeName = new NSString("NSLink");
