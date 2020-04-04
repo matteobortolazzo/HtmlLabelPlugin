@@ -72,6 +72,10 @@
                 <htmlLabel:HtmlLabel Text="{Binding Arab}" />
             </StackLayout>
             <StackLayout>
+                <Label Text="Custom font" FontFamily="{StaticResource CustomFont}" />
+                <htmlLabel:HtmlLabel Text="{Binding CustomFont}" FontFamily="{StaticResource CustomFont}" />
+            </StackLayout>
+            <StackLayout>
                 <Label Text="Image" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Image}" />
             </StackLayout>

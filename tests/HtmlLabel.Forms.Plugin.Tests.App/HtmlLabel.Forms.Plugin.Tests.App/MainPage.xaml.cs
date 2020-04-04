@@ -32,6 +32,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string LinkWithColor => HtmlSources.LinkWithColor;
         public string LinkWithoutUnderline => HtmlSources.LinkWithoutUnderline;
         public string LinkWithGestures => HtmlSources.LinkWithGestures;
+        public string CustomFont => HtmlSources.CustomFont;
         public string Arab => HtmlSources.Arab;
         public string Image => HtmlSources.Image;
         public string Paragraphs => HtmlSources.Paragraphs;

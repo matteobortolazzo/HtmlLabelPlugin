@@ -132,6 +132,9 @@
   <data name="Color" xml:space="preserve">
     <value>Red color string.</value>
   </data>
+  <data name="CustomFont" xml:space="preserve">
+    <value>This is a string with a custom font.</value>
+  </data>
   <data name="Image" xml:space="preserve">
     <value>Text with image &lt;img src="https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png" /&gt;</value>
   </data>

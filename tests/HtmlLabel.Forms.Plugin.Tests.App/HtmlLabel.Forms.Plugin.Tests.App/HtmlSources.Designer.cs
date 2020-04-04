@@ -106,6 +106,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a string with a custom font..
+        /// </summary>
+        public static string CustomFont {
+            get {
+                return ResourceManager.GetString("CustomFont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text with image &lt;img src=&quot;https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png&quot; /&gt;.
         /// </summary>
         public static string Image {

@@ -51,19 +51,19 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		}
 
 		public void AddFontFamilyStyle(string fontFamily)
-        {
-			var fontFamilyValue = string.IsNullOrWhiteSpace(fontFamily)
-				? string.Empty
-				: $",{fontFamily}";
-
-			var systemFont = _runtimePlatform switch
+        {		
+			string GetSystemFont() => _runtimePlatform switch
 			{
 				Device.iOS => "-apple-system",
 				Device.Android => "Roboto",
 				Device.UWP => "Segoe UI",
 				_ => "system-ui",
-			};
-			AddStyle("font-family", $"'{systemFont}{fontFamilyValue}'");
+			}; 
+
+			var fontFamilyValue = string.IsNullOrWhiteSpace(fontFamily)
+				 ? GetSystemFont()
+				 : fontFamily;
+			AddStyle("font-family", $"'{fontFamilyValue}'");
         }
 
 		public void AddFontSizeStyle(double fontSize)
