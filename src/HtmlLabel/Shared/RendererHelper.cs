@@ -51,19 +51,19 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		}
 
 		public void AddFontFamilyStyle(string fontFamily)
-        {
-			var fontFamilyValue = string.IsNullOrWhiteSpace(fontFamily)
-				? string.Empty
-				: $",{fontFamily}";
-
-			var systemFont = _runtimePlatform switch
+        {		
+			string GetSystemFont() => _runtimePlatform switch
 			{
 				Device.iOS => "-apple-system",
 				Device.Android => "Roboto",
 				Device.UWP => "Segoe UI",
 				_ => "system-ui",
-			};
-			AddStyle("font-family", $"'{systemFont}{fontFamilyValue}'");
+			}; 
+
+			var fontFamilyValue = string.IsNullOrWhiteSpace(fontFamily)
+				 ? GetSystemFont()
+				 : fontFamily;
+			AddStyle("font-family", $"'{fontFamilyValue}'");
         }
 
 		public void AddFontSizeStyle(double fontSize)
@@ -115,11 +115,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			AddFontFamilyStyle(_label.FontFamily);
 			AddTextColorStyle(_label.TextColor);
 			AddHorizontalTextAlignStyle(_label.HorizontalTextAlignment);
-
-			if (_label.FontSize != Device.GetNamedSize(NamedSize.Default, typeof(Label)))
-			{
-				AddFontSizeStyle(_label.FontSize);
-			}
+			AddFontSizeStyle(_label.FontSize);
 
 			var style = GetStyle();
 			return $"<div style=\"{style}\" dir=\"auto\">{_text}</div>";

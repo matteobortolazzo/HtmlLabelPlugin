@@ -47,5 +47,9 @@
       <string>en</string>
       <string>ar</string>
     </array>
+    <key>UIAppFonts</key>
+    <array>
+      <string>Allura-Regular.otf</string>
+    </array>
 </dict>
 </plist>

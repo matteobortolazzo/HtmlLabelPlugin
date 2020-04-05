@@ -50,6 +50,7 @@ For underlined text use the &lt;u&gt; tag:
 * FontSize
 * TextColor
 * HorizontalTextAlignment
+* LineHeight (iOS, UWP)
 * UnderlineText
 * LinkColor
 * BrowserLaunchOptions
@@ -96,6 +97,7 @@ Settings the property `AndroidLegacyMode` to *True* the renderer separates block
 
 * XF Label's TextType="HTML" disables this implementation.
 * Adding *GestureRecognizers* will disabled links.
+* List of Android's supported tags [here](https://developer.android.com/guide/topics/resources/string-resource.html#FormattingAndStyling).
 
 ### Contributions
 Contributions are welcome!

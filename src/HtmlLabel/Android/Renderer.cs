@@ -121,16 +121,17 @@ namespace LabelHtml.Forms.Plugin.Droid
 			// Make clickable links
 			if (!Element.GestureRecognizers.Any())
 			{
+				
 				control.MovementMethod = LinkMovementMethod.Instance;
 				URLSpan[] urls = strBuilder
-				.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)))
-				.Cast<URLSpan>()
-				.ToArray();
+					.GetSpans(0, sequence.Length(), Class.FromType(typeof(URLSpan)))
+					.Cast<URLSpan>()
+					.ToArray();
 				foreach (URLSpan span in urls)
 				{
-					MakeLinkClickable(strBuilder, (URLSpan)span);
+					MakeLinkClickable(strBuilder, span);
 				}
-			}			
+			}
 
 			// Android adds an unnecessary "\n" that must be removed
 			using ISpanned value = RemoveLastChar(strBuilder);
@@ -139,7 +140,18 @@ namespace LabelHtml.Forms.Plugin.Droid
 			control.SetText(value, TextView.BufferType.Spannable);
 		}
 
-	    private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
+		private static ISpanned RemoveLastChar(ICharSequence text)
+		{
+			var builder = new SpannableStringBuilder(text);
+			if (text.Length() != 0)
+			{
+				_ = builder.Delete(text.Length() - 2, text.Length());
+			}
+
+			return builder;
+		}
+
+		private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
 		{
 			var start = strBuilder.GetSpanStart(span);
 			var end = strBuilder.GetSpanEnd(span);
@@ -147,17 +159,6 @@ namespace LabelHtml.Forms.Plugin.Droid
 			var clickable = new HtmlLabelClickableSpan((HtmlLabel)Element, span);
 			strBuilder.SetSpan(clickable, start, end, flags);
 			strBuilder.RemoveSpan(span);
-		}
-
-		private static ISpanned RemoveLastChar(ICharSequence text)
-		{
-			var builder = new SpannableStringBuilder(text);
-			if (text.Length() != 0)
-			{
-				_ = builder.Delete(text.Length() - 1, text.Length());
-			}
-
-			return builder;
 		}
 
 		private class HtmlLabelClickableSpan : ClickableSpan

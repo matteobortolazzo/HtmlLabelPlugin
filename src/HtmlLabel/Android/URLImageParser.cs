@@ -41,6 +41,11 @@ namespace LabelHtml.Forms.Plugin.Droid
 
         protected override void OnPostExecute(Drawable result)
         {
+            if (result == null)
+            {
+                return;
+            }
+
             // Set the correct bound according to the result from HTTP call 
             _urlDrawable.SetBounds(0, 0, 0 + result.IntrinsicWidth, 0 + result.IntrinsicHeight);
 

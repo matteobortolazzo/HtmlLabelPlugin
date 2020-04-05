@@ -1,7 +1,7 @@
 variables:
   Major: '4'
   Minor: '1'
-  Patch: '0'
+  Patch: '1'
   BuildConfiguration: Release
 
 trigger:
@@ -31,7 +31,7 @@ pool:
 
 stages:
 - stage: generate_package
-  displayName: Create Artifact
+  displayName: Build Artifact
   jobs:
   - job: create_artifact
     displayName: Build Package
@@ -124,5 +124,5 @@ stages:
               title: 'v$(Major).$(Minor).$(Patch)'
               releaseNotesFilePath: '$(Pipeline.Workspace)/**/drop/LATEST_CHANGE.md'
               changeLogCompareToRelease: 'lastFullRelease'
-              changeLogType: 'commitBased'
+              changeLogType: 'issueBased'
               assets: '$(Pipeline.Workspace)/**/drop/*.nupkg'

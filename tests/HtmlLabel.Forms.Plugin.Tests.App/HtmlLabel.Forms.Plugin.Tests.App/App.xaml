@@ -6,6 +6,12 @@
              mc:Ignorable="d"
              x:Class="HtmlLabel.Forms.Plugin.Tests.App.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <OnPlatform x:TypeArguments="x:String" x:Key="CustomFont">
+                <On Platform="Android" Value="Allura-Regular.otf#Allura" />
+                <On Platform="UWP" Value="/Assets/Allura-Regular.otf#Allura" />
+                <On Platform="iOS" Value="Allura-Regular" />
+            </OnPlatform>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
