@@ -141,6 +141,9 @@
   <data name="Italic" xml:space="preserve">
     <value>An &lt;em&gt;italic&lt;/em&gt; string.</value>
   </data>
+  <data name="LineHeight" xml:space="preserve">
+    <value>This is a string with a different line height.</value>
+  </data>
   <data name="Links" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt;.</value>
   </data>

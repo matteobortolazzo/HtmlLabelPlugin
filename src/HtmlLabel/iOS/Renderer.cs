@@ -6,6 +6,7 @@ using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.iOS;
 using UIKit;
 using System.Linq;
+using System;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 namespace LabelHtml.Forms.Plugin.iOS
@@ -92,8 +93,9 @@ namespace LabelHtml.Forms.Plugin.iOS
 			var nsError = new NSError();
 			var htmlData = NSData.FromString(html, NSStringEncoding.Unicode);
 			using var htmlString = new NSAttributedString(htmlData, stringType, ref nsError);
-			NSMutableAttributedString mutableHtmlString = RemoveTrailingNewLine(htmlString);			
+			NSMutableAttributedString mutableHtmlString = RemoveTrailingNewLine(htmlString);
 
+			SetLineHeight(element, mutableHtmlString);
 			SetLinksStyles(element, mutableHtmlString);
 			control.AttributedText = mutableHtmlString;
 
@@ -112,6 +114,20 @@ namespace LabelHtml.Forms.Plugin.iOS
 			}
 
 			return new NSMutableAttributedString(htmlString);
+		}
+
+		private static void SetLineHeight(HtmlLabel element, NSMutableAttributedString mutableHtmlString)
+		{
+			if (element.LineHeight < 0)
+			{
+				return;
+			}
+
+			var lineHeightStyle = new NSMutableParagraphStyle
+			{
+				LineHeightMultiple = (nfloat)element.LineHeight
+			};
+			mutableHtmlString.AddAttribute(new NSString("NSParagraphStyle"), lineHeightStyle, new NSRange(0, mutableHtmlString.Length));
 		}
 
 		private static void SetLinksStyles(HtmlLabel element, NSMutableAttributedString mutableHtmlString)

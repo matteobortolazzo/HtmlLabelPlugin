@@ -36,6 +36,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string Arab => HtmlSources.Arab;
         public string Image => HtmlSources.Image;
         public string Paragraphs => HtmlSources.Paragraphs;
+        public string LineHeight => HtmlSources.LineHeight;
         public Command Clicked => new Command(() => Browser.OpenAsync("https://github.com/matteobortolazzo/HtmlLabelPlugin"));
         public BrowserLaunchOptions BrowserLaunchOptions => new BrowserLaunchOptions
         {

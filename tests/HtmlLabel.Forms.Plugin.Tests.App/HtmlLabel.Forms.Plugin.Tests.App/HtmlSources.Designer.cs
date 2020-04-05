@@ -133,6 +133,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a string with a different line height..
+        /// </summary>
+        public static string LineHeight {
+            get {
+                return ResourceManager.GetString("LineHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt;..
         /// </summary>
         public static string Links {

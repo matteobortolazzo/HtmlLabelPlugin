@@ -76,6 +76,10 @@
                 <htmlLabel:HtmlLabel Text="{Binding CustomFont}" FontFamily="{StaticResource CustomFont}" />
             </StackLayout>
             <StackLayout>
+                <Label Text="Line height" FontAttributes="Bold" />
+                <htmlLabel:HtmlLabel Text="{Binding LineHeight}" LineHeight="2" BackgroundColor="LightGray" />
+            </StackLayout>
+            <StackLayout>
                 <Label Text="Image" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Image}" />
             </StackLayout>

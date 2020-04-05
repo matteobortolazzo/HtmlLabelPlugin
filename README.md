@@ -50,6 +50,7 @@ For underlined text use the &lt;u&gt; tag:
 * FontSize
 * TextColor
 * HorizontalTextAlignment
+* LineHeight (iOS, UWP)
 * UnderlineText
 * LinkColor
 * BrowserLaunchOptions
