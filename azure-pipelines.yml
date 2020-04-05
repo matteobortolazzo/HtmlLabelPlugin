@@ -113,7 +113,6 @@ stages:
               nuGetFeedType: 'external'
               publishFeedCredentials: 'NuGet - HTML Label'
           - task: GitHubRelease@1
-            displayName: Create GitHub Release
             inputs:
               gitHubConnection: 'GitHub connection 1'
               repositoryName: '$(Build.Repository.Name)'
@@ -123,6 +122,5 @@ stages:
               tagPattern: 'v$(Major).$(Minor).$(Patch)'
               title: 'v$(Major).$(Minor).$(Patch)'
               releaseNotesFilePath: '$(Pipeline.Workspace)/**/drop/LATEST_CHANGE.md'
-              changeLogCompareToRelease: 'lastFullRelease'
-              changeLogType: 'issueBased'
               assets: '$(Pipeline.Workspace)/**/drop/*.nupkg'
+              addChangeLog: false
