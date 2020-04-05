@@ -133,30 +133,22 @@ namespace LabelHtml.Forms.Plugin.Droid
 				}
 			}
 
-			ISpanned value = RemoveTrailingNewLine(strBuilder);
+			// Android adds an unnecessary "\n" that must be removed
+			using ISpanned value = RemoveLastChar(strBuilder);
 
 			// Finally sets the value of the TextView 
 			control.SetText(value, TextView.BufferType.Spannable);
 		}
 
-		private static ISpanned RemoveTrailingNewLine(ICharSequence text)
+		private static ISpanned RemoveLastChar(ICharSequence text)
 		{
 			var builder = new SpannableStringBuilder(text);
-
-			static string RemoveTrailingNewLineRec(string str)
+			if (text.Length() != 0)
 			{
-				if (!string.IsNullOrEmpty(str))
-				{
-					// If the last char is a new line, removed it and check again
-					return str[^1..] == "\n"
-						? RemoveTrailingNewLineRec(str[0..^1])
-						: str;
-				}
-				return str;
+				_ = builder.Delete(text.Length() - 2, text.Length());
 			}
 
-			var value = RemoveTrailingNewLineRec(text.ToString());
-			return new SpannableStringBuilder(value);
+			return builder;
 		}
 
 		private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
