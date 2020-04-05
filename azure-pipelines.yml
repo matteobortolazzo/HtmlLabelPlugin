@@ -31,7 +31,7 @@ pool:
 
 stages:
 - stage: generate_package
-  displayName: Create Artifact
+  displayName: Build Artifact
   jobs:
   - job: create_artifact
     displayName: Build Package

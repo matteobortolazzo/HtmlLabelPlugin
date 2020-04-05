@@ -58,7 +58,7 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
         public void AddFontFamilyStyle_ShouldSet_FontFamily()
         {
             var fontFamily = Guid.NewGuid().ToString();
-            var expected = $"font-family:'-apple-system,{fontFamily}'";
+            var expected = $"font-family:'{fontFamily}'";
 
             // Act
             _helper.AddFontFamilyStyle(fontFamily);
