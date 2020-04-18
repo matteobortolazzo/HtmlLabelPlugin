@@ -73,5 +73,19 @@ namespace LabelHtml.Forms.Plugin.Shared.Tests
             Assert.True(r.Count == 1);
             Assert.True(r["A"][0] == "1 2");
         }
+
+        [Fact]
+        public void ParseQueryString_WithEncodedParameter_Should_NotDecode()
+        {
+            // Arrange
+            var uri = new Uri("https://test.com?a=1%202");
+
+            // Act
+            var r = uri.ParseQueryString(false);
+
+            // Assert
+            Assert.True(r.Count == 1);
+            Assert.True(r["A"][0] == "1%202");
+        }
     }
 }

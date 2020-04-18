@@ -6,7 +6,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 {
     public static class HttpUtility
     {
-        public static Dictionary<string, List<string>> ParseQueryString(this Uri uri)
+        public static Dictionary<string, List<string>> ParseQueryString(this Uri uri, bool decode = true)
         {
             if (uri == null)
             {
@@ -31,7 +31,13 @@ namespace LabelHtml.Forms.Plugin.Abstractions
                 .GroupBy(p => p.Item1.ToUpperInvariant())
                 .ToDictionary(
                     g => g.Key, 
-                    g => g.Select(p => p.Item2).ToList());
+                    g =>
+                    {
+                        var values = g.Select(p => p.Item2);
+                        if (decode)
+                            values = values.Select(Uri.UnescapeDataString);
+                        return values.ToList();
+                    });
         }
 
         public static string GetFirst(this Dictionary<string, List<string>> qParams, string key) =>
