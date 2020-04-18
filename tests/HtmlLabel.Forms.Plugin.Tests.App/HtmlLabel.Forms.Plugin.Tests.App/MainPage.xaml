@@ -50,7 +50,11 @@
             <StackLayout>
                 <Label Text="Links to SMS" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkToSms}" />
-            </StackLayout>            
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Links to Maps" FontAttributes="Bold" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkToGeo}" />
+            </StackLayout>
             <StackLayout>
                 <Label Text="Links with different color" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkWithColor}" LinkColor="Green" />

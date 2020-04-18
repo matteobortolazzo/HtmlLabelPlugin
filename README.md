@@ -67,11 +67,6 @@ xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=Html
 <htmlLabel:HtmlLabel Text="{Binding HtmlString}"/>
 ```
 
-```xaml
-xmlns:htmlLabel="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"
-<htmlLabel:HtmlLabel Text="{Binding HtmlString}" htmlLabel:HtmlLabel.MaxLines="2"/>
-```
-
 ## Usage C#
 
 ```csharp

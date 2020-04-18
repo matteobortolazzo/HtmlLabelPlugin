@@ -55,20 +55,20 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
-    <Compile Include="Shared\**" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.2" />
+    <Compile Include="Shared\*.cs" />
   </ItemGroup> 
   
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
-    <Compile Include="UWP\**" />
+    <Compile Include="UWP\*.cs" />
   </ItemGroup>
 	
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <Compile Include="Android\**" />
+    <Compile Include="Android\*.cs" />
 	</ItemGroup>
 
    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-     <Compile Include="iOS\**" />
+     <Compile Include="iOS\*.cs" />
   </ItemGroup>
 </Project>

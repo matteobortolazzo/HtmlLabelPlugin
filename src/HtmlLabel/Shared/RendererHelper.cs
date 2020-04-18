@@ -16,8 +16,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		private readonly bool _isRtl;
 		private readonly string _text;
 		private readonly IList<KeyValuePair<string, string>> _styles;
-		private static readonly string[] _supportedProperties = new []
-			{
+		private static readonly string[] SupportedProperties = {
 				Label.TextProperty.PropertyName,
 				Label.FontAttributesProperty.PropertyName,
 				Label.FontFamilyProperty.PropertyName,
@@ -26,8 +25,6 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 				Label.TextColorProperty.PropertyName,
 				HtmlLabel.LinkColorProperty.PropertyName
 			};
-		private static readonly string[] _openWithBrowserSchema = new[]
-			{ "http", "https", "mailto", "tel", "sms", "geo" };
 
 		public RendererHelper(Label label, string text, string runtimePlatform, bool isRtl)
 		{
@@ -139,7 +136,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			return css;
 		}
 
-		public static bool RequireProcess(string propertyName) => _supportedProperties.Contains(propertyName);
+		public static bool RequireProcess(string propertyName) => SupportedProperties.Contains(propertyName);
 
 		public static void HandleUriClick(HtmlLabel label, string url)
 		{
@@ -159,20 +156,29 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 			var uri = new Uri(url);
 
-			if (_openWithBrowserSchema.Contains(uri.Scheme))
-			{
-				if (label.BrowserLaunchOptions == null)
-				{
-					Browser.OpenAsync(uri);
-				}
-				else
-				{
-					Browser.OpenAsync(uri, label.BrowserLaunchOptions);
-				}
+            if (uri.IsHttp())
+            {
+                uri.LaunchBrowser(label.BrowserLaunchOptions);
 			}
+			else if (uri.IsEmail())
+            {
+				uri.LaunchEmail();
+            }
+			else if (uri.IsTel())
+            {
+				uri.LaunchTel();
+            }
+            else if (uri.IsSms())
+            {
+                uri.LaunchSms();
+            }
+            else if (uri.IsGeo())
+            {
+                uri.LaunchMaps();
+            }
 			else
 			{
-				Launcher.TryOpenAsync(uri);
+				Launcher.TryOpenAsync(url);
 			}
 
 			label.SendNavigated(args);
