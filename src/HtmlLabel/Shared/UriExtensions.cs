@@ -107,7 +107,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
         private static string Target(this Uri uri)
         {
-            return Uri.UnescapeDataString(uri.AbsoluteUri.Substring(uri.Scheme.Length + 1).Split('?')[0]);
+            return Uri.UnescapeDataString(uri.AbsoluteUri.Substring(uri.Scheme.Length + 1).Split('?')[0].Replace("/", ""));
         }
 
         private static bool MatchSchema(this Uri uri, string schema)
