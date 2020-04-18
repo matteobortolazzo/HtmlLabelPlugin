@@ -153,6 +153,9 @@
   <data name="LinkToEmail" xml:space="preserve">
     <value>Email to &lt;a href="mailto:github@github.com?subject=Awesome&amp;body=Awesome%20plugin"&gt;github@github.com&lt;/a&gt;.</value>
   </data>
+  <data name="LinkToGeo" xml:space="preserve">
+    <value>Link to open maps &lt;a href="geo:53.3242377,-6.3861295;u=5"&gt;here&lt;/a&gt;</value>
+  </data>
   <data name="LinkToSms" xml:space="preserve">
     <value>Send SMS to &lt;a href="sms://8372717112?body=Awesome%20plugin"&gt;8372717112&lt;/a&gt;.</value>
   </data>

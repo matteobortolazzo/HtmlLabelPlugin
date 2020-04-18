@@ -169,6 +169,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Link to open maps &lt;a href=&quot;geo:53.3242377,-6.3861295;u=5&quot;&gt;here&lt;/a&gt;.
+        /// </summary>
+        public static string LinkToGeo {
+            get {
+                return ResourceManager.GetString("LinkToGeo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send SMS to &lt;a href=&quot;sms://8372717112?body=Awesome%20plugin&quot;&gt;8372717112&lt;/a&gt;..
         /// </summary>
         public static string LinkToSms {
