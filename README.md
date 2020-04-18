@@ -82,8 +82,11 @@ It is possible to customize *links*:
 
 [*Browser options*](https://docs.microsoft.com/en-us/xamarin/essentials/open-browser) are applied with the following schemas: *http*, *https*, *mailto*, *tel*, *sms* and *geo*.
 
+**WARNING**: This project uses [Xamarin.Essentials](https://docs.microsoft.com/en-us/xamarin/essentials/) to provide native *Email*, *Phone Dial*, *SMS* and *Maps* support. Please check the [getting started](https://docs.microsoft.com/en-us/xamarin/essentials/get-started) page.
+
 **iOS WARNING**: Changing the style of iOS links is not supported by *iOS* intentionally and this plugin use a workaround. From *Apple*:
 > To promote consistency, the intended behavior is for ranges that represent links (specified via NSLinkAttributeName) to be drawn using the default link appearance.
+
 
 ## Android's Legacy Mode
 Settings the property `AndroidLegacyMode` to *True* the renderer separates block-level elements with blank lines.
