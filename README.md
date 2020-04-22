@@ -87,6 +87,7 @@ It is possible to customize *links*:
 **iOS WARNING**: Changing the style of iOS links is not supported by *iOS* intentionally and this plugin use a workaround. From *Apple*:
 > To promote consistency, the intended behavior is for ranges that represent links (specified via NSLinkAttributeName) to be drawn using the default link appearance.
 
+**UWP WARNING**: The minimum target for UWP is *17763*. If set to an older version, it won't find the assembly.
 
 ## Android's Legacy Mode
 Settings the property `AndroidLegacyMode` to *True* the renderer separates block-level elements with blank lines.
