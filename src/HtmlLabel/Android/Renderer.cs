@@ -110,7 +110,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			var htmlLabel = (HtmlLabel)Element;
 
 			// Set the type of content and the custom tag list handler
-			using var listTagHandler = new ListTagHandler();
+			using var listTagHandler = new ListTagHandler(htmlLabel.AndroidListIndent); // KWI-FIX: added AndroidListIndent parameter
 			var imageGetter = new UrlImageParser(Control);
 			FromHtmlOptions fromHtmlOptions = htmlLabel.AndroidLegacyMode ? FromHtmlOptions.ModeLegacy : FromHtmlOptions.ModeCompact;
 			ISpanned sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
