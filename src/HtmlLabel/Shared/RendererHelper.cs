@@ -38,7 +38,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public void AddFontAttributesStyle(FontAttributes fontAttributes)
 		{
 			if (fontAttributes == FontAttributes.Bold)
-            {
+			{
 				AddStyle("font-weight", "bold");
 			}
 			else if (fontAttributes == FontAttributes.Italic)
@@ -48,20 +48,20 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		}
 
 		public void AddFontFamilyStyle(string fontFamily)
-        {		
+		{
 			string GetSystemFont() => _runtimePlatform switch
 			{
 				Device.iOS => "-apple-system",
 				Device.Android => "Roboto",
 				Device.UWP => "Segoe UI",
 				_ => "system-ui",
-			}; 
+			};
 
 			var fontFamilyValue = string.IsNullOrWhiteSpace(fontFamily)
 				 ? GetSystemFont()
 				 : fontFamily;
 			AddStyle("font-family", $"'{fontFamilyValue}'");
-        }
+		}
 
 		public void AddFontSizeStyle(double fontSize)
 		{
@@ -71,9 +71,9 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public void AddTextColorStyle(Color color)
 		{
 			if (color.IsDefault)
-            {
-                return;
-            }
+			{
+				return;
+			}
 
 			var red = (int)(color.R * 255);
 			var green = (int)(color.G * 255);
@@ -107,7 +107,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			{
 				return null;
 			}
-			
+
 			AddFontAttributesStyle(_label.FontAttributes);
 			AddFontFamilyStyle(_label.FontFamily);
 			AddTextColorStyle(_label.TextColor);
@@ -138,11 +138,22 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		public static bool RequireProcess(string propertyName) => SupportedProperties.Contains(propertyName);
 
-		public static void HandleUriClick(HtmlLabel label, string url)
+		/// <summary>
+		/// Handles the Uri for the following types:
+		/// - Web url
+		/// - Email
+		/// - Telephone
+		/// - SMS
+		/// - GEO
+		/// </summary>
+		/// <param name="label"></param>
+		/// <param name="url"></param>
+		/// <returns>true if the uri has been handled correctly, false if the uri is not handled because of an error</returns>
+		public static bool HandleUriClick(HtmlLabel label, string url)
 		{
 			if (url == null || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
 			{
-				return;
+				return false;
 			}
 
 			var args = new WebNavigatingEventArgs(WebNavigationEvent.NewPage, new UrlWebViewSource { Url = url }, url);
@@ -151,38 +162,41 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 			if (args.Cancel)
 			{
-				return;
+				// Uri is handled because it is cancled;
+				return true;
 			}
-
+			bool result = false;
 			var uri = new Uri(url);
 
-            if (uri.IsHttp())
-            {
-                uri.LaunchBrowser(label.BrowserLaunchOptions);
+			if (uri.IsHttp())
+			{
+				uri.LaunchBrowser(label.BrowserLaunchOptions);
+				result = true;
 			}
 			else if (uri.IsEmail())
-            {
-				uri.LaunchEmail();
-            }
+			{
+				result = uri.LaunchEmail();
+			}
 			else if (uri.IsTel())
-            {
-				uri.LaunchTel();
-            }
-            else if (uri.IsSms())
-            {
-                uri.LaunchSms();
-            }
-            else if (uri.IsGeo())
-            {
-                uri.LaunchMaps();
-            }
+			{
+				result = uri.LaunchTel();
+			}
+			else if (uri.IsSms())
+			{
+				result = uri.LaunchSms();
+			}
+			else if (uri.IsGeo())
+			{
+				result = uri.LaunchMaps();
+			}
 			else
 			{
-				Launcher.TryOpenAsync(url);
+				result = Launcher.TryOpenAsync(uri).Result;
 			}
-
+			// KWI-FIX What to do if the navigation failed? I assume not to spawn the SendNavigated event or introduce a fail bit on the args 
 			label.SendNavigated(args);
-		}				
+			return result;
+		}
 
 		private void AddStyle(string selector, string value)
 		{
