@@ -73,6 +73,22 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		}
 
 		/// <summary>
+		/// Identify the AndroidListIndent property KWI-FIX.
+		/// Default value = 20 (to continue support `old value`)
+		/// </summary>
+		public static readonly BindableProperty AndroidListIndentProperty =
+			BindableProperty.Create(nameof(AndroidListIndentProperty), typeof(int), typeof(HtmlLabel), defaultValue: 20);
+
+		/// <summary>
+		///  Get or set if the Android List Indent property KWI-FIX.
+		/// </summary>
+		public int AndroidListIndent
+		{
+			get { return (int)GetValue(AndroidListIndentProperty); }
+			set { SetValue(AndroidListIndentProperty, value); }
+		}
+
+		/// <summary>
 		/// Fires before the open URL request is done.
 		/// </summary>
 		public event EventHandler<WebNavigatingEventArgs> Navigating;

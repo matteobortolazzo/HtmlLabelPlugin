@@ -60,19 +60,19 @@ namespace LabelHtml.Forms.Plugin.UWP
 		private void UpdateText()
 		{
 			if (AssociatedObject == null)
-            {
-                return;
-            }
+			{
+				return;
+			}
 
-            if (string.IsNullOrEmpty(AssociatedObject.Text))
-            {
-                return;
-            }
+			if (string.IsNullOrEmpty(AssociatedObject.Text))
+			{
+				return;
+			}
 
-            var text = AssociatedObject.Text;
+			var text = AssociatedObject.Text;
 
-            // Just incase we are not given text with elements.
-            var modifiedText = $"<div>{text}</div>";
+			// Just incase we are not given text with elements.
+			var modifiedText = $"<div>{text}</div>";
 
 			var linkRegex = new Regex(@"<a\s+href=""(.+?)\""");
 
@@ -91,31 +91,34 @@ namespace LabelHtml.Forms.Plugin.UWP
 				System.Diagnostics.Debug.WriteLine(@$"ERROR: ${matches}");
 			}
 
-			modifiedText = Regex.Replace(modifiedText, "<br>", "<br></br>", RegexOptions.IgnoreCase);
+			modifiedText = Regex.Replace(modifiedText, "<br>", "<br></br>", RegexOptions.IgnoreCase)
+				.Replace("\n", String.Empty, StringComparison.OrdinalIgnoreCase)  // KWI-FIX Enters resulted in multiple lines
+				.Replace("&nbsp;", "&#160;", StringComparison.OrdinalIgnoreCase); // KWI-FIX &nbsp; is not supported by the UWP TextBlock
+			
 			// reset the text because we will add to it.
 			AssociatedObject.Inlines.Clear();
 
-            var element = XElement.Parse(modifiedText);
-            ParseText(element, AssociatedObject.Inlines, _label);
+			var element = XElement.Parse(modifiedText);
+			ParseText(element, AssociatedObject.Inlines, _label);
 
-            AssociatedObject.LayoutUpdated -= OnAssociatedObjectLayoutUpdated;
+			AssociatedObject.LayoutUpdated -= OnAssociatedObjectLayoutUpdated;
 			AssociatedObject.Loaded -= OnAssociatedObjectLoaded;
 		}
 
 		private static void ParseText(XElement element, InlineCollection inlines, HtmlLabel label)
 		{
 			if (element == null)
-            {
-                return;
-            }
+			{
+				return;
+			}
 
-            InlineCollection currentInlines = inlines;
+			InlineCollection currentInlines = inlines;
 			var elementName = element.Name.ToString().ToUpperInvariant();
 			switch (elementName)
 			{
 				case _elementA:
 					var link = new Hyperlink();
-                    XAttribute href = element.Attribute("href");
+					XAttribute href = element.Attribute("href");
 					var unescapedUri = Uri.UnescapeDataString(href?.Value);
 					if (href != null)
 					{
@@ -137,7 +140,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 					if (!label.UnderlineText)
 					{
 						link.UnderlineStyle = UnderlineStyle.None;
-					}					
+					}
 					inlines.Add(link);
 					currentInlines = link.Inlines;
 					break;
@@ -178,7 +181,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 					break;
 				case _elementUl:
 				case _elementDiv:
-                    _ = AddLineBreakIfNeeded(inlines);
+					_ = AddLineBreakIfNeeded(inlines);
 					var divSpan = new Span();
 					inlines.Add(divSpan);
 					currentInlines = divSpan.Inlines;
@@ -205,11 +208,11 @@ namespace LabelHtml.Forms.Plugin.UWP
 		private static bool AddLineBreakIfNeeded(InlineCollection inlines)
 		{
 			if (inlines.Count <= 0)
-            {
-                return false;
-            }
+			{
+				return false;
+			}
 
-            Inline lastInline = inlines[inlines.Count - 1];
+			Inline lastInline = inlines[inlines.Count - 1];
 			while ((lastInline is Span))
 			{
 				var span = (Span)lastInline;
@@ -220,11 +223,11 @@ namespace LabelHtml.Forms.Plugin.UWP
 			}
 
 			if (lastInline is LineBreak)
-            {
-                return false;
-            }
+			{
+				return false;
+			}
 
-            inlines.Add(new LineBreak());
+			inlines.Add(new LineBreak());
 			return true;
 		}
 	}
