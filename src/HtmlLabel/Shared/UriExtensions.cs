@@ -37,10 +37,10 @@ namespace LabelHtml.Forms.Plugin.Abstractions
                 var message = new EmailMessage
                 {
                     To = new List<string> { to },
-                    Subject = qParams.GetFirst("subject"),
-                    Body = qParams.GetFirst("body"),
-                    Cc = qParams.Get("cc"),
-                    Bcc = qParams.Get("bcc")
+                    Subject = qParams.GetFirst("subject") ?? string.Empty,
+                    Body = qParams.GetFirst("body") ?? string.Empty,
+                    Cc = qParams.Get("cc") ?? new List<string>(),
+                    Bcc = qParams.Get("bcc") ?? new List<string>()
                 };
                 Email.ComposeAsync(message);
                 return true;
@@ -50,7 +50,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
                 System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
                 return false;
             }
-            
+
         }
 
         public static bool LaunchTel(this Uri uri)
@@ -61,7 +61,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
             var to = uri.Target();
             try
             {
-                PhoneDialer.Open(to); 
+                PhoneDialer.Open(to);
                 return true;
             }
             catch (FeatureNotSupportedException ex)
