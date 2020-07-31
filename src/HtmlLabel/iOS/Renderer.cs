@@ -93,7 +93,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			var nsError = new NSError();
 			var htmlData = NSData.FromString(html, NSStringEncoding.Unicode);
 			using var htmlString = new NSAttributedString(htmlData, stringType, ref nsError);
-			NSMutableAttributedString mutableHtmlString = RemoveTrailingNewLine(htmlString);
+			NSMutableAttributedString mutableHtmlString = RemoveTrailingNewLines(htmlString);
 
 			SetLineHeight(element, mutableHtmlString);
 			SetLinksStyles(element, mutableHtmlString);
@@ -105,13 +105,19 @@ namespace LabelHtml.Forms.Plugin.iOS
 			}
 		}
 
-		private static NSMutableAttributedString RemoveTrailingNewLine(NSAttributedString htmlString)
+		private static NSMutableAttributedString RemoveTrailingNewLines(NSAttributedString htmlString)
 		{
-			NSAttributedString lastCharRange = htmlString.Substring(htmlString.Length - 1, 1);
-			if (lastCharRange.Value == "\n")
+			var count = 0;
+			for (int i = 1; i <= htmlString.Length; i++)
 			{
-				htmlString = htmlString.Substring(0, htmlString.Length - 1);
+				if (!"\n".Equals(htmlString.Substring(htmlString.Length - i, 1)))
+					break;
+
+				count++;
 			}
+
+			if (count > 0)
+				htmlString = htmlString.Substring(0, htmlString.Length - count);
 
 			return new NSMutableAttributedString(htmlString);
 		}
