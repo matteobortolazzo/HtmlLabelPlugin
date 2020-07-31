@@ -110,7 +110,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			var count = 0;
 			for (int i = 1; i <= htmlString.Length; i++)
 			{
-				if (!"\n".Equals(htmlString.Substring(htmlString.Length - i, 1)))
+				if ("\n" != htmlString.Substring(htmlString.Length - i, 1).Value)
 					break;
 
 				count++;
