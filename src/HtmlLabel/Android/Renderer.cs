@@ -41,7 +41,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			base.OnElementChanged(e);
 
-			if (e == null || e.OldElement != null || Element == null)
+			if (e == null || Element == null)
 			{
 				return;
 			}
@@ -134,19 +134,27 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 
 			// Android adds an unnecessary "\n" that must be removed
-			using ISpanned value = RemoveLastChar(strBuilder);
+			using ISpanned value = RemoveTrailingNewLines(strBuilder);
 
 			// Finally sets the value of the TextView 
 			control.SetText(value, TextView.BufferType.Spannable);
 		}
 
-		private static ISpanned RemoveLastChar(ICharSequence text)
+		private static ISpanned RemoveTrailingNewLines(ICharSequence text)
 		{
 			var builder = new SpannableStringBuilder(text);
-			if (text.Length() != 0)
+
+			var count = 0;
+			for (int i = 1; i <= text.Length(); i++)
 			{
-				_ = builder.Delete(text.Length() - 2, text.Length());
+				if (!'\n'.Equals(text.CharAt(text.Length() - i)))
+					break;
+				
+				count++;
 			}
+
+			if (count > 0)
+				_ = builder.Delete(text.Length() - count, text.Length());
 
 			return builder;
 		}
