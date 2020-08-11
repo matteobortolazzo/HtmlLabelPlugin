@@ -73,7 +73,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			}
 
 			var isRtl = Device.FlowDirection == FlowDirection.RightToLeft;
-			var styledHtml = new RendererHelper(Element, Control.Text, Device.RuntimePlatform, isRtl).ToString();
+			var styledHtml = new RendererHelper(Element, Element.Text, Device.RuntimePlatform, isRtl).ToString();
 			if (styledHtml != null)
 			{
 				SetText(Control, styledHtml);
