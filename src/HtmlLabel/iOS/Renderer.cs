@@ -61,7 +61,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 		private void ProcessText()
 		{
-			if (Control == null || Element == null)
+			if (Control == null || Element == null || UIApplication.SharedApplication.ApplicationState == UIApplicationState.Background)
             {
                 return;
             }
