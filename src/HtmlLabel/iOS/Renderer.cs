@@ -17,10 +17,30 @@ namespace LabelHtml.Forms.Plugin.iOS
 	[Xamarin.Forms.Internals.Preserve(AllMembers = true)]
     public class HtmlLabelRenderer : LabelRenderer
     {
+		private readonly NSObject _willEnterForegroundSubscription;
+
 		/// <summary>
 		/// Used for registration with dependency service
 		/// </summary>
 		public static void Initialize() { }
+
+		public HtmlLabelRenderer()
+        {
+			_willEnterForegroundSubscription = NSNotificationCenter.DefaultCenter.AddObserver(UIApplication.WillEnterForegroundNotification, _ =>
+			{
+				ProcessTextImpl();
+			});
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+			if (disposing)
+            {
+				_willEnterForegroundSubscription?.Dispose();
+            }
+        }
 
 		/// <inheritdoc />
 		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
@@ -61,7 +81,17 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 		private void ProcessText()
 		{
-			if (Control == null || Element == null || UIApplication.SharedApplication.ApplicationState == UIApplicationState.Background)
+			if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Background)
+            {
+                return;
+            }
+
+			ProcessTextImpl();
+		}
+
+		private void ProcessTextImpl()
+        {
+			if (Control == null || Element == null)
             {
                 return;
             }
@@ -79,7 +109,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 				SetText(Control, styledHtml);
 				SetNeedsDisplay();
 			}
-		}		
+        }
 
 		private void SetText(UILabel control, string html)
 		{
