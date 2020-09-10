@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using UIKit;
 using Xamarin.Forms;
-using Xamarin.Forms.Core;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.iOS;
 using NativeFont = UIKit.UIFont;
