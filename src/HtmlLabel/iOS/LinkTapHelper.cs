@@ -61,13 +61,10 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 			// Find tapped character
 			CGPoint locationOfTouchInLabel = tap.LocationInView(control);
-			var locationOfTouchInTextContainer = new CGPoint(locationOfTouchInLabel .X - xOffset, locationOfTouchInLabel .Y - yOffset);
+			var locationOfTouchInTextContainer = new CGPoint(locationOfTouchInLabel.X - xOffset, locationOfTouchInLabel.Y - yOffset);
 			var characterIndex = (nint)layoutManager.GetCharacterIndex(locationOfTouchInTextContainer, textContainer);
-			var lineTapped = ((int)Math.Ceiling(locationOfTouchInLabel.Y / control.Font.LineHeight)) - 1;
-			var rightMostPointInLineTapped = new CGPoint(bounds.Size.Width, control.Font.LineHeight * lineTapped);
-			var charsInLineTapped = (nint)layoutManager.GetCharacterIndex(rightMostPointInLineTapped, textContainer);
 
-			if (characterIndex > charsInLineTapped)
+			if (characterIndex >= attributedText.Length)
 			{
 				return null;
 			}

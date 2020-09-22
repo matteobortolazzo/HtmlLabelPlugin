@@ -1,2 +1,2 @@
 ﻿## Bug Fix
-* **All**: *mailto*, *tel*, *sms*, *geo* handled properly. Fixes [#92](https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/82) [#93](https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/82)
+* **iOS**: Fix multi-line labels with links.

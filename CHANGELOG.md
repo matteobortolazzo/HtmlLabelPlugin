@@ -1,3 +1,8 @@
+# 4.1.3
+
+## Bug Fix
+* **iOS**: Fix multi-line labels with links.
+
 # 4.1.2
 
 ## Bug Fix
