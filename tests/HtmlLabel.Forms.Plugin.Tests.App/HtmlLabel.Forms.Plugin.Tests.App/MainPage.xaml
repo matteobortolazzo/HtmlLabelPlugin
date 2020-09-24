@@ -11,7 +11,7 @@
              x:Class="HtmlLabel.Forms.Plugin.Tests.App.MainPage">
     <ScrollView>
         <StackLayout Padding="10">            
-            <StackLayout>  
+            <StackLayout>
                 <Label Text="Bold" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Bold}" />
             </StackLayout>
@@ -22,6 +22,10 @@
             <StackLayout>
                 <Label Text="Red color" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Color}" TextColor="Red" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="List" FontAttributes="Bold" />
+                <htmlLabel:HtmlLabel Text="{Binding List}" />
             </StackLayout>
             <StackLayout>
                 <Label Text="Align center" FontAttributes="Bold" />

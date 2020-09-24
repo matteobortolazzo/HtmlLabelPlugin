@@ -223,6 +223,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List&lt;ul&gt;&lt;li&gt;First item&lt;/li&gt;&lt;li&gt;Second item&lt;/li&gt;&lt;/ul&gt;.
+        /// </summary>
+        public static string List {
+            get {
+                return ResourceManager.GetString("List", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;First paragraph&lt;/p&gt;&lt;p&gt;Second paragraph&lt;/p&gt;.
         /// </summary>
         public static string Paragraphs {

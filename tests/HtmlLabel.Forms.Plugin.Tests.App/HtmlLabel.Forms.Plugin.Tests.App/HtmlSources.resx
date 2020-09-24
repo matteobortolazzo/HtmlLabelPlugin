@@ -171,6 +171,9 @@
   <data name="LinkWithoutUnderline" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with no underline.</value>
   </data>
+  <data name="List" xml:space="preserve">
+    <value>List&lt;ul&gt;&lt;li&gt;First item&lt;/li&gt;&lt;li&gt;Second item&lt;/li&gt;&lt;/ul&gt;</value>
+  </data>
   <data name="Paragraphs" xml:space="preserve">
     <value>&lt;p&gt;First paragraph&lt;/p&gt;&lt;p&gt;Second paragraph&lt;/p&gt;</value>
   </data>
