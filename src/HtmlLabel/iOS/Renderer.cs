@@ -30,7 +30,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 		/// <inheritdoc />
 		protected override void OnElementChanged(ElementChangedEventArgs<HtmlLabel> e)
 		{
-			if (e == null || e.OldElement != null || Element == null)
+			if (e == null || Element == null)
 			{
 				return;
 			}
@@ -56,6 +56,10 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 		protected override bool NavigateToUrl(NSUrl url)
 		{
+            if (url == null)
+            {
+				throw new ArgumentNullException(nameof(url));
+            }
 			// Try to handle uri, if it can't be handled, fall back to IOS his own handler.
 			return !RendererHelper.HandleUriClick(Element, url.AbsoluteString);
 		}
@@ -96,7 +100,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			NSDictionary dict = new NSDictionary();
 			using (var htmlString = new NSAttributedString(htmlData, stringType, out dict, ref nsError))
 			{
-				NSMutableAttributedString mutableHtmlString = htmlString.RemoveTrailingNewLine();
+				NSMutableAttributedString mutableHtmlString = htmlString.RemoveTrailingNewLines();
 
 				mutableHtmlString.EnumerateAttributes(new NSRange(0, mutableHtmlString.Length), NSAttributedStringEnumeration.None,
 					(NSDictionary value, NSRange range, ref bool stop) =>

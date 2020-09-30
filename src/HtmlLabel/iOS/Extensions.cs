@@ -303,17 +303,22 @@ namespace LabelHtml.Forms.Plugin.iOS
 				});
 
 		}
+		internal static NSMutableAttributedString RemoveTrailingNewLines(this NSAttributedString htmlString)
+        {
+            var count = 0;
+            for (int i = 1; i <= htmlString.Length; i++)
+            {
+                if ("\n" != htmlString.Substring(htmlString.Length - i, 1).Value)
+                    break;
 
-		internal static NSMutableAttributedString RemoveTrailingNewLine(this NSAttributedString htmlString)
-		{
-			NSAttributedString lastCharRange = htmlString.Substring(htmlString.Length - 1, 1);
-			if (lastCharRange.Value == "\n")
-			{
-				htmlString = htmlString.Substring(0, htmlString.Length - 1);
-			}
+                count++;
+            }
 
-			return new NSMutableAttributedString(htmlString);
-		}
+            if (count > 0)
+                htmlString = htmlString.Substring(0, htmlString.Length - count);
+
+            return new NSMutableAttributedString(htmlString);
+        }
 
 		internal static NSMutableAttributedString AddCharacterSpacing(this NSAttributedString attributedString, string text, double characterSpacing)
 		{

@@ -25,7 +25,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 		}
 		protected override void OnElementChanged(ElementChangedEventArgs<TElement> e)
 		{
-			if (e == null || e.OldElement != null || Element == null)
+			if (e == null || Element == null)
 			{
 				return;
 			}
