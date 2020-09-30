@@ -6,23 +6,26 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-
 namespace LabelHtml.Forms.Plugin.iOS
 {
-	public abstract class BaseTextViewRenderer<TElement> : ViewRenderer<TElement, UITextView>
+    public abstract class BaseTextViewRenderer<TElement> : ViewRenderer<TElement, UITextViewFixedWithKludge>
 		where TElement : Label
 	{
-		SizeRequest _perfectSize;
-		bool _perfectSizeValid;
-		protected override UITextView CreateNativeControl()
+        private SizeRequest _perfectSize;
+        private bool _perfectSizeValid;
+
+		protected override UITextViewFixedWithKludge CreateNativeControl()
 		{
-			var control = new UITextView(CGRect.Empty);
-			control.Editable = false;
-			control.ScrollEnabled = false;
-			control.ShowsVerticalScrollIndicator = false;
-			control.BackgroundColor = UIColor.Clear;
-			return control;
+            var control = new UITextViewFixedWithKludge(CGRect.Empty)
+            {
+                Editable = false,
+                ScrollEnabled = false,
+                ShowsVerticalScrollIndicator = false,
+                BackgroundColor = UIColor.Clear
+            };
+            return control;
 		}
+
 		protected override void OnElementChanged(ElementChangedEventArgs<TElement> e)
 		{
 			if (e == null || Element == null)
@@ -95,12 +98,12 @@ namespace LabelHtml.Forms.Plugin.iOS
 			if (widthFits || Element.LineBreakMode == LineBreakMode.NoWrap)
 				return result;
 
-			bool containerIsNotInfinitelyWide = !double.IsInfinity(widthConstraint);
+			var containerIsNotInfinitelyWide = !double.IsInfinity(widthConstraint);
 
 			if (containerIsNotInfinitelyWide)
 			{
-				bool textCouldHaveWrapped = Element.LineBreakMode == LineBreakMode.WordWrap || Element.LineBreakMode == LineBreakMode.CharacterWrap;
-				bool textExceedsContainer = result.Request.Width > widthConstraint;
+				var textCouldHaveWrapped = Element.LineBreakMode == LineBreakMode.WordWrap || Element.LineBreakMode == LineBreakMode.CharacterWrap;
+				var textExceedsContainer = result.Request.Width > widthConstraint;
 
 				if (textExceedsContainer || textCouldHaveWrapped)
 				{
@@ -112,7 +115,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			return result;
 		}
 
-		void UpdateLineBreakMode()
+		private void UpdateLineBreakMode()
 		{
 #if __MOBILE__
 			switch (Element.LineBreakMode)
@@ -161,10 +164,12 @@ namespace LabelHtml.Forms.Plugin.iOS
 #endif
 		}
 
-		void UpdatePadding()
+        private void UpdatePadding()
 		{
-			if (Element.Padding.IsEmpty)
-				return;
+            if (Element.Padding.IsEmpty)
+            {
+                return;
+            }
 
 #if __MOBILE__
 			Control.TextContainerInset = new UIEdgeInsets(
@@ -176,7 +181,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 #endif
 		}
 
-		void UpdateLayout()
+        private void UpdateLayout()
 		{
 #if __MOBILE__
 			LayoutSubviews();
@@ -185,7 +190,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 #endif
 		}
 
-		void UpdateTextDecorations()
+        private void UpdateTextDecorations()
 		{
 			if (Element?.TextType != TextType.Text)
 				return;
@@ -229,7 +234,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			_perfectSizeValid = false;
 		}
 
-		void UpdateCharacterSpacing()
+        private void UpdateCharacterSpacing()
 		{
 
 			if (Element?.TextType != TextType.Text)
@@ -249,7 +254,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			_perfectSizeValid = false;
 		}
 
-		void UpdateHorizontalTextAlignment()
+        private void UpdateHorizontalTextAlignment()
 		{
 #if __MOBILE__
 
@@ -258,7 +263,5 @@ namespace LabelHtml.Forms.Plugin.iOS
 			Control.Alignment = Element.HorizontalTextAlignment.ToNativeTextAlignment(((IVisualElementController)Element).EffectiveFlowDirection);
 #endif
 		}
-
-	}
-
+    }
 }
