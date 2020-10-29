@@ -88,7 +88,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 
 			Control.SetIncludeFontPadding(false);
 			var isRtl = Device.FlowDirection == FlowDirection.RightToLeft;
-			var styledHtml = new RendererHelper(Element, Control.Text, Device.RuntimePlatform, isRtl).ToString();
+			var styledHtml = new RendererHelper(Element, Element.Text, Device.RuntimePlatform, isRtl).ToString();
 			/* 
 			 * Android's TextView doesn't support lists.
 			 * List tags must be replaces with custom tags,

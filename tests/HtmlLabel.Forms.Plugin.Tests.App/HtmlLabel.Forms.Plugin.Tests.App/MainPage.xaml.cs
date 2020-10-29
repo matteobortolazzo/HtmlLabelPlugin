@@ -29,6 +29,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string LinksWithOptions => HtmlSources.LinksWithOptions;
         public string LinkToEmail => HtmlSources.LinkToEmail;
         public string LinkToTel => HtmlSources.LinkToTel;
+        public string LinkToTelAlternative => HtmlSources.LinkToTelAlternate;
         public string LinkToSms => HtmlSources.LinkToSms;
         public string LinkToGeo => HtmlSources.LinkToGeo;
         public string LinkWithColor => HtmlSources.LinkWithColor;
