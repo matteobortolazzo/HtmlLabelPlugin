@@ -48,6 +48,10 @@
                 <htmlLabel:HtmlLabel Text="{Binding LinkToTel}" />
             </StackLayout>
             <StackLayout>
+                <Label Text="Links to phone dial alternative" FontAttributes="Bold" />
+                <htmlLabel:HtmlLabel Text="{Binding LinkToTelAlternative}" />
+            </StackLayout>
+            <StackLayout>
                 <Label Text="Links to SMS" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding LinkToSms}" />
             </StackLayout>

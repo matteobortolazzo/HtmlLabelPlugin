@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Xamarin.Essentials;
@@ -140,7 +141,8 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 		public static void HandleUriClick(HtmlLabel label, string url)
 		{
-			if (url == null || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
+
+			if (url == null || !Uri.IsWellFormedUriString(WebUtility.UrlEncode(url), UriKind.RelativeOrAbsolute))
 			{
 				return;
 			}
