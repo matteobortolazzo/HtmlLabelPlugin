@@ -24,7 +24,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 		{
 			base.OnElementChanged(e);
 
-			if (e == null || e.OldElement != null || Element == null)
+			if (e == null || Element == null)
 			{
 				return;
 			}

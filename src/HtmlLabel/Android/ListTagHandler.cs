@@ -16,8 +16,12 @@ namespace LabelHtml.Forms.Plugin.Droid
 		public const string TagOl = "OLC";
 		public const string TagLi = "LIC";
 
-		private ListBuilder _listBuilder = new ListBuilder();
-		
+		private ListBuilder _listBuilder; // KWI-FIX: removed new, set in constructor
+		public ListTagHandler(int listIndent) // KWI-FIX: added constructor with listIndent property
+		{
+			_listBuilder = new ListBuilder(listIndent);
+		}
+
 		public void HandleTag(bool isOpening, string tag, IEditable output, IXMLReader xmlReader)
 		{
 			tag = tag.ToUpperInvariant();

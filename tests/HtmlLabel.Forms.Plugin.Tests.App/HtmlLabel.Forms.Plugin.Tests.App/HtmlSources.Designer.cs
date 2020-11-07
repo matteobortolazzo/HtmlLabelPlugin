@@ -196,6 +196,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Call to &lt;a href=&quot;tel:083 7271 7112&quot;&gt;08372717112&lt;/a&gt;..
+        /// </summary>
+        public static string LinkToTelAlternate {
+            get {
+                return ResourceManager.GetString("LinkToTelAlternate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt; with custom color..
         /// </summary>
         public static string LinkWithColor {
@@ -219,6 +228,15 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         public static string LinkWithoutUnderline {
             get {
                 return ResourceManager.GetString("LinkWithoutUnderline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List&lt;ul&gt;&lt;li&gt;First item&lt;/li&gt;&lt;li&gt;Second item&lt;/li&gt;&lt;/ul&gt;.
+        /// </summary>
+        public static string List {
+            get {
+                return ResourceManager.GetString("List", resourceCulture);
             }
         }
         

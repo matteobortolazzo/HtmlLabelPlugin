@@ -1,68 +1,37 @@
-﻿using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
-using System.ComponentModel;
-using Foundation;
+﻿using Foundation;
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.iOS;
-using UIKit;
-using System.Linq;
 using System;
+using System.ComponentModel;
+using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(HtmlLabel), typeof(HtmlLabelRenderer))]
 namespace LabelHtml.Forms.Plugin.iOS
 {
 	/// <summary>
-	/// HtmlLable Implementation
+	/// HtmlLabel Implementation
 	/// </summary>
 	[Xamarin.Forms.Internals.Preserve(AllMembers = true)]
-    public class HtmlLabelRenderer : LabelRenderer
-    {
-		private readonly NSObject _willEnterForegroundSubscription;
-
+	public class HtmlLabelRenderer : BaseTextViewRenderer<HtmlLabel>
+	{
 		/// <summary>
 		/// Used for registration with dependency service
 		/// </summary>
 		public static void Initialize() { }
-
-		public HtmlLabelRenderer()
-        {
-			_willEnterForegroundSubscription = NSNotificationCenter.DefaultCenter.AddObserver(UIApplication.WillEnterForegroundNotification, _ =>
-			{
-				ProcessTextImpl();
-			});
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-			if (disposing)
-            {
-				_willEnterForegroundSubscription?.Dispose();
-            }
-        }
-
+		
 		/// <inheritdoc />
-		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+		protected override void OnElementChanged(ElementChangedEventArgs<HtmlLabel> e)
 		{
-			base.OnElementChanged(e);
-
-			if (e == null || e.OldElement != null || Element == null)
+			if (e == null || Element == null)
 			{
 				return;
 			}
 
-			try
-			{
-				ProcessText();
-			}
-			catch (System.Exception ex)
-			{
-				System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
-			}
+			base.OnElementChanged(e);
 		}
 
-		/// <inheritdoc />
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
@@ -79,119 +48,81 @@ namespace LabelHtml.Forms.Plugin.iOS
 			}
 		}
 
-		private void ProcessText()
+		protected override bool NavigateToUrl(NSUrl url)
 		{
-			if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Background)
+            if (url == null)
             {
-                return;
+				throw new ArgumentNullException(nameof(url));
             }
-
-			ProcessTextImpl();
+			// Try to handle uri, if it can't be handled, fall back to IOS his own handler.
+			return !RendererHelper.HandleUriClick(Element, url.AbsoluteString);
 		}
 
-		private void ProcessTextImpl()
-        {
-			if (Control == null || Element == null)
-            {
-                return;
-            }
+		protected override void ProcessText()
+		{
+			if (string.IsNullOrWhiteSpace(Element?.Text))
+			{
+				Control.Text = string.Empty;
+				return;
+			}
 
-			Color linkColor = ((HtmlLabel)Element).LinkColor;
+			Control.Font = FontExtensions.ToUIFont(Element);
+			if (!Element.TextColor.IsDefault)
+			{
+				Control.TextColor = Element.TextColor.ToUIColor();
+			}
+
+			var linkColor = Element.LinkColor;
 			if (!linkColor.IsDefault)
 			{
 				Control.TintColor = linkColor.ToUIColor();
 			}
-
 			var isRtl = Device.FlowDirection == FlowDirection.RightToLeft;
 			var styledHtml = new RendererHelper(Element, Element.Text, Device.RuntimePlatform, isRtl).ToString();
-			if (styledHtml != null)
-			{
-				SetText(Control, styledHtml);
-				SetNeedsDisplay();
-			}
-        }
+			SetText(styledHtml);
+			SetNeedsDisplay();
+		}
 
-		private void SetText(UILabel control, string html)
+		private void SetText(string html)
 		{
-			var element = (HtmlLabel)Element;
-
 			// Create HTML data sting
 			var stringType = new NSAttributedStringDocumentAttributes
-			{			
+			{
 				DocumentType = NSDocumentType.HTML
 			};
 			var nsError = new NSError();
+
 			var htmlData = NSData.FromString(html, NSStringEncoding.Unicode);
-			using var htmlString = new NSAttributedString(htmlData, stringType, ref nsError);
-			NSMutableAttributedString mutableHtmlString = RemoveTrailingNewLine(htmlString);
 
-			SetLineHeight(element, mutableHtmlString);
-			SetLinksStyles(element, mutableHtmlString);
-			control.AttributedText = mutableHtmlString;
+            using var htmlString = new NSAttributedString(htmlData, stringType, out _, ref nsError);
+            var mutableHtmlString = htmlString.RemoveTrailingNewLines();
 
-			if (!Element.GestureRecognizers.Any())
-			{
-				control.HandleLinkTap(element);
-			}
-		}
+            mutableHtmlString.EnumerateAttributes(new NSRange(0, mutableHtmlString.Length), NSAttributedStringEnumeration.None,
+                (NSDictionary value, NSRange range, ref bool stop) =>
+                {
+                    var md = new NSMutableDictionary(value);
+                    var font = md[UIStringAttributeKey.Font] as UIFont;
 
-		private static NSMutableAttributedString RemoveTrailingNewLine(NSAttributedString htmlString)
-		{
-			NSAttributedString lastCharRange = htmlString.Substring(htmlString.Length - 1, 1);
-			if (lastCharRange.Value == "\n")
-			{
-				htmlString = htmlString.Substring(0, htmlString.Length - 1);
-			}
+                    if (font != null)
+                    {
+                        md[UIStringAttributeKey.Font] = Control.Font.WithTraitsOfFont(font);
+                    }
+                    else
+                    {
+                        md[UIStringAttributeKey.Font] = Control.Font;
+                    }
 
-			return new NSMutableAttributedString(htmlString);
-		}
+                    var foregroundColor = md[UIStringAttributeKey.ForegroundColor] as UIColor;
+                    if (foregroundColor == null || foregroundColor.IsEqualToColor(UIColor.Black))
+                    {
+                        md[UIStringAttributeKey.ForegroundColor] = Control.TextColor;
+                    }
+                    mutableHtmlString.SetAttributes(md, range);
+                });
 
-		private static void SetLineHeight(HtmlLabel element, NSMutableAttributedString mutableHtmlString)
-		{
-			if (element.LineHeight < 0)
-			{
-				return;
-			}
-
-			var lineHeightStyle = new NSMutableParagraphStyle
-			{
-				LineHeightMultiple = (nfloat)element.LineHeight
-			};
-			mutableHtmlString.AddAttribute(new NSString("NSParagraphStyle"), lineHeightStyle, new NSRange(0, mutableHtmlString.Length));
-		}
-
-		private static void SetLinksStyles(HtmlLabel element, NSMutableAttributedString mutableHtmlString)
-		{			
-			using var linkAttributeName = new NSString("NSLink");
-			UIStringAttributes linkAttributes = null;
-
-			if (!element.UnderlineText)
-			{
-				linkAttributes ??= new UIStringAttributes();
-				linkAttributes.UnderlineStyle = NSUnderlineStyle.None;
-			};
-			if (!element.LinkColor.IsDefault)
-			{
-				linkAttributes ??= new UIStringAttributes();
-				linkAttributes.ForegroundColor = element.LinkColor.ToUIColor();
-			};
-
-			mutableHtmlString.EnumerateAttribute(linkAttributeName, new NSRange(0, mutableHtmlString.Length), NSAttributedStringEnumeration.LongestEffectiveRangeNotRequired,
-				(NSObject value, NSRange range, ref bool stop) =>
-				{
-					if (value != null && value is NSUrl)
-					{
-						// Replace the standard NSLink because iOS does not change the aspect of it otherwise.
-						mutableHtmlString.AddAttribute(LinkTapHelper.CustomLinkAttribute, value, range);
-						mutableHtmlString.RemoveAttribute("NSLink", range);
-
-						// Applies the style
-						if (linkAttributes != null)
-						{
-							mutableHtmlString.AddAttributes(linkAttributes, range);
-						}
-					}
-				});
-		}		
+            mutableHtmlString.SetLineHeight(Element);
+            mutableHtmlString.SetLinksStyles(Element);
+            Control.AttributedText = mutableHtmlString;
+        }
 	}
 }

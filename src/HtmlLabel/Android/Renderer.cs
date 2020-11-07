@@ -41,7 +41,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 		{
 			base.OnElementChanged(e);
 
-			if (e == null || e.OldElement != null || Element == null)
+			if (e == null || Element == null)
 			{
 				return;
 			}
@@ -110,7 +110,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			var htmlLabel = (HtmlLabel)Element;
 
 			// Set the type of content and the custom tag list handler
-			using var listTagHandler = new ListTagHandler();
+			using var listTagHandler = new ListTagHandler(htmlLabel.AndroidListIndent); // KWI-FIX: added AndroidListIndent parameter
 			var imageGetter = new UrlImageParser(Control);
 			FromHtmlOptions fromHtmlOptions = htmlLabel.AndroidLegacyMode ? FromHtmlOptions.ModeLegacy : FromHtmlOptions.ModeCompact;
 			ISpanned sequence = Build.VERSION.SdkInt >= BuildVersionCodes.N ?
@@ -134,24 +134,32 @@ namespace LabelHtml.Forms.Plugin.Droid
 			}
 
 			// Android adds an unnecessary "\n" that must be removed
-			using ISpanned value = RemoveLastChar(strBuilder);
+			using ISpanned value = RemoveTrailingNewLines(strBuilder);
 
 			// Finally sets the value of the TextView 
 			control.SetText(value, TextView.BufferType.Spannable);
 		}
 
-		private static ISpanned RemoveLastChar(ICharSequence text)
-		{
-			var builder = new SpannableStringBuilder(text);
-			if (text.Length() != 0)
-			{
-				_ = builder.Delete(text.Length() - 2, text.Length());
-			}
+        private static ISpanned RemoveTrailingNewLines(ICharSequence text)
+        {
+            var builder = new SpannableStringBuilder(text);
 
-			return builder;
-		}
+            var count = 0;
+            for (int i = 1; i <= text.Length(); i++)
+            {
+                if (!'\n'.Equals(text.CharAt(text.Length() - i)))
+                    break;
 
-		private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
+                count++;
+            }
+
+            if (count > 0)
+                _ = builder.Delete(text.Length() - count, text.Length());
+
+            return builder;
+        }
+
+        private void MakeLinkClickable(ISpannable strBuilder, URLSpan span)
 		{
 			var start = strBuilder.GetSpanStart(span);
 			var end = strBuilder.GetSpanEnd(span);

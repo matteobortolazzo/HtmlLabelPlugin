@@ -25,10 +25,10 @@ namespace LabelHtml.Forms.Plugin.Abstractions
             }
         }
 
-        public static void LaunchEmail(this Uri uri)
+        public static bool LaunchEmail(this Uri uri)
         {
             if (uri == null)
-                return;
+                return false;
 
             var qParams = uri.ParseQueryString();
             var to = uri.Target();
@@ -37,39 +37,44 @@ namespace LabelHtml.Forms.Plugin.Abstractions
                 var message = new EmailMessage
                 {
                     To = new List<string> { to },
-                    Subject = qParams.GetFirst("subject"),
-                    Body = qParams.GetFirst("body"),
-                    Cc = qParams.Get("cc"),
-                    Bcc = qParams.Get("bcc")
+                    Subject = qParams.GetFirst("subject") ?? string.Empty,
+                    Body = qParams.GetFirst("body") ?? string.Empty,
+                    Cc = qParams.Get("cc") ?? new List<string>(),
+                    Bcc = qParams.Get("bcc") ?? new List<string>()
                 };
                 Email.ComposeAsync(message);
+                return true;
             }
             catch (FeatureNotSupportedException ex)
             {
                 System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+                return false;
             }
+
         }
 
-        public static void LaunchTel(this Uri uri)
+        public static bool LaunchTel(this Uri uri)
         {
             if (uri == null)
-                return;
+                return false;
 
             var to = uri.Target();
             try
             {
                 PhoneDialer.Open(to);
+                return true;
             }
             catch (FeatureNotSupportedException ex)
             {
                 System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+                return false;
             }
         }
 
-        public static void LaunchSms(this Uri uri)
+        public static bool LaunchSms(this Uri uri)
         {
             if (uri == null)
-                return;
+                return false;
 
             var qParams = uri.ParseQueryString();
             var to = uri.Target();
@@ -78,17 +83,19 @@ namespace LabelHtml.Forms.Plugin.Abstractions
                 var messageText = qParams.GetFirst("body");
                 var message = new SmsMessage(messageText, new[] { to });
                 Sms.ComposeAsync(message);
+                return true;
             }
             catch (FeatureNotSupportedException ex)
             {
                 System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+                return false;
             }
         }
 
-        public static void LaunchMaps(this Uri uri)
+        public static bool LaunchMaps(this Uri uri)
         {
             if (uri == null)
-                return;
+                return false;
 
             var target = uri.Target();
             try
@@ -98,10 +105,12 @@ namespace LabelHtml.Forms.Plugin.Abstractions
                 var longitude = double.Parse(coordinates[1].Split(';')[0], CultureInfo.InvariantCulture.NumberFormat);
                 var location = new Location(latitude, longitude);
                 Map.OpenAsync(location);
+                return true;
             }
             catch (FeatureNotSupportedException ex)
             {
                 System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
+                return false;
             }
         }
 

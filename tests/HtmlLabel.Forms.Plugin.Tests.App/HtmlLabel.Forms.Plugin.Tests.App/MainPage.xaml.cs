@@ -22,12 +22,14 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string Bold => HtmlSources.Bold;
         public string Italic => HtmlSources.Italic;
         public string Color => HtmlSources.Color;
+        public string List => HtmlSources.List;
         public string AlignCenter => HtmlSources.AlignCenter;
         public string AlignEnd => HtmlSources.AlignEnd;
         public string Links => HtmlSources.Links;
         public string LinksWithOptions => HtmlSources.LinksWithOptions;
         public string LinkToEmail => HtmlSources.LinkToEmail;
         public string LinkToTel => HtmlSources.LinkToTel;
+        public string LinkToTelAlternative => HtmlSources.LinkToTelAlternate;
         public string LinkToSms => HtmlSources.LinkToSms;
         public string LinkToGeo => HtmlSources.LinkToGeo;
         public string LinkWithColor => HtmlSources.LinkWithColor;

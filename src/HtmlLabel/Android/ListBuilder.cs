@@ -11,7 +11,8 @@ namespace LabelHtml.Forms.Plugin.Droid
 {
     internal class ListBuilder
 	{
-		private const int _listIndent = 20;
+		private int _listIndent = 20; // KWI-FIX : changed from constant to prop
+
 
 		private readonly int _gap = 0;
 		private readonly LiGap _liGap;
@@ -20,15 +21,17 @@ namespace LabelHtml.Forms.Plugin.Droid
 		private int _liIndex = -1;
 		private int _liStart = -1;
 		
-		public ListBuilder()
+		public ListBuilder(int listIndent) // KWI-FIX: added listIndent
 		{
+			_listIndent = listIndent;
 			_parent = null;
 			_gap = 0;
 			_liGap = GetLiGap(null);
 		}
 
-		private ListBuilder(ListBuilder parent, bool ordered)
+		private ListBuilder(ListBuilder parent, bool ordered, int listIndent) // KWI-FIX: added listIndent
 		{
+			_listIndent = listIndent;
 			_parent = parent;
 			_liGap = parent._liGap;
 			_gap = parent._gap + _listIndent + _liGap.GetGap(ordered);
@@ -41,7 +44,7 @@ namespace LabelHtml.Forms.Plugin.Droid
 			{
 				_ = output.Append("\n ");
 			}
-			return new ListBuilder(this, ordered);
+			return new ListBuilder(this, ordered, _listIndent); // KWI-FIX: pass thru listIndent
 		}
 
 		public void AddListItem(bool isOpening, IEditable output)
