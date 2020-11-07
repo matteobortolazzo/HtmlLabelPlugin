@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Xamarin.Essentials;
@@ -151,7 +152,8 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		/// <returns>true if the uri has been handled correctly, false if the uri is not handled because of an error</returns>
 		public static bool HandleUriClick(HtmlLabel label, string url)
 		{
-			if (url == null || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
+
+			if (url == null || !Uri.IsWellFormedUriString(WebUtility.UrlEncode(url), UriKind.RelativeOrAbsolute))
 			{
 				return false;
 			}
