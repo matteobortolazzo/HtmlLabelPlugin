@@ -1,7 +1,9 @@
 ﻿using CoreGraphics;
 using Foundation;
 using System;
+using System.ComponentModel;
 using System.Linq;
+using LabelHtml.Forms.Plugin.Abstractions;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -84,6 +86,26 @@ namespace LabelHtml.Forms.Plugin.MacOS
 
 			base.OnElementChanged(e);
 		}
+
+        protected override void OnElementPropertyChanged( object sender, PropertyChangedEventArgs e )
+        {
+            base.OnElementPropertyChanged( sender, e );
+            if ( e != null && RendererHelper.RequireProcess( e.PropertyName ) )
+            {
+                try
+                {
+                    UpdateLineBreakMode();
+                    UpdateHorizontalTextAlignment();
+                    ProcessText();
+                    UpdatePadding();
+                }
+				catch ( System.Exception ex )
+                {
+                    System.Diagnostics.Debug.WriteLine( @"            ERROR: ", ex.Message );
+                }
+            }
+        }
+
 		protected abstract void ProcessText();
 		protected abstract bool NavigateToUrl(NSUrl url);
 

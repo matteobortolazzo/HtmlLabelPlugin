@@ -24,6 +24,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 				Label.FontSizeProperty.PropertyName,
 				Label.HorizontalTextAlignmentProperty.PropertyName,
 				Label.TextColorProperty.PropertyName,
+                Label.PaddingProperty.PropertyName,
 				HtmlLabel.LinkColorProperty.PropertyName
 			};
 
