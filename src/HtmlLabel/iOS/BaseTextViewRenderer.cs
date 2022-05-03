@@ -41,10 +41,7 @@ namespace LabelHtml.Forms.Plugin.MacOS
 
 		protected override void OnElementChanged(ElementChangedEventArgs<TElement> e)
 		{
-			if (e == null || Element == null)
-			{
-				return;
-			}
+            _perfectSizeValid = false;
 
 			if (e.NewElement != null)
 			{
@@ -84,6 +81,7 @@ namespace LabelHtml.Forms.Plugin.MacOS
 					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
 				}
 			}
+
 			base.OnElementChanged(e);
 		}
 		protected abstract void ProcessText();

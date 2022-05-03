@@ -21,17 +21,6 @@ namespace LabelHtml.Forms.Plugin.iOS
 		/// </summary>
 		public static void Initialize() { }
 		
-		/// <inheritdoc />
-		protected override void OnElementChanged(ElementChangedEventArgs<HtmlLabel> e)
-		{
-			if (e == null || Element == null)
-			{
-				return;
-			}
-
-			base.OnElementChanged(e);
-		}
-
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
