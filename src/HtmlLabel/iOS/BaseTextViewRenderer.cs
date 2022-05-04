@@ -199,9 +199,6 @@ namespace LabelHtml.Forms.Plugin.MacOS
 
         private void UpdatePadding()
 		{
-            if (Element.Padding.IsEmpty)
-                return;
-
 #if __MOBILE__
 
             Control.TextContainerInset = new UIEdgeInsets(
