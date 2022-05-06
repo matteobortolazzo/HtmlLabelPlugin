@@ -31,7 +31,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			return !RendererHelper.HandleUriClick(Element, url.AbsoluteString);
 		}
 
-		protected override void UpdateText()
+		protected override void ProcessText()
 		{
 			if (string.IsNullOrWhiteSpace(Element?.Text))
 			{
