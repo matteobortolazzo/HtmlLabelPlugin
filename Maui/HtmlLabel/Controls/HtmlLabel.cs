@@ -1,13 +1,13 @@
 ﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("HtmlLabel.Forms.Plugin.Shared.Tests")]
-namespace LabelHtml.Forms.Plugin.Abstractions
+namespace LabelHtml.Forms.Plugin
 {
 	/// <inheritdoc />
 	/// <summary>
 	/// A label that is able to display HTML content
 	/// </summary>
-	public class HtmlLabel : Label
+	public class HtmlLabel : Label, IHtmlLabel
 	{
 		/// <summary>
 		/// Identify the UnderlineText property.
@@ -15,9 +15,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public static readonly BindableProperty UnderlineTextProperty =
 			BindableProperty.Create(nameof(UnderlineText), typeof(bool), typeof(HtmlLabel), true);
 
-		/// <summary>
-		/// Get or set if hyperlinks are underlined.
-		/// </summary>
+		/// <inheritdoc />
 		public bool UnderlineText
 		{
 			get { return (bool)GetValue(UnderlineTextProperty); }
@@ -30,9 +28,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public static readonly BindableProperty LinkColorProperty =
 			BindableProperty.Create(nameof(LinkColor), typeof(Color), typeof(HtmlLabel), default);
 
-		/// <summary>
-		/// Get or set the color of hyperlinks.
-		/// </summary>
+		/// <inheritdoc />
 		public Color LinkColor
 		{
 			get { return (Color)GetValue(LinkColorProperty); }
@@ -45,9 +41,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public static readonly BindableProperty BrowserLaunchOptionsProperty =
 			BindableProperty.Create(nameof(BrowserLaunchOptions), typeof(BrowserLaunchOptions), typeof(HtmlLabel), default);
 
-		/// <summary>
-		/// Get or set the options to use when opening a web link. <see cref="https://docs.microsoft.com/en-us/xamarin/essentials/open-browser"/>
-		/// </summary>
+		/// <inheritdoc />
 		public BrowserLaunchOptions BrowserLaunchOptions
 		{
 			get { return (BrowserLaunchOptions)GetValue(BrowserLaunchOptionsProperty); }
@@ -60,9 +54,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public static readonly BindableProperty AndroidLegacyModeProperty =
 			BindableProperty.Create(nameof(AndroidLegacyModeProperty), typeof(bool), typeof(HtmlLabel), default);
 
-		/// <summary>
-		///  Get or set if the Android renderer separates block-level elements with blank lines.
-		/// </summary>
+		/// <inheritdoc />
 		public bool AndroidLegacyMode
 		{
 			get { return (bool)GetValue(AndroidLegacyModeProperty); }
@@ -76,9 +68,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		public static readonly BindableProperty AndroidListIndentProperty =
 			BindableProperty.Create(nameof(AndroidListIndentProperty), typeof(int), typeof(HtmlLabel), defaultValue: 20);
 
-		/// <summary>
-		///  Get or set if the Android List Indent property KWI-FIX.
-		/// </summary>
+		/// <inheritdoc />
 		public int AndroidListIndent
 		{
 			get { return (int)GetValue(AndroidListIndentProperty); }
@@ -99,7 +89,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		/// Send the Navigating event
 		/// </summary>
 		/// <param name="args"></param>
-		internal void SendNavigating(WebNavigatingEventArgs args)
+		void IHtmlLabelInternals.SendNavigating(WebNavigatingEventArgs args)
 		{
 			Navigating?.Invoke(this, args);
 		}
@@ -108,7 +98,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		/// Send the Navigated event
 		/// </summary>
 		/// <param name="args"></param>
-		internal void SendNavigated(WebNavigatingEventArgs args)
+		void IHtmlLabelInternals.SendNavigated(WebNavigatingEventArgs args)
 	    {
 		    Navigated?.Invoke(this, args);
 	    }		

@@ -7,7 +7,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 {
     internal class RendererHelper
 	{
-		private readonly Label _label;
+		private readonly IHtmlLabel _label;
 		private readonly DevicePlatform _runtimePlatform;
 		private readonly bool _isRtl;
 		private readonly string _text;
@@ -25,7 +25,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 													  HtmlLabel.LinkColorProperty.PropertyName
 		};
 
-		public RendererHelper(Label label, string text, DevicePlatform runtimePlatform, bool isRtl)
+		public RendererHelper(IHtmlLabel label, string text, DevicePlatform runtimePlatform, bool isRtl)
 		{
 			_label = label ?? throw new ArgumentNullException(nameof(label));
 			_runtimePlatform = runtimePlatform;
@@ -147,7 +147,7 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 		/// <param name="label"></param>
 		/// <param name="url"></param>
 		/// <returns>true if the uri has been handled correctly, false if the uri is not handled because of an error</returns>
-		public static bool HandleUriClick(HtmlLabel label, string url)
+		public static bool HandleUriClick(IHtmlLabel label, string url)
 		{
 
 			if (url == null || !Uri.IsWellFormedUriString(WebUtility.UrlEncode(url), UriKind.RelativeOrAbsolute))

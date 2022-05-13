@@ -25,7 +25,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 		internal const string _elementLi = "LI";
 		internal const string _elementDiv = "DIV";
 
-		public HtmlLabel HtmlLabel { get; set; }
+		public IHtmlLabel HtmlLabel { get; set; }
 
 		protected override void OnAttached()
 		{
@@ -95,7 +95,7 @@ namespace LabelHtml.Forms.Plugin.UWP
 			ParseText(element, AssociatedObject.Inlines, HtmlLabel);
 		}
 
-		private static void ParseText(XElement element, InlineCollection inlines, HtmlLabel label)
+		private static void ParseText(XElement element, InlineCollection inlines, IHtmlLabel label)
 		{
 			if (element == null)
 			{

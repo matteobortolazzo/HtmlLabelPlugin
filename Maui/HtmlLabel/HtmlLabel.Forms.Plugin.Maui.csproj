@@ -72,20 +72,33 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) != true">
+	  <Compile Remove="**\**\*.Android.cs" />
+	  <None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	  <Compile Remove="**\Android\**\*.cs" />
 	  <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios')) != true AND $(TargetFramework.StartsWith('net6.0-maccatalyst')) != true">
+	  <Compile Remove="**\**\*.iOS.cs" />
+	  <None Include="**\**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	  <Compile Remove="**\iOS\**\*.cs" />
 	  <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true ">
+	  <Compile Remove="**\**\*.Windows.cs" />
+	  <None Include="**\**\*.Windows.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	  <Compile Remove="**\Windows\**\*.cs" />
 	  <None Include="**\Windows\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	</ItemGroup>
-
+	
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios')) == true OR $(TargetFramework.StartsWith('net6.0-maccatalyst')) == true OR $(TargetFramework.StartsWith('net6.0-android')) == true OR $(TargetFramework.Contains('-windows')) == true">
+	  <Compile Remove="**\*.Standard.cs" />
+	  <None Include="**\*.Standard.cs" />
+	  <Compile Remove="**\Standard\**\*.cs" />
+	  <None Include="**\Standard\**\*.cs" />
+	</ItemGroup>
+	
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">
 	  <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed">
 	    <Version>2.0.8</Version>
