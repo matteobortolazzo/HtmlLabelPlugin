@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Platform;
+using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.Platforms.iOS;
 
 namespace LabelHtml.Forms.Plugin
@@ -17,7 +18,9 @@ namespace LabelHtml.Forms.Plugin
 
         public static void MapLabelText(HtmlLabelHandler handler, IHtmlLabel entry)
         {
-            handler.PlatformView?.UpdateText(entry);
+            var fontManager = handler.GetRequiredService<IFontManager>();
+
+            handler.PlatformView?.UpdateText(entry, fontManager);
         }
 
         public static void MapUnderlineText(HtmlLabelHandler handler, IHtmlLabel entry)

@@ -277,7 +277,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 
     internal static class AttributedStringExtensions
 	{
-		internal static void SetLineHeight(this NSMutableAttributedString mutableHtmlString, HtmlLabel element)
+		internal static void SetLineHeight(this NSMutableAttributedString mutableHtmlString, IHtmlLabel element)
 		{
 			if (element.LineHeight < 0)
 			{
@@ -290,7 +290,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 			}
 		}
 
-		internal static void SetLinksStyles(this NSMutableAttributedString mutableHtmlString, HtmlLabel element)
+		internal static void SetLinksStyles(this NSMutableAttributedString mutableHtmlString, IHtmlLabel element)
 		{
 
 			UIStringAttributes linkAttributes = null;

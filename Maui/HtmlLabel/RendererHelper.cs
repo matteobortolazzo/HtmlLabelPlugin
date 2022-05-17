@@ -110,8 +110,6 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			AddHorizontalTextAlignStyle(_label.HorizontalTextAlignment);
 			AddFontSizeStyle(_label.FontSize);
 
-			AddStyle("word-break", "'break-all'");
-
 			var style = GetStyle();
 			return $"<div style=\"{style}\" dir=\"auto\">{_text}</div>";
 		}
