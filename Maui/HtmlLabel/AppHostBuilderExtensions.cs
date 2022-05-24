@@ -27,7 +27,7 @@ namespace LabelHtml.Forms.Plugin
 
         private static IMauiHandlersCollection AddLibraryHandlers(this IMauiHandlersCollection handlers)
         {
-            handlers.AddTransient(typeof(HtmlLabel), h => new HtmlLabelHandler());
+            handlers.AddHandler<HtmlLabel,HtmlLabelHandler>();
 
             return handlers;
         }
