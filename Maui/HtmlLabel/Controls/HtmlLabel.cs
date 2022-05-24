@@ -52,7 +52,7 @@ namespace LabelHtml.Forms.Plugin
 		/// Identify the AndroidLegacyMode property.
 		/// </summary>
 		public static readonly BindableProperty AndroidLegacyModeProperty =
-			BindableProperty.Create(nameof(AndroidLegacyModeProperty), typeof(bool), typeof(HtmlLabel), default);
+			BindableProperty.Create(nameof(AndroidLegacyMode), typeof(bool), typeof(HtmlLabel), default);
 
 		/// <inheritdoc />
 		public bool AndroidLegacyMode
@@ -66,7 +66,7 @@ namespace LabelHtml.Forms.Plugin
 		/// Default value = 20 (to continue support `old value`)
 		/// </summary>
 		public static readonly BindableProperty AndroidListIndentProperty =
-			BindableProperty.Create(nameof(AndroidListIndentProperty), typeof(int), typeof(HtmlLabel), defaultValue: 20);
+			BindableProperty.Create(nameof(AndroidListIndent), typeof(int), typeof(HtmlLabel), defaultValue: 20);
 
 		/// <inheritdoc />
 		public int AndroidListIndent
