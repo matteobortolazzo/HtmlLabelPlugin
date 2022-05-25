@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace HtmlLabel.Forms.Plugin.Tests.App;
+namespace HyperTextLabel.Maui.Tests.App;
 
 [Application]
 public class MainApplication : MauiApplication

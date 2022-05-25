@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace HtmlLabel.Forms.Plugin.Tests.App;
+namespace HyperTextLabel.Maui.Tests.App;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

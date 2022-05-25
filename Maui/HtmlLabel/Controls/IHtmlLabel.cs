@@ -1,6 +1,6 @@
 ﻿using Microsoft.Maui.Controls.Internals;
 
-namespace LabelHtml.Forms.Plugin
+namespace HyperTextLabel.Maui.Controls
 {
     /// <summary>
     /// Internal class requirments

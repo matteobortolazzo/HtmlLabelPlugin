@@ -3,7 +3,7 @@ using Android.Text.Style;
 using Android.Widget;
 using Java.Lang;
 
-namespace LabelHtml.Forms.Plugin.Droid
+namespace HyperTextLabel.Maui.Platform.Droid
 {
     internal class ListBuilder
 	{

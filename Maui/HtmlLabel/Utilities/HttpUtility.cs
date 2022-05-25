@@ -1,4 +1,4 @@
-﻿namespace LabelHtml.Forms.Plugin.Abstractions
+﻿namespace HyperTextLabel.Maui.Utilities
 {
     public static class HttpUtility
     {
@@ -26,7 +26,7 @@
                 .Select(p => p.Length == 1 ? (p[0], "true") : (p[0], p[1]))
                 .GroupBy(p => p.Item1.ToUpperInvariant())
                 .ToDictionary(
-                    g => g.Key, 
+                    g => g.Key,
                     g =>
                     {
                         var values = g.Select(p => p.Item2);

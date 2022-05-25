@@ -1,48 +1,50 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using LabelHtml.Forms.Plugin.Platforms.Windows;
+﻿using HyperTextLabel.Maui.Controls;
+using HyperTextLabel.Maui.Platforms.Windows;
 
-namespace LabelHtml.Forms.Plugin
+using PlatformView = Microsoft.UI.Xaml.Controls.TextBlock;
+
+namespace HyperTextLabel.Maui.Handlers
 {
     public partial class HtmlLabelHandler : Microsoft.Maui.Handlers.LabelHandler
     {
-        protected override void ConnectHandler(TextBlock nativeView)
+        protected override void ConnectHandler(PlatformView platformView)
         {
-            base.ConnectHandler(nativeView);
+            base.ConnectHandler(platformView);
         }
 
-        protected override void DisconnectHandler(TextBlock nativeView)
+        protected override void DisconnectHandler(PlatformView platformView)
         {
-            base.DisconnectHandler(nativeView);
+            base.DisconnectHandler(platformView);
         }
 
-        public static void MapLabelText(HtmlLabelHandler handler, IHtmlLabel entry)
+        public static void MapLabelText(HtmlLabelHandler handler, IHtmlLabel label)
         {
-            handler.PlatformView?.UpdateText(entry);
+            handler.PlatformView?.UpdateText(label);
         }
 
-        public static void MapUnderlineText(HtmlLabelHandler handler, IHtmlLabel entry)
+        public static void MapUnderlineText(HtmlLabelHandler handler, IHtmlLabel label)
         {
-            handler.PlatformView?.UpdateUnderlineText(entry);
+            handler.PlatformView?.UpdateUnderlineText(label);
         }
 
-        public static void MapLinkColor(HtmlLabelHandler handler, IHtmlLabel entry)
+        public static void MapLinkColor(HtmlLabelHandler handler, IHtmlLabel label)
         {
-            handler.PlatformView?.UpdateLinkColor(entry);
+            handler.PlatformView?.UpdateLinkColor(label);
         }
 
-        public static void MapBrowserLaunchOptions(HtmlLabelHandler handler, IHtmlLabel entry)
+        public static void MapBrowserLaunchOptions(HtmlLabelHandler handler, IHtmlLabel label)
         {
-            handler.PlatformView?.UpdateBrowserLaunchOptions(entry);
+            handler.PlatformView?.UpdateBrowserLaunchOptions(label);
         }
 
-        public static void MapAndroidLegacyMode(HtmlLabelHandler handler, IHtmlLabel entry)
+        public static void MapAndroidLegacyMode(HtmlLabelHandler handler, IHtmlLabel label)
         {
-            handler.PlatformView?.UpdateAndroidLegacyMode(entry);
+            handler.PlatformView?.UpdateAndroidLegacyMode(label);
         }
 
-        public static void MapAndroidListIndent(HtmlLabelHandler handler, IHtmlLabel entry)
+        public static void MapAndroidListIndent(HtmlLabelHandler handler, IHtmlLabel label)
         {
-            handler.PlatformView?.UpdateAndroidListIndent(entry);
+            handler.PlatformView?.UpdateAndroidListIndent(label);
         }
     }
 }

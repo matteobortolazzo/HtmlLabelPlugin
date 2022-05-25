@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace HtmlLabel.Forms.Plugin.Tests.App;
+namespace HyperTextLabel.Maui.Tests.App;
 
 class Program : MauiApplication
 {

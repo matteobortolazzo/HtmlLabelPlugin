@@ -1,10 +1,10 @@
 ﻿using Foundation;
-using LabelHtml.Forms.Plugin.Abstractions;
 using System.Runtime.InteropServices;
 using UIKit;
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
+using HyperTextLabel.Maui.Controls;
 
-namespace LabelHtml.Forms.Plugin.iOS
+namespace HyperTextLabel.Maui.Platforms.iOS
 {
     internal static class ColorExtensions
 	{

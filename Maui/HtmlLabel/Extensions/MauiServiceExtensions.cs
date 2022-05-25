@@ -1,4 +1,6 @@
-﻿namespace LabelHtml.Forms.Plugin.Abstractions
+﻿using HyperTextLabel.Maui.Extensions;
+
+namespace HyperTextLabel.Maui.Extensions
 {
     /// <summary>
     /// These extension methods were pulled in from MAUI codebase as they are not public.

@@ -1,16 +1,17 @@
 ﻿using CoreGraphics;
 using Foundation;
-using LabelHtml.Forms.Plugin.Abstractions;
+using HyperTextLabel.Maui.Controls;
+using HyperTextLabel.Maui.Utilities;
 using System.Runtime.InteropServices;
 using UIKit;
 
-namespace LabelHtml.Forms.Plugin.iOS
+namespace HyperTextLabel.Maui.Platforms.iOS
 {
-	internal static class LinkTapHelper
+    internal static class LinkTapHelper
 	{
 		public static readonly NSString CustomLinkAttribute = new NSString("LabelLink");
 
-		public static void HandleLinkTap(this UILabel control, HtmlLabel element)
+		public static void HandleLinkTap(this UILabel control, IHtmlLabel element)
 		{
 			void TapHandler(UITapGestureRecognizer tap)
 			{

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32422.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlLabel.Forms.Plugin.Maui", "HtmlLabel\HtmlLabel.Forms.Plugin.Maui.csproj", "{49120CED-9682-4AAF-A31C-74D1164A009C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyperTextLabel.Maui", "HtmlLabel\HyperTextLabel.Maui.csproj", "{49120CED-9682-4AAF-A31C-74D1164A009C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlLabel.Forms.Plugin.Tests.App", "HtmlLabel.Forms.Plugin.Tests.App\HtmlLabel.Forms.Plugin.Tests.App.csproj", "{20CB997D-35C9-48D9-95C8-006D04DDF026}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyperTextLabel.Maui.Tests.App", "HtmlLabel.Forms.Plugin.Tests.App\HyperTextLabel.Maui.Tests.App.csproj", "{20CB997D-35C9-48D9-95C8-006D04DDF026}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

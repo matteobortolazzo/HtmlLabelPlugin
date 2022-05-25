@@ -1,13 +1,9 @@
 ﻿using Foundation;
-using LabelHtml.Forms.Plugin.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UIKit;
 
-namespace LabelHtml.Forms.Plugin.iOS
+namespace HyperTextLabel.Maui.Platforms.iOS
 {
-	internal class TextViewDelegate : UITextViewDelegate
+    internal class TextViewDelegate : UITextViewDelegate
 	{
 		private Func<NSUrl, bool> _navigateTo;
 

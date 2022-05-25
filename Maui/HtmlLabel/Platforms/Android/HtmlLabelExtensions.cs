@@ -4,13 +4,14 @@ using Android.Text;
 using Android.Text.Method;
 using Android.Text.Style;
 using Java.Lang;
-using LabelHtml.Forms.Plugin.Abstractions;
-using LabelHtml.Forms.Plugin.Droid;
+using HyperTextLabel.Maui.Platform.Droid;
 using AndroidX.AppCompat.Widget;
 using Microsoft.Maui.Platform;
+using HyperTextLabel.Maui.Controls;
+using HyperTextLabel.Maui.Utilities;
+using HyperTextLabel.Maui.Extensions;
 
-
-namespace LabelHtml.Forms.Plugin.Platforms.Android
+namespace HyperTextLabel.Maui.Platforms.Droid
 {
     internal static class HtmlLabelExtensions
     {
@@ -18,9 +19,9 @@ namespace LabelHtml.Forms.Plugin.Platforms.Android
         private const string _tagOlRegex = "[oO][lL]";
         private const string _tagLiRegex = "[lL][iI]";
 
-        public static void UpdateText(this AppCompatTextView view, IHtmlLabel entry)
+        public static void UpdateText(this AppCompatTextView view, IHtmlLabel label)
         {
-            Color linkColor = entry.LinkColor;
+            Color linkColor = label.LinkColor;
             if (!linkColor.IsDefault())
             {
                 view.SetLinkTextColor(linkColor.ToPlatform());
@@ -28,7 +29,7 @@ namespace LabelHtml.Forms.Plugin.Platforms.Android
 
             view.SetIncludeFontPadding(false);
             var isRtl = AppInfo.RequestedLayoutDirection == LayoutDirection.RightToLeft;
-            var styledHtml = new RendererHelper(entry, entry.Text, DevicePlatform.Android, isRtl).ToString();
+            var styledHtml = new RendererHelper(label, label.Text, DevicePlatform.Android, isRtl).ToString();
             /* 
 			 * Android's TextView doesn't support lists.
 			 * List tags must be replaces with custom tags,
@@ -41,27 +42,27 @@ namespace LabelHtml.Forms.Plugin.Platforms.Android
 
             if (styledHtml != null)
             {
-                SetText(view, entry, styledHtml);
+                SetText(view, label, styledHtml);
             }
         }
 
-        public static void UpdateUnderlineText(this AppCompatTextView view, IHtmlLabel entry)
+        public static void UpdateUnderlineText(this AppCompatTextView view, IHtmlLabel label)
         {
         }
 
-        public static void UpdateLinkColor(this AppCompatTextView view, IHtmlLabel entry)
+        public static void UpdateLinkColor(this AppCompatTextView view, IHtmlLabel label)
         {
         }
 
-        public static void UpdateBrowserLaunchOptions(this AppCompatTextView view, IHtmlLabel entry)
+        public static void UpdateBrowserLaunchOptions(this AppCompatTextView view, IHtmlLabel label)
         {
         }
 
-        public static void UpdateAndroidLegacyMode(this AppCompatTextView view, IHtmlLabel entry)
+        public static void UpdateAndroidLegacyMode(this AppCompatTextView view, IHtmlLabel label)
         {
         }
 
-        public static void UpdateAndroidListIndent(this AppCompatTextView view, IHtmlLabel entry)
+        public static void UpdateAndroidListIndent(this AppCompatTextView view, IHtmlLabel label)
         {
         }
 

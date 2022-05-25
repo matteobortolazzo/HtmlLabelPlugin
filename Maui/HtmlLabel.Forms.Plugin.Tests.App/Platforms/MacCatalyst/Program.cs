@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace HtmlLabel.Forms.Plugin.Tests.App;
+namespace HyperTextLabel.Maui.Tests.App;
 
 public class Program
 {

@@ -1,56 +1,56 @@
 ﻿using Foundation;
-using LabelHtml.Forms.Plugin.Abstractions;
-using LabelHtml.Forms.Plugin.iOS;
+using HyperTextLabel.Maui.Controls;
+using HyperTextLabel.Maui.Utilities;
 using Microsoft.Maui.Platform;
 using UIKit;
 
-namespace LabelHtml.Forms.Plugin.Platforms.iOS
+namespace HyperTextLabel.Maui.Platforms.iOS
 {
     internal static class HtmlLabelExtensions
     {
-        public static void UpdateText(this MauiLabel view, IHtmlLabel entry, IFontManager fontManager)
+        public static void UpdateText(this MauiLabel view, IHtmlLabel label, IFontManager fontManager)
         {
-            if (string.IsNullOrWhiteSpace(entry?.Text))
+            if (string.IsNullOrWhiteSpace(label?.Text))
             {
                 view.Text = string.Empty;
                 return;
             }
 
-            var uiFont = fontManager.GetFont(entry.Font, UIFont.LabelFontSize);
+            var uiFont = fontManager.GetFont(label.Font, UIFont.LabelFontSize);
             view.Font = uiFont;
 
-            var linkColor = entry.LinkColor;
+            var linkColor = label.LinkColor;
             if (!linkColor.IsDefault())
             {
                 view.TintColor = linkColor.ToPlatform();
             }
             var isRtl = AppInfo.RequestedLayoutDirection == LayoutDirection.RightToLeft;
-            var styledHtml = new RendererHelper(entry, entry.Text, DevicePlatform.iOS, isRtl).ToString();
-            SetText(styledHtml, view, entry);
+            var styledHtml = new RendererHelper(label, label.Text, DevicePlatform.iOS, isRtl).ToString();
+            SetText(styledHtml, view, label);
             view.SetNeedsDisplay();
         }
 
-        public static void UpdateUnderlineText(this MauiLabel view, IHtmlLabel entry)
+        public static void UpdateUnderlineText(this MauiLabel view, IHtmlLabel label)
         {
         }
 
-        public static void UpdateLinkColor(this MauiLabel view, IHtmlLabel entry)
+        public static void UpdateLinkColor(this MauiLabel view, IHtmlLabel label)
         {
         }
 
-        public static void UpdateBrowserLaunchOptions(this MauiLabel view, IHtmlLabel entry)
+        public static void UpdateBrowserLaunchOptions(this MauiLabel view, IHtmlLabel label)
         {
         }
 
-        public static void UpdateAndroidLegacyMode(this MauiLabel view, IHtmlLabel entry)
+        public static void UpdateAndroidLegacyMode(this MauiLabel view, IHtmlLabel label)
         {
         }
 
-        public static void UpdateAndroidListIndent(this MauiLabel view, IHtmlLabel entry)
+        public static void UpdateAndroidListIndent(this MauiLabel view, IHtmlLabel label)
         {
         }
 
-        private static void SetText(string html, MauiLabel view, IHtmlLabel entry)
+        private static void SetText(string html, MauiLabel view, IHtmlLabel label)
         {
             // Create HTML data sting
             var stringType = new NSAttributedStringDocumentAttributes
@@ -98,8 +98,8 @@ namespace LabelHtml.Forms.Plugin.Platforms.iOS
                     }
                 });
 
-            mutableHtmlString.SetLineHeight(entry);
-            mutableHtmlString.SetLinksStyles(entry);
+            mutableHtmlString.SetLineHeight(label);
+            mutableHtmlString.SetLinksStyles(label);
             view.AttributedText = mutableHtmlString;
         }
 

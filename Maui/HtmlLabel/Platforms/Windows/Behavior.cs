@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
 
-namespace LabelHtml.Forms.Plugin.UWP
+namespace HyperTextLabel.Maui.Platforms.Windows
 {
     internal abstract class Behavior : DependencyObject, IBehavior
     {

@@ -1,10 +1,11 @@
-﻿using Microsoft.Maui.Handlers;
+﻿using HyperTextLabel.Maui.Controls;
+using Microsoft.Maui.Handlers;
 
-namespace LabelHtml.Forms.Plugin
+namespace HyperTextLabel.Maui.Handlers
 {
     public partial class HtmlLabelHandler
     {
-        public static IPropertyMapper<IHtmlLabel, HtmlLabelHandler> HtmlLabelMapper =
+        public static IPropertyMapper<IHtmlLabel, HtmlLabelHandler> Mapper =
             new PropertyMapper<HtmlLabel, HtmlLabelHandler>(LabelHandler.Mapper)
             {
                 [nameof(ILabel.Text)] = MapLabelText,
@@ -23,7 +24,7 @@ namespace LabelHtml.Forms.Plugin
 
         }
 
-        public HtmlLabelHandler(IPropertyMapper mapper = null) : base(mapper ?? HtmlLabelMapper)
+        public HtmlLabelHandler(IPropertyMapper mapper = null) : base(mapper ?? Mapper)
         {
 
         }

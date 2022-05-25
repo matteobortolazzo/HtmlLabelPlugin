@@ -1,4 +1,4 @@
-﻿namespace HtmlLabel.Forms.Plugin.Tests.App;
+﻿namespace HyperTextLabel.Maui.Tests.App;
 
 public partial class App : Application
 {

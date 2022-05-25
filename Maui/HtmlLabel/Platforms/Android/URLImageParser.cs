@@ -5,7 +5,7 @@ using Android.Text;
 using Android.Widget;
 using Java.Net;
 
-namespace LabelHtml.Forms.Plugin.Droid
+namespace HyperTextLabel.Maui.Platform.Droid
 {
     internal class UrlDrawable : BitmapDrawable
     {

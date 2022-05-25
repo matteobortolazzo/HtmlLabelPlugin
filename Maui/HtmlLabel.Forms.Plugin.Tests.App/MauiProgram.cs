@@ -1,6 +1,6 @@
-﻿using LabelHtml.Forms.Plugin;
+﻿using HyperTextLabel.Maui.Hosting;
 
-namespace HtmlLabel.Forms.Plugin.Tests.App;
+namespace HyperTextLabel.Maui.Tests.App;
 
 public static class MauiProgram
 {
@@ -9,7 +9,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureLibrary()
+			.ConfigureHyperTextLabel()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

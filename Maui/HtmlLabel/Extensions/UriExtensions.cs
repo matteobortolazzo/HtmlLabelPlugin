@@ -1,6 +1,7 @@
-﻿using System.Globalization;
+﻿using HyperTextLabel.Maui.Utilities;
+using System.Globalization;
 
-namespace LabelHtml.Forms.Plugin.Abstractions
+namespace HyperTextLabel.Maui.Extensions
 {
     public static class UriExtensions
     {

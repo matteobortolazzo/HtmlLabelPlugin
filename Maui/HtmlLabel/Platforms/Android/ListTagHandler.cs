@@ -1,7 +1,7 @@
 ﻿using Android.Text;
 using Org.Xml.Sax;
 
-namespace LabelHtml.Forms.Plugin.Droid
+namespace HyperTextLabel.Maui.Platform.Droid
 {
     /// <summary>
     /// Tag handler to support HTML lists.

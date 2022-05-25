@@ -1,11 +1,12 @@
-﻿using LabelHtml.Forms.Plugin;
+﻿using HyperTextLabel.Maui.Controls;
+using HyperTextLabel.Maui.Handlers;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 
-namespace LabelHtml.Forms.Plugin
+namespace HyperTextLabel.Maui.Hosting
 {
     public static class AppHostBuilderExtensions
     {
-        public static MauiAppBuilder ConfigureLibrary(this MauiAppBuilder builder, bool useCompatibilityRenderers = false)
+        public static MauiAppBuilder ConfigureHyperTextLabel(this MauiAppBuilder builder, bool useCompatibilityRenderers = false)
         {
             return useCompatibilityRenderers ?
                 builder.UseMauiCompatibility()
@@ -27,7 +28,7 @@ namespace LabelHtml.Forms.Plugin
 
         private static IMauiHandlersCollection AddLibraryHandlers(this IMauiHandlersCollection handlers)
         {
-            handlers.AddHandler<HtmlLabel,HtmlLabelHandler>();
+            handlers.AddHandler<HtmlLabel, HtmlLabelHandler>();
 
             return handlers;
         }

@@ -1,16 +1,18 @@
 ﻿using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using LabelHtml.Forms.Plugin.Abstractions;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml;
 using Microsoft.Maui.Platform;
+using HyperTextLabel.Maui.Controls;
+using HyperTextLabel.Maui.Utilities;
+
 using PlatformView = Microsoft.UI.Xaml.Controls.TextBlock;
 using Span = Microsoft.UI.Xaml.Documents.Span;
 
-namespace LabelHtml.Forms.Plugin.UWP
+namespace HyperTextLabel.Maui.Platforms.Windows
 {
-	internal class HtmlTextBehavior : Behavior<PlatformView>
+    internal class HtmlTextBehavior : Behavior<PlatformView>
 	{
 		// All the supported tags
 		internal const string _elementA = "A";

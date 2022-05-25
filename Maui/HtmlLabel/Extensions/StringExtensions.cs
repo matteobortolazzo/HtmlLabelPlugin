@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace LabelHtml.Forms.Plugin.Droid
+namespace HyperTextLabel.Maui.Extensions
 {
     internal static class StringExtensions
     {
