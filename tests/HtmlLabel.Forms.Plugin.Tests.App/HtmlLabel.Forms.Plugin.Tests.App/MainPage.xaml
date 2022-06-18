@@ -10,7 +10,7 @@
              FlowDirection="{x:Static Device.FlowDirection}"
              x:Class="HtmlLabel.Forms.Plugin.Tests.App.MainPage">
     <ScrollView>
-        <StackLayout Padding="10">            
+        <StackLayout Padding="10">
             <StackLayout>
                 <Label Text="Bold" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Bold}" />

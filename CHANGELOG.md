@@ -1,3 +1,13 @@
+# 5.1.0
+
+## Update
+* Update to `Xamarin.Forms` v5
+
+# 5.0.2
+
+## Bug Fix
+* **iOS**: Fix freeze on iOS. [#137](https://github.com/matteobortolazzo/HtmlLabelPlugin/issues/137)
+
 # 5.0.0
 
 ## Breaking Changes

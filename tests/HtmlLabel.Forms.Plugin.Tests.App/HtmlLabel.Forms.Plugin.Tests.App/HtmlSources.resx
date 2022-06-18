@@ -117,67 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlignCenter" xml:space="preserve">
+	<data name="AlignCenter" xml:space="preserve">
     <value>An align center string.</value>
   </data>
-  <data name="AlignEnd" xml:space="preserve">
+	<data name="AlignEnd" xml:space="preserve">
     <value>An align end string.</value>
   </data>
-  <data name="Arab" xml:space="preserve">
+	<data name="Arab" xml:space="preserve">
     <value>سلسلة عربية.</value>
   </data>
-  <data name="Bold" xml:space="preserve">
+	<data name="Bold" xml:space="preserve">
     <value>A &lt;strong&gt;bold&lt;/strong&gt; string.</value>
   </data>
-  <data name="Color" xml:space="preserve">
+	<data name="Color" xml:space="preserve">
     <value>Red color string.</value>
   </data>
-  <data name="CustomFont" xml:space="preserve">
+	<data name="CustomFont" xml:space="preserve">
     <value>This is a string with a custom font.</value>
   </data>
-  <data name="Image" xml:space="preserve">
+	<data name="Image" xml:space="preserve">
     <value>Text with image &lt;img src="https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png" /&gt;</value>
   </data>
-  <data name="Italic" xml:space="preserve">
+	<data name="Italic" xml:space="preserve">
     <value>An &lt;em&gt;italic&lt;/em&gt; string.</value>
   </data>
-  <data name="LineHeight" xml:space="preserve">
+	<data name="LineHeight" xml:space="preserve">
     <value>This is a string with a different line height.</value>
   </data>
-  <data name="Links" xml:space="preserve">
+	<data name="Links" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt;.</value>
   </data>
-  <data name="LinksWithOptions" xml:space="preserve">
+	<data name="LinksWithOptions" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with options.</value>
   </data>
-  <data name="LinkToEmail" xml:space="preserve">
+	<data name="LinkToEmail" xml:space="preserve">
     <value>Email to &lt;a href="mailto:github@github.com?subject=Awesome&amp;body=Awesome%20plugin"&gt;github@github.com&lt;/a&gt;.</value>
   </data>
-  <data name="LinkToGeo" xml:space="preserve">
+	<data name="LinkToGeo" xml:space="preserve">
     <value>Link to open maps &lt;a href="geo:53.3242377,-6.3861295;u=5"&gt;here&lt;/a&gt;</value>
   </data>
-  <data name="LinkToSms" xml:space="preserve">
+	<data name="LinkToSms" xml:space="preserve">
     <value>Send SMS to &lt;a href="sms://8372717112?body=Awesome%20plugin"&gt;8372717112&lt;/a&gt;.</value>
   </data>
-  <data name="LinkToTel" xml:space="preserve">
+	<data name="LinkToTel" xml:space="preserve">
     <value>Call to &lt;a href="tel://8372717112"&gt;8372717112&lt;/a&gt;.</value>
   </data>
-  <data name="LinkToTelAlternate" xml:space="preserve">
+	<data name="LinkToTelAlternate" xml:space="preserve">
     <value>Call to &lt;a href="tel:083 7271 7112"&gt;08372717112&lt;/a&gt;.</value>
   </data>
-  <data name="LinkWithColor" xml:space="preserve">
+	<data name="LinkWithColor" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with custom color.</value>
   </data>
-  <data name="LinkWithGestures" xml:space="preserve">
+	<data name="LinkWithGestures" xml:space="preserve">
     <value>A label with custom gestures.</value>
   </data>
-  <data name="LinkWithoutUnderline" xml:space="preserve">
+	<data name="LinkWithoutUnderline" xml:space="preserve">
     <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with no underline.</value>
   </data>
-  <data name="List" xml:space="preserve">
+	<data name="List" xml:space="preserve">
     <value>List&lt;ul&gt;&lt;li&gt;First item&lt;/li&gt;&lt;li&gt;Second item&lt;/li&gt;&lt;/ul&gt;</value>
   </data>
-  <data name="Paragraphs" xml:space="preserve">
+	<data name="Paragraphs" xml:space="preserve">
     <value>&lt;p&gt;First paragraph&lt;/p&gt;&lt;p&gt;Second paragraph&lt;/p&gt;</value>
   </data>
 </root>

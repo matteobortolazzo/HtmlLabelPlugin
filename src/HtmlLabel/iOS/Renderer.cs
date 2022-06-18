@@ -2,7 +2,6 @@
 using LabelHtml.Forms.Plugin.Abstractions;
 using LabelHtml.Forms.Plugin.iOS;
 using System;
-using System.ComponentModel;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -20,33 +19,6 @@ namespace LabelHtml.Forms.Plugin.iOS
 		/// Used for registration with dependency service
 		/// </summary>
 		public static void Initialize() { }
-		
-		/// <inheritdoc />
-		protected override void OnElementChanged(ElementChangedEventArgs<HtmlLabel> e)
-		{
-			if (e == null || Element == null)
-			{
-				return;
-			}
-
-			base.OnElementChanged(e);
-		}
-
-		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
-			if (e != null && RendererHelper.RequireProcess(e.PropertyName))
-			{
-				try
-				{
-					ProcessText();
-				}
-				catch (System.Exception ex)
-				{
-					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
-				}
-			}
-		}
 
 		protected override bool NavigateToUrl(NSUrl url)
 		{

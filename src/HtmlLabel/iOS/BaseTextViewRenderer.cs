@@ -1,22 +1,36 @@
 ﻿using CoreGraphics;
 using Foundation;
 using System;
+using System.ComponentModel;
 using System.Linq;
-using UIKit;
+using LabelHtml.Forms.Plugin.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
+#if __MOBILE__
+using UIKit;
+using NativeTextView = UIKit.UITextView;
+
+#else
+using AppKit;
+using NativeTextView = AppKit.NSTextView;
+#endif
+
+#if __MOBILE__
 namespace LabelHtml.Forms.Plugin.iOS
+#else
+namespace LabelHtml.Forms.Plugin.MacOS
+#endif
 {
-    public abstract class BaseTextViewRenderer<TElement> : ViewRenderer<TElement, UITextViewFixedWithKludge>
+	public abstract class BaseTextViewRenderer<TElement> : ViewRenderer<TElement, NativeTextView>
 		where TElement : Label
 	{
         private SizeRequest _perfectSize;
         private bool _perfectSizeValid;
 
-		protected override UITextViewFixedWithKludge CreateNativeControl()
+		protected override NativeTextView CreateNativeControl()
 		{
-            var control = new UITextViewFixedWithKludge(CGRect.Empty)
+            var control = new NativeTextView(CGRect.Empty)
             {
                 Editable = false,
                 ScrollEnabled = false,
@@ -28,10 +42,7 @@ namespace LabelHtml.Forms.Plugin.iOS
 
 		protected override void OnElementChanged(ElementChangedEventArgs<TElement> e)
 		{
-			if (e == null || Element == null)
-			{
-				return;
-			}
+            _perfectSizeValid = false;
 
 			if (e.NewElement != null)
 			{
@@ -71,8 +82,29 @@ namespace LabelHtml.Forms.Plugin.iOS
 					System.Diagnostics.Debug.WriteLine(@"            ERROR: ", ex.Message);
 				}
 			}
+
 			base.OnElementChanged(e);
 		}
+
+        protected override void OnElementPropertyChanged( object sender, PropertyChangedEventArgs e )
+        {
+            base.OnElementPropertyChanged( sender, e );
+            if ( e != null && RendererHelper.RequireProcess( e.PropertyName ) )
+            {
+                try
+                {
+                    UpdateLineBreakMode();
+                    UpdateHorizontalTextAlignment();
+                    ProcessText();
+                    UpdatePadding();
+                }
+				catch ( System.Exception ex )
+                {
+                    System.Diagnostics.Debug.WriteLine( @"            ERROR: ", ex.Message );
+                }
+            }
+        }
+
 		protected abstract void ProcessText();
 		protected abstract bool NavigateToUrl(NSUrl url);
 
@@ -166,92 +198,25 @@ namespace LabelHtml.Forms.Plugin.iOS
 
         private void UpdatePadding()
 		{
-            if (Element.Padding.IsEmpty)
-            {
-                return;
-            }
-
 #if __MOBILE__
-			Control.TextContainerInset = new UIEdgeInsets(
-					(float)Element.Padding.Top,
-					(float)Element.Padding.Left,
-					(float)Element.Padding.Bottom,
-					(float)Element.Padding.Right);
-			UpdateLayout();
+
+            Control.TextContainerInset = new UIEdgeInsets(
+                (float)Element.Padding.Top,
+                (float)Element.Padding.Left,
+                (float)Element.Padding.Bottom,
+                (float)Element.Padding.Right);
+
+            UpdateLayout();
 #endif
 		}
 
-        private void UpdateLayout()
+		private void UpdateLayout()
 		{
 #if __MOBILE__
 			LayoutSubviews();
 #else
 			Layout();
 #endif
-		}
-
-        private void UpdateTextDecorations()
-		{
-			if (Element?.TextType != TextType.Text)
-				return;
-#if __MOBILE__
-			if (!(Control.AttributedText?.Length > 0))
-				return;
-#else
-			if (!(Control.AttributedStringValue?.Length > 0))
-				return;
-#endif
-
-			var textDecorations = Element.TextDecorations;
-#if __MOBILE__
-			var newAttributedText = new NSMutableAttributedString(Control.AttributedText);
-			var strikeThroughStyleKey = UIStringAttributeKey.StrikethroughStyle;
-			var underlineStyleKey = UIStringAttributeKey.UnderlineStyle;
-
-#else
-			var newAttributedText = new NSMutableAttributedString(Control.AttributedStringValue);
-			var strikeThroughStyleKey = NSStringAttributeKey.StrikethroughStyle;
-			var underlineStyleKey = NSStringAttributeKey.UnderlineStyle;
-#endif
-			var range = new NSRange(0, newAttributedText.Length);
-
-			if ((textDecorations & TextDecorations.Strikethrough) == 0)
-				newAttributedText.RemoveAttribute(strikeThroughStyleKey, range);
-			else
-				newAttributedText.AddAttribute(strikeThroughStyleKey, NSNumber.FromInt32((int)NSUnderlineStyle.Single), range);
-
-			if ((textDecorations & TextDecorations.Underline) == 0)
-				newAttributedText.RemoveAttribute(underlineStyleKey, range);
-			else
-				newAttributedText.AddAttribute(underlineStyleKey, NSNumber.FromInt32((int)NSUnderlineStyle.Single), range);
-
-#if __MOBILE__
-			Control.AttributedText = newAttributedText;
-#else
-			Control.AttributedStringValue = newAttributedText;
-#endif
-			UpdateCharacterSpacing();
-			_perfectSizeValid = false;
-		}
-
-        private void UpdateCharacterSpacing()
-		{
-
-			if (Element?.TextType != TextType.Text)
-				return;
-#if __MOBILE__
-			var textAttr = Control.AttributedText.AddCharacterSpacing(Element.Text, Element.CharacterSpacing);
-
-			if (textAttr != null)
-				Control.AttributedText = textAttr;
-#else
-   			var textAttr = Control.AttributedStringValue.AddCharacterSpacing(Element.Text, Element.CharacterSpacing);
-
-			if (textAttr != null)
-				Control.AttributedStringValue = textAttr;
-#endif
-
-			_perfectSizeValid = false;
 		}
 
         private void UpdateHorizontalTextAlignment()
