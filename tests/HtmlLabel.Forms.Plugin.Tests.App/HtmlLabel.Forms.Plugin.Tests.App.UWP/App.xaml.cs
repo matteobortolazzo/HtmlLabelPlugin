@@ -1,6 +1,5 @@
 ﻿using LabelHtml.Forms.Plugin.UWP;
 using System;
-using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -31,6 +30,13 @@ namespace HtmlLabel.Forms.Plugin.Tests.App.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+#if DEBUG
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                this.DebugSettings.EnableFrameRateCounter = true;
+            }
+#endif
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -41,9 +47,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App.UWP
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
-
-                var rendererAssemblies = new[] { typeof(HtmlLabelRenderer).GetTypeInfo().Assembly };
-                Xamarin.Forms.Forms.Init(e, rendererAssemblies);
+                Xamarin.Forms.Forms.Init(e);
                 HtmlLabelRenderer.Initialize();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)

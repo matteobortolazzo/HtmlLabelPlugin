@@ -34,22 +34,5 @@
     <string>HtmlLabel.Forms.Plugin.Tests.App</string>
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/AppIcon.appiconset</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>mailto</string>
-      <string>tel</string>
-      <string>sms</string>
-    </array>
-    <key>CFBundleDevelopmentRegion</key>
-    <string>en</string>
-    <key>CFBundleLocalizations</key>
-    <array>
-      <string>en</string>
-      <string>ar</string>
-    </array>
-    <key>UIAppFonts</key>
-    <array>
-      <string>Allura-Regular.otf</string>
-    </array>
 </dict>
 </plist>

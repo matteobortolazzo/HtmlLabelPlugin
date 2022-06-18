@@ -19,10 +19,10 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class HtmlSources {
+    internal class HtmlSources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HtmlLabel.Forms.Plugin.Tests.App.HtmlSources", typeof(HtmlSources).Assembly);
@@ -51,7 +51,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to An align center string..
         /// </summary>
-        public static string AlignCenter {
+        internal static string AlignCenter {
             get {
                 return ResourceManager.GetString("AlignCenter", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to An align end string..
         /// </summary>
-        public static string AlignEnd {
+        internal static string AlignEnd {
             get {
                 return ResourceManager.GetString("AlignEnd", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to سلسلة عربية..
         /// </summary>
-        public static string Arab {
+        internal static string Arab {
             get {
                 return ResourceManager.GetString("Arab", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to A &lt;strong&gt;bold&lt;/strong&gt; string..
         /// </summary>
-        public static string Bold {
+        internal static string Bold {
             get {
                 return ResourceManager.GetString("Bold", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to Red color string..
         /// </summary>
-        public static string Color {
+        internal static string Color {
             get {
                 return ResourceManager.GetString("Color", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to This is a string with a custom font..
         /// </summary>
-        public static string CustomFont {
+        internal static string CustomFont {
             get {
                 return ResourceManager.GetString("CustomFont", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to Text with image &lt;img src=&quot;https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png&quot; /&gt;.
         /// </summary>
-        public static string Image {
+        internal static string Image {
             get {
                 return ResourceManager.GetString("Image", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to An &lt;em&gt;italic&lt;/em&gt; string..
         /// </summary>
-        public static string Italic {
+        internal static string Italic {
             get {
                 return ResourceManager.GetString("Italic", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to This is a string with a different line height..
         /// </summary>
-        public static string LineHeight {
+        internal static string LineHeight {
             get {
                 return ResourceManager.GetString("LineHeight", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt;..
         /// </summary>
-        public static string Links {
+        internal static string Links {
             get {
                 return ResourceManager.GetString("Links", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt; with options..
         /// </summary>
-        public static string LinksWithOptions {
+        internal static string LinksWithOptions {
             get {
                 return ResourceManager.GetString("LinksWithOptions", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to Email to &lt;a href=&quot;mailto:github@github.com?subject=Awesome&amp;body=Awesome%20plugin&quot;&gt;github@github.com&lt;/a&gt;..
         /// </summary>
-        public static string LinkToEmail {
+        internal static string LinkToEmail {
             get {
                 return ResourceManager.GetString("LinkToEmail", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to Link to open maps &lt;a href=&quot;geo:53.3242377,-6.3861295;u=5&quot;&gt;here&lt;/a&gt;.
         /// </summary>
-        public static string LinkToGeo {
+        internal static string LinkToGeo {
             get {
                 return ResourceManager.GetString("LinkToGeo", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to Send SMS to &lt;a href=&quot;sms://8372717112?body=Awesome%20plugin&quot;&gt;8372717112&lt;/a&gt;..
         /// </summary>
-        public static string LinkToSms {
+        internal static string LinkToSms {
             get {
                 return ResourceManager.GetString("LinkToSms", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to Call to &lt;a href=&quot;tel://8372717112&quot;&gt;8372717112&lt;/a&gt;..
         /// </summary>
-        public static string LinkToTel {
+        internal static string LinkToTel {
             get {
                 return ResourceManager.GetString("LinkToTel", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to Call to &lt;a href=&quot;tel:083 7271 7112&quot;&gt;08372717112&lt;/a&gt;..
         /// </summary>
-        public static string LinkToTelAlternate {
+        internal static string LinkToTelAlternate {
             get {
                 return ResourceManager.GetString("LinkToTelAlternate", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt; with custom color..
         /// </summary>
-        public static string LinkWithColor {
+        internal static string LinkWithColor {
             get {
                 return ResourceManager.GetString("LinkWithColor", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to A label with custom gestures..
         /// </summary>
-        public static string LinkWithGestures {
+        internal static string LinkWithGestures {
             get {
                 return ResourceManager.GetString("LinkWithGestures", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to This is a &lt;a href=&quot;https://github.com/matteobortolazzo/HtmlLabelPlugin&quot;&gt;Link&lt;/a&gt; with no underline..
         /// </summary>
-        public static string LinkWithoutUnderline {
+        internal static string LinkWithoutUnderline {
             get {
                 return ResourceManager.GetString("LinkWithoutUnderline", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to List&lt;ul&gt;&lt;li&gt;First item&lt;/li&gt;&lt;li&gt;Second item&lt;/li&gt;&lt;/ul&gt;.
         /// </summary>
-        public static string List {
+        internal static string List {
             get {
                 return ResourceManager.GetString("List", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace HtmlLabel.Forms.Plugin.Tests.App {
         /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;First paragraph&lt;/p&gt;&lt;p&gt;Second paragraph&lt;/p&gt;.
         /// </summary>
-        public static string Paragraphs {
+        internal static string Paragraphs {
             get {
                 return ResourceManager.GetString("Paragraphs", resourceCulture);
             }

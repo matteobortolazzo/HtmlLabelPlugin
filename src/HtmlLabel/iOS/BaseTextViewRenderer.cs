@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using LabelHtml.Forms.Plugin.Abstractions;
-using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
@@ -218,70 +217,6 @@ namespace LabelHtml.Forms.Plugin.MacOS
 #else
 			Layout();
 #endif
-		}
-
-        private void UpdateTextDecorations()
-		{
-			if (Element?.TextType != TextType.Text)
-				return;
-#if __MOBILE__
-			if (!(Control.AttributedText?.Length > 0))
-				return;
-#else
-			if (!(Control.AttributedStringValue?.Length > 0))
-				return;
-#endif
-
-			var textDecorations = Element.TextDecorations;
-#if __MOBILE__
-			var newAttributedText = new NSMutableAttributedString(Control.AttributedText);
-			var strikeThroughStyleKey = UIStringAttributeKey.StrikethroughStyle;
-			var underlineStyleKey = UIStringAttributeKey.UnderlineStyle;
-
-#else
-			var newAttributedText = new NSMutableAttributedString(Control.AttributedStringValue);
-			var strikeThroughStyleKey = NSStringAttributeKey.StrikethroughStyle;
-			var underlineStyleKey = NSStringAttributeKey.UnderlineStyle;
-#endif
-			var range = new NSRange(0, newAttributedText.Length);
-
-			if ((textDecorations & TextDecorations.Strikethrough) == 0)
-				newAttributedText.RemoveAttribute(strikeThroughStyleKey, range);
-			else
-				newAttributedText.AddAttribute(strikeThroughStyleKey, NSNumber.FromInt32((int)NSUnderlineStyle.Single), range);
-
-			if ((textDecorations & TextDecorations.Underline) == 0)
-				newAttributedText.RemoveAttribute(underlineStyleKey, range);
-			else
-				newAttributedText.AddAttribute(underlineStyleKey, NSNumber.FromInt32((int)NSUnderlineStyle.Single), range);
-
-#if __MOBILE__
-			Control.AttributedText = newAttributedText;
-#else
-			Control.AttributedStringValue = newAttributedText;
-#endif
-			UpdateCharacterSpacing();
-			_perfectSizeValid = false;
-		}
-
-        private void UpdateCharacterSpacing()
-		{
-
-			if (Element?.TextType != TextType.Text)
-				return;
-#if __MOBILE__
-			var textAttr = Control.AttributedText.AddCharacterSpacing(Element.Text, Element.CharacterSpacing);
-
-			if (textAttr != null)
-				Control.AttributedText = textAttr;
-#else
-   			var textAttr = Control.AttributedStringValue.AddCharacterSpacing(Element.Text, Element.CharacterSpacing);
-
-			if (textAttr != null)
-				Control.AttributedStringValue = textAttr;
-#endif
-
-			_perfectSizeValid = false;
 		}
 
         private void UpdateHorizontalTextAlignment()

@@ -1,74 +1,75 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
-  <PropertyGroup>
-		<TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.17763</TargetFrameworks>
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid10.0;</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
 		<AssemblyName>HtmlLabel.Forms.Plugin</AssemblyName>
-    <RootNamespace>LabelHtml.Forms.Plugin</RootNamespace>
-    <PackageId>Xam.Plugin.HtmlLabel</PackageId>
-    <Product>HtmlLabel.Forms.Plugin</Product>
-    <PackageIcon>icon.png</PackageIcon>
-    <Summary>Xam.Plugin.HtmlLabel: display HTML content in labels</Summary>
-    <PackageTags>xamarin, windows, uwp, ios, android, xamarin.forms, Xamarin.HtmlLabel, html</PackageTags>
-    <Title>Xam.Plugin.HtmlLabel</Title>
-    <Description>Xam.Plugin.HtmlLabel: display HTML content in labels</Description>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
-    <Authors>Matteo Bortolazzo</Authors>
-    <Owners>Matteo Bortolazzo</Owners>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Copyright>© Matteo Bortolazzo. All rights reserved.</Copyright>
-    <RepositoryUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</RepositoryUrl>
-    <DefineConstants>$(DefineConstants);</DefineConstants>
-    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</PackageProjectUrl>
-    <DebugType>portable</DebugType>
-    <Configurations>Debug;Release</Configurations>
-    <LangVersion>8.0</LangVersion>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
-    <!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- sourcelink: Include PDB in the built .nupkg -->
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-  </PropertyGroup>
-  
-  <ItemGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="..\..\LICENSE" PackagePath="" Pack="true" />
-    <None Include="..\..\Assets\icon.png" PackagePath="" Pack="true" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
-    <Compile Include="Shared\*.cs" />
-  </ItemGroup> 
-  
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
-    <Compile Include="UWP\*.cs" />
-  </ItemGroup>
-	
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <Compile Include="Android\*.cs" />
+		<RootNamespace>LabelHtml.Forms.Plugin</RootNamespace>
+		<PackageId>Xam.Plugin.HtmlLabel</PackageId>
+		<Product>HtmlLabel.Forms.Plugin</Product>
+		<PackageIcon>icon.png</PackageIcon>
+		<Summary>Xam.Plugin.HtmlLabel: display HTML content in labels</Summary>
+		<PackageTags>xamarin, windows, uwp, ios, android, xamarin.forms, Xamarin.HtmlLabel, html</PackageTags>
+		<Title>Xam.Plugin.HtmlLabel</Title>
+		<Description>Xam.Plugin.HtmlLabel: display HTML content in labels</Description>
+		<Product>$(AssemblyName) ($(TargetFramework))</Product>
+		<PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+		<Authors>Matteo Bortolazzo</Authors>
+		<Owners>Matteo Bortolazzo</Owners>
+		<NeutralLanguage>en</NeutralLanguage>
+		<Copyright>© Matteo Bortolazzo. All rights reserved.</Copyright>
+		<RepositoryUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</RepositoryUrl>
+		<DefineConstants>$(DefineConstants);</DefineConstants>
+		<UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageProjectUrl>https://github.com/matteobortolazzo/HtmlLabelPlugin</PackageProjectUrl>
+		<DebugType>portable</DebugType>
+		<Configurations>Debug;Release</Configurations>
+		<LangVersion>8.0</LangVersion>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
+		<!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<!-- sourcelink: Include PDB in the built .nupkg -->
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+		<TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+		<TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
 	</ItemGroup>
 
-   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-     <Compile Include="iOS\*.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE" PackagePath="" Pack="true" />
+		<None Include="..\..\Assets\icon.png" PackagePath="" Pack="true" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+		<Compile Include="Shared\*.cs" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
+		<Compile Include="UWP\*.cs" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+		<Compile Include="Android\*.cs" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+		<Compile Include="iOS\*.cs" />
+	</ItemGroup>
 </Project>
