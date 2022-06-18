@@ -1,7 +1,7 @@
 variables:
   Major: '5'
   Minor: '0'
-  Patch: '0'
+  Patch: '1'
   BuildConfiguration: Release
 
 trigger:
