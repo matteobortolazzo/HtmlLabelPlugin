@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AlignCenter" xml:space="preserve">
+    <value>An align center string.</value>
+  </data>
+  <data name="AlignEnd" xml:space="preserve">
+    <value>An align end string.</value>
+  </data>
+  <data name="Arab" xml:space="preserve">
+    <value>سلسلة عربية.</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>A &lt;strong&gt;bold&lt;/strong&gt; string.</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Red color string.</value>
+  </data>
+  <data name="CustomFont" xml:space="preserve">
+    <value>This is a string with a custom font.</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Text with image &lt;img src="https://raw.githubusercontent.com/matteobortolazzo/HtmlLabelPlugin/master/Assets/icon.png" /&gt;</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>An &lt;em&gt;italic&lt;/em&gt; string.</value>
+  </data>
+  <data name="LineHeight" xml:space="preserve">
+    <value>This is a string with a different line height.</value>
+  </data>
+  <data name="Links" xml:space="preserve">
+    <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt;.</value>
+  </data>
+  <data name="LinksWithOptions" xml:space="preserve">
+    <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with options.</value>
+  </data>
+  <data name="LinkToEmail" xml:space="preserve">
+    <value>Email to &lt;a href="mailto:github@github.com?subject=Awesome&amp;body=Awesome%20plugin"&gt;github@github.com&lt;/a&gt;.</value>
+  </data>
+  <data name="LinkToGeo" xml:space="preserve">
+    <value>Link to open maps &lt;a href="geo:53.3242377,-6.3861295;u=5"&gt;here&lt;/a&gt;</value>
+  </data>
+  <data name="LinkToSms" xml:space="preserve">
+    <value>Send SMS to &lt;a href="sms://8372717112?body=Awesome%20plugin"&gt;8372717112&lt;/a&gt;.</value>
+  </data>
+  <data name="LinkToTel" xml:space="preserve">
+    <value>Call to &lt;a href="tel://8372717112"&gt;8372717112&lt;/a&gt;.</value>
+  </data>
+  <data name="LinkToTelAlternate" xml:space="preserve">
+    <value>Call to &lt;a href="tel:083 7271 7112"&gt;08372717112&lt;/a&gt;.</value>
+  </data>
+  <data name="LinkWithColor" xml:space="preserve">
+    <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with custom color.</value>
+  </data>
+  <data name="LinkWithGestures" xml:space="preserve">
+    <value>A label with custom gestures.</value>
+  </data>
+  <data name="LinkWithoutUnderline" xml:space="preserve">
+    <value>This is a &lt;a href="https://github.com/matteobortolazzo/HtmlLabelPlugin"&gt;Link&lt;/a&gt; with no underline.</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List&lt;ul&gt;&lt;li&gt;First item&lt;/li&gt;&lt;li&gt;Second item&lt;/li&gt;&lt;/ul&gt;</value>
+  </data>
+  <data name="Paragraphs" xml:space="preserve">
+    <value>&lt;p&gt;First paragraph&lt;/p&gt;&lt;p&gt;Second paragraph&lt;/p&gt;</value>
+  </data>
+</root>
