@@ -95,6 +95,12 @@
                 <Label Text="Image" FontAttributes="Bold" />
                 <htmlLabel:HtmlLabel Text="{Binding Image}" />
             </StackLayout>
+             <StackLayout>
+                <Label Text="Internal WebView" FontAttributes="Bold" />
+                <htmlLabel:HtmlLabel Text="{Binding LinksWithInternalWebView}" BackgroundColor="LightGray"
+                                     IsExternalBrowser="False"
+                                                LinkClickEvent="HtmlLabel_LinkClickEvent"/>
+            </StackLayout>
             <StackLayout>
                 <StackLayout.IsVisible>
                     <OnPlatform x:TypeArguments="x:Boolean">
