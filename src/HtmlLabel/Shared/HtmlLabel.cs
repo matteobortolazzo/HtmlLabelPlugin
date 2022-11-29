@@ -88,10 +88,39 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 			set { SetValue(AndroidListIndentProperty, value); }
 		}
 
-		/// <summary>
-		/// Fires before the open URL request is done.
-		/// </summary>
-		public event EventHandler<WebNavigatingEventArgs> Navigating;
+        /// <summary>
+        /// Identify the AndroidLegacyMode property.
+        /// </summary>
+        public static readonly BindableProperty IsExternalBrowserProperty =
+            BindableProperty.Create(nameof(IsExternalBrowserProperty), typeof(bool), typeof(HtmlLabel), default);
+
+        /// <summary>
+        ///  Get or set if the Android renderer separates block-level elements with blank lines.
+        /// </summary>
+        public bool IsExternalBrowser
+        {
+            get { return (bool)GetValue(IsExternalBrowserProperty); }
+            set { SetValue(IsExternalBrowserProperty, value); }
+        }
+
+        // Declare the delegate (if using non-generic pattern).
+        public delegate void LinkClickEventHandler(object sender, LinkEventArgs e);
+
+        // Declare the event.
+        public event LinkClickEventHandler LinkClickEvent;
+
+        // Wrap the event in a protected virtual method
+        // to enable derived classes to raise the event.
+        public void RaiseLinkClickEvent(string link)
+        {
+            // Raise the event in a thread-safe manner using the ?. operator.
+            LinkClickEvent?.Invoke(this, new LinkEventArgs(link));
+        }
+
+        /// <summary>
+        /// Fires before the open URL request is done.
+        /// </summary>
+        public event EventHandler<WebNavigatingEventArgs> Navigating;
 
 		/// <summary>
 		/// Fires when the open URL request is done.
