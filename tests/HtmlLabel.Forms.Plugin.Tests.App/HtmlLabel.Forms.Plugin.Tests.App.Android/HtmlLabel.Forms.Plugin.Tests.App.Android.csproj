@@ -16,6 +16,7 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -91,7 +92,7 @@
       <Name>HtmlLabel.Forms.Plugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\HtmlLabel.Forms.Plugin.Tests.App\HtmlLabel.Forms.Plugin.Tests.App.csproj">
-      <Project>{F847EACC-68E1-463E-B470-1EF9189CFEAC}</Project>
+      <Project>{65A929FC-7119-4FBA-AF9C-5047437C2D71}</Project>
       <Name>HtmlLabel.Forms.Plugin.Tests.App</Name>
     </ProjectReference>
   </ItemGroup>

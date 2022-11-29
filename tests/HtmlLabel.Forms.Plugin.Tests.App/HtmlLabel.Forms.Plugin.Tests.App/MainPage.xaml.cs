@@ -15,10 +15,6 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
             InitializeComponent();
             BindingContext = new Sources();
         }
-        async void HtmlLabel_LinkClickEvent(System.Object sender, LabelHtml.Forms.Plugin.Abstractions.HtmlLabel.LinkEventArgs e)
-        {
-            await DisplayAlert("Clicked Url", e.Link, "OK");
-        }
     }
 
     public class Sources
@@ -44,7 +40,6 @@ namespace HtmlLabel.Forms.Plugin.Tests.App
         public string Image => HtmlSources.Image;
         public string Paragraphs => HtmlSources.Paragraphs;
         public string LineHeight => HtmlSources.LineHeight;
-        public string LinksWithInternalWebView => HtmlSources.LinksWithInternalWebView;
         public Command Clicked => new Command(() => Browser.OpenAsync("https://github.com/matteobortolazzo/HtmlLabelPlugin"));
         public BrowserLaunchOptions BrowserLaunchOptions => new BrowserLaunchOptions
         {
