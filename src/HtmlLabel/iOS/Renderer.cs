@@ -75,13 +75,13 @@ namespace LabelHtml.Forms.Plugin.iOS
                     var md = new NSMutableDictionary(value);
                     var font = md[UIStringAttributeKey.Font] as UIFont;
 
-                    if (font != null)
+                    if (Control.Font != null)
                     {
-                        md[UIStringAttributeKey.Font] = Control.Font.WithTraitsOfFont(font);
+                        md[UIStringAttributeKey.Font] = Control.Font;
                     }
                     else
                     {
-                        md[UIStringAttributeKey.Font] = Control.Font;
+                        md[UIStringAttributeKey.Font] = Control.Font.WithTraitsOfFont(font);
                     }
 
                     var foregroundColor = md[UIStringAttributeKey.ForegroundColor] as UIColor;
