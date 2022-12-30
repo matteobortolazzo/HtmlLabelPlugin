@@ -72,4 +72,9 @@
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
 		<Compile Include="iOS\*.cs" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Shared\LinkEventArgs.cs">
+	    <SubType></SubType>
+	  </Compile>
+	</ItemGroup>
 </Project>

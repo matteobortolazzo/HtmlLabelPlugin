@@ -173,8 +173,15 @@ namespace LabelHtml.Forms.Plugin.Abstractions
 
 			if (uri.IsHttp())
 			{
-				uri.LaunchBrowser(label.BrowserLaunchOptions);
-				result = true;
+                if (label.IsExternalBrowser)
+                {
+                    uri.LaunchBrowser(label.BrowserLaunchOptions);
+                }
+                else
+                {
+                    label.RaiseLinkClickEvent(url);
+                }
+                result = true;
 			}
 			else if (uri.IsEmail())
 			{
